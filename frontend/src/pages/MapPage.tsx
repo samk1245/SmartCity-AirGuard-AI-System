@@ -81,11 +81,21 @@ export const MapPage: React.FC<MapPageProps> = ({
     Prayagraj: [25.4358, 81.8463],
     Kanpur: [26.4499, 80.3319],
     Varanasi: [25.3176, 82.9739],
-    All: [26.8467, 80.9462] // Center around Uttar Pradesh / Northern India
+    Mumbai: [19.0760, 72.8777],
+    Bengaluru: [12.9716, 77.5946],
+    Kolkata: [22.5726, 88.3639],
+    Hyderabad: [17.3850, 78.4867],
+    Ahmedabad: [23.0225, 72.5714],
+    Jaipur: [26.9124, 75.7873],
+    Patna: [25.5941, 85.1376],
+    Agra: [27.1767, 78.0081],
+    Pune: [18.5204, 73.8567],
+    Chandigarh: [30.7333, 76.7794],
+    All: [22.5937, 78.9629] // Center of India
   };
 
-  const currentCenter = cityCoordinates[selectedCity] || [26.8467, 80.9462];
-  const zoomLevel = selectedCity === 'All' ? 7 : 12;
+  const currentCenter = cityCoordinates[selectedCity] || [22.5937, 78.9629];
+  const zoomLevel = selectedCity === 'All' ? 5 : 12;
 
   const loadMapData = async () => {
     try {

@@ -91,6 +91,8 @@ export const App: React.FC = () => {
               summary={summary}
               loading={loading}
               selectedCity={selectedCity}
+              cities={cities}
+              onSelectCity={setSelectedCity}
               onNavigate={setCurrentTab}
               onSelectStationForForecast={handleSelectStationForForecast}
             />

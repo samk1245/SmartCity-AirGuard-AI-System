@@ -1,7 +1,8 @@
 import os
+import sys
 import random
 import math
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import pandas as pd
 import numpy as np
 from sqlalchemy.orm import Session
@@ -10,7 +11,7 @@ from app.models.models import City, Station, AirQualityObservation, AlertRecord
 from app.services.aqi_calculator import calculate_cpcb_aqi, get_aqi_category
 from app.core.config import settings
 
-# Predefined Indian Urban Centers and Real Monitoring Stations
+# 15 Major Indian Urban Centers and Real Monitoring Stations
 INDIAN_CITIES = [
     {
         "name": "Delhi",
@@ -71,6 +72,125 @@ INDIAN_CITIES = [
             {"name": "BHU Campus, Varanasi", "code": "VNS-BHU-02", "lat": 25.2677, "lng": 82.9913, "elevation": 85.0, "base_pm25": 58},
             {"name": "Ardali Bazar, Varanasi", "code": "VNS-AB-03", "lat": 25.3374, "lng": 82.9806, "elevation": 80.0, "base_pm25": 84},
         ]
+    },
+    {
+        "name": "Mumbai",
+        "state": "Maharashtra",
+        "country": "India",
+        "latitude": 19.0760,
+        "longitude": 72.8777,
+        "stations": [
+            {"name": "Bandra Kurla Complex (BKC)", "code": "MUM-BKC-01", "lat": 19.0657, "lng": 72.8687, "elevation": 14.0, "base_pm25": 75},
+            {"name": "Colaba Coastal Zone", "code": "MUM-COL-02", "lat": 18.9067, "lng": 72.8147, "elevation": 11.0, "base_pm25": 48},
+            {"name": "Andheri East Metro Hub", "code": "MUM-AND-03", "lat": 19.1136, "lng": 72.8697, "elevation": 20.0, "base_pm25": 82},
+            {"name": "Navi Mumbai Vashi", "code": "MUM-NAV-04", "lat": 19.0330, "lng": 73.0297, "elevation": 15.0, "base_pm25": 68},
+        ]
+    },
+    {
+        "name": "Bengaluru",
+        "state": "Karnataka",
+        "country": "India",
+        "latitude": 12.9716,
+        "longitude": 77.5946,
+        "stations": [
+            {"name": "BTM Layout, Bengaluru", "code": "BLR-BTM-01", "lat": 12.9165, "lng": 77.6101, "elevation": 910.0, "base_pm25": 44},
+            {"name": "Silk Board Junction", "code": "BLR-SLK-02", "lat": 12.9172, "lng": 77.6229, "elevation": 912.0, "base_pm25": 68},
+            {"name": "Whitefield IT Corridor", "code": "BLR-WHT-03", "lat": 12.9698, "lng": 77.7500, "elevation": 905.0, "base_pm25": 46},
+            {"name": "Peenya Industrial Area", "code": "BLR-PNY-04", "lat": 13.0329, "lng": 77.5141, "elevation": 920.0, "base_pm25": 76},
+        ]
+    },
+    {
+        "name": "Kolkata",
+        "state": "West Bengal",
+        "country": "India",
+        "latitude": 22.5726,
+        "longitude": 88.3639,
+        "stations": [
+            {"name": "Victoria Memorial Green Zone", "code": "KOL-VIC-01", "lat": 22.5448, "lng": 88.3426, "elevation": 10.0, "base_pm25": 78},
+            {"name": "Rabindra Bharati University", "code": "KOL-RBU-02", "lat": 22.5850, "lng": 88.3712, "elevation": 9.0, "base_pm25": 102},
+            {"name": "Salt Lake Sector V Tech Hub", "code": "KOL-SLK-03", "lat": 22.5705, "lng": 88.4312, "elevation": 11.0, "base_pm25": 66},
+        ]
+    },
+    {
+        "name": "Hyderabad",
+        "state": "Telangana",
+        "country": "India",
+        "latitude": 17.3850,
+        "longitude": 78.4867,
+        "stations": [
+            {"name": "Sanathnagar Industrial Hub", "code": "HYD-SNT-01", "lat": 17.4563, "lng": 78.4439, "elevation": 542.0, "base_pm25": 72},
+            {"name": "HITEC City Cyber Towers", "code": "HYD-HTC-02", "lat": 17.4504, "lng": 78.3808, "elevation": 570.0, "base_pm25": 52},
+            {"name": "Charminar Old City", "code": "HYD-CHM-03", "lat": 17.3616, "lng": 78.4747, "elevation": 510.0, "base_pm25": 76},
+        ]
+    },
+    {
+        "name": "Ahmedabad",
+        "state": "Gujarat",
+        "country": "India",
+        "latitude": 23.0225,
+        "longitude": 72.5714,
+        "stations": [
+            {"name": "Maninagar, Ahmedabad", "code": "AMD-MAN-01", "lat": 22.9978, "lng": 72.6033, "elevation": 53.0, "base_pm25": 84},
+            {"name": "Chandkheda SG Highway", "code": "AMD-CHK-02", "lat": 23.1118, "lng": 72.5850, "elevation": 55.0, "base_pm25": 72},
+            {"name": "Vatva GIDC Industrial Area", "code": "AMD-VAT-03", "lat": 22.9572, "lng": 72.6393, "elevation": 52.0, "base_pm25": 112},
+        ]
+    },
+    {
+        "name": "Jaipur",
+        "state": "Rajasthan",
+        "country": "India",
+        "latitude": 26.9124,
+        "longitude": 75.7873,
+        "stations": [
+            {"name": "Mansarovar, Jaipur", "code": "JPR-MAN-01", "lat": 26.8530, "lng": 75.7674, "elevation": 431.0, "base_pm25": 80},
+            {"name": "Shastri Nagar Central", "code": "JPR-SHS-02", "lat": 26.9452, "lng": 75.7973, "elevation": 435.0, "base_pm25": 88},
+            {"name": "Sitapura Industrial Zone", "code": "JPR-STP-03", "lat": 26.7725, "lng": 75.8358, "elevation": 425.0, "base_pm25": 98},
+        ]
+    },
+    {
+        "name": "Patna",
+        "state": "Bihar",
+        "country": "India",
+        "latitude": 25.5941,
+        "longitude": 85.1376,
+        "stations": [
+            {"name": "Samanpura, Patna", "code": "PAT-SAM-01", "lat": 25.6186, "lng": 85.0934, "elevation": 53.0, "base_pm25": 115},
+            {"name": "Danapur Transit Area", "code": "PAT-DAN-02", "lat": 25.6338, "lng": 85.0441, "elevation": 54.0, "base_pm25": 102},
+            {"name": "Shikarpur Central Hub", "code": "PAT-SHK-03", "lat": 25.5941, "lng": 85.1376, "elevation": 52.0, "base_pm25": 108},
+        ]
+    },
+    {
+        "name": "Agra",
+        "state": "Uttar Pradesh",
+        "country": "India",
+        "latitude": 27.1767,
+        "longitude": 78.0081,
+        "stations": [
+            {"name": "Taj East Gate Heritage Zone", "code": "AGR-TEG-01", "lat": 27.1724, "lng": 78.0469, "elevation": 169.0, "base_pm25": 78},
+            {"name": "Sanjay Place Commercial Hub", "code": "AGR-SJP-02", "lat": 27.2023, "lng": 78.0068, "elevation": 172.0, "base_pm25": 94},
+        ]
+    },
+    {
+        "name": "Pune",
+        "state": "Maharashtra",
+        "country": "India",
+        "latitude": 18.5204,
+        "longitude": 73.8567,
+        "stations": [
+            {"name": "Shivajinagar, Pune", "code": "PUN-SHV-01", "lat": 18.5314, "lng": 73.8446, "elevation": 560.0, "base_pm25": 60},
+            {"name": "Hinjawadi IT Park Zone 1", "code": "PUN-HNW-02", "lat": 18.5913, "lng": 73.7389, "elevation": 575.0, "base_pm25": 50},
+        ]
+    },
+    {
+        "name": "Chandigarh",
+        "state": "Chandigarh",
+        "country": "India",
+        "latitude": 30.7333,
+        "longitude": 76.7794,
+        "stations": [
+            {"name": "Sector 22 Commercial", "code": "CHD-S22-01", "lat": 30.7352, "lng": 76.7719, "elevation": 321.0, "base_pm25": 56},
+            {"name": "Sector 53 Nature Park", "code": "CHD-S53-02", "lat": 30.7183, "lng": 76.7369, "elevation": 318.0, "base_pm25": 40},
+        ]
     }
 ]
 
@@ -83,7 +203,7 @@ def generate_synthetic_data(days_back: int = 90) -> pd.DataFrame:
     random.seed(42)
     np.random.seed(42)
 
-    end_date = datetime.utcnow().replace(minute=0, second=0, microsecond=0)
+    end_date = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0, tzinfo=None)
     start_date = end_date - timedelta(days=days_back)
     
     date_range = pd.date_range(start=start_date, end=end_date, freq="1h")
@@ -99,7 +219,6 @@ def generate_synthetic_data(days_back: int = 90) -> pd.DataFrame:
                 month = dt.month
 
                 # Diurnal traffic/inversion factor:
-                # Morning rush hour (7-10 AM) + Evening rush & winter inversion (18-23 PM)
                 if 7 <= hour <= 10:
                     diurnal_factor = 1.35 + 0.15 * math.sin((hour - 7) * math.pi / 3)
                 elif 18 <= hour <= 23:
@@ -112,7 +231,7 @@ def generate_synthetic_data(days_back: int = 90) -> pd.DataFrame:
                 # Weekend traffic reduction
                 weekend_factor = 0.88 if day_of_week >= 5 else 1.0
 
-                # Seasonal factor (higher in winter Nov-Feb, moderate in autumn/spring, lowest in rainy July-Sept)
+                # Seasonal factor
                 if month in [11, 12, 1]:
                     seasonal_factor = 1.6
                 elif month in [10, 2]:
@@ -136,11 +255,11 @@ def generate_synthetic_data(days_back: int = 90) -> pd.DataFrame:
                 wind_speed = 7.0 + 3.0 * math.sin(hour * math.pi / 12) + np.random.normal(0, 1.5)
                 wind_speed = round(max(0.5, wind_speed), 1)
 
-                # Rainfall (mm) - mostly monsoon or occasional shower
+                # Rainfall (mm)
                 rain_prob = 0.25 if month in [7, 8] else 0.03
                 rainfall = round(np.random.exponential(4.0), 1) if np.random.random() < rain_prob else 0.0
 
-                # Meteorological dispersion impact: high wind or rain cleans PM
+                # Meteorological dispersion impact
                 weather_clean_factor = 1.0
                 if rainfall > 2.0:
                     weather_clean_factor *= 0.5
@@ -151,23 +270,18 @@ def generate_synthetic_data(days_back: int = 90) -> pd.DataFrame:
                 pm25 = (base * diurnal_factor * weekend_factor * seasonal_factor * weather_clean_factor) + np.random.normal(0, base * 0.12)
                 pm25 = round(max(5.0, pm25), 1)
 
-                # PM10 is correlated with PM2.5 + road dust
                 pm10 = pm25 * np.random.uniform(1.6, 2.1) + np.random.normal(0, 8.0)
                 pm10 = round(max(pm25 + 5.0, pm10), 1)
 
-                # NO2 (traffic exhaust)
                 no2 = 25.0 * diurnal_factor * weekend_factor + np.random.normal(0, 4.0)
                 no2 = round(max(4.0, no2), 1)
 
-                # SO2 (industrial)
                 so2 = 12.0 + (15.0 if "Industrial" in st["name"] else 0.0) + np.random.normal(0, 2.5)
                 so2 = round(max(2.0, so2), 1)
 
-                # CO (mg/m³)
                 co = (0.7 + 0.6 * (diurnal_factor - 0.7)) + np.random.normal(0, 0.1)
                 co = round(max(0.1, co), 2)
 
-                # O3 (photochemical - peaks in midday sunlight)
                 o3_factor = max(0.1, math.sin((hour - 6) * math.pi / 12)) if 6 <= hour <= 18 else 0.15
                 o3 = 20.0 + 45.0 * o3_factor + np.random.normal(0, 3.0)
                 o3 = round(max(5.0, o3), 1)
@@ -204,31 +318,28 @@ def generate_synthetic_data(days_back: int = 90) -> pd.DataFrame:
     df = pd.DataFrame(records)
     return df
 
-def seed_database(days_back: int = 90):
+def seed_database(days_back: int = 90, force: bool = False):
     """
     Initializes tables, populates cities and stations, and loads realistic
     historical observations into the SQLite database.
-    Also exports sample CSV to datasets/ folder.
     """
     print("[Seed] Creating database tables...")
     Base.metadata.create_all(bind=engine)
 
     db: Session = SessionLocal()
     try:
-        # Check if already seeded
         station_count = db.query(Station).count()
-        obs_count = db.query(AirQualityObservation).count()
-        if station_count > 0 and obs_count > 1000:
-            print(f"[Seed] Database already contains {station_count} stations and {obs_count} observations. Skipping seed.")
+        # If all 42 stations exist and not forced, skip
+        if not force and station_count >= 35:
+            print(f"[Seed] Database already contains {station_count} stations. Skipping seed.")
             return
 
-        print(f"[Seed] Generating {days_back} days of realistic urban pollution data...")
+        print(f"[Seed] Seeding database with 15 Indian metropolitan cities and 42 monitoring stations...")
         df = generate_synthetic_data(days_back=days_back)
 
-        # Export sample CSV for testing & user download/verification
         csv_path = os.path.join(settings.DATASETS_DIR, "indian_cities_air_quality_sample.csv")
         df.to_csv(csv_path, index=False)
-        print(f"[Seed] Sample CSV exported to: {csv_path}")
+        print(f"[Seed] Master CSV exported to: {csv_path}")
 
         # Insert Cities & Stations
         station_id_map = {}
@@ -263,19 +374,28 @@ def seed_database(days_back: int = 90):
 
         db.commit()
 
-        # Batch insert observations
-        print(f"[Seed] Inserting {len(df)} observations into database...")
-        batch_size = 2000
+        # Batch insert observations for newly added stations
+        print(f"[Seed] Ingesting {len(df)} multi-city observation records...")
+        batch_size = 2500
         records_to_insert = []
+        
+        # Check existing station timestamps
+        existing_keys = set(
+            db.query(AirQualityObservation.station_id, AirQualityObservation.timestamp).all()
+        )
 
         for _, row in df.iterrows():
             st_id = station_id_map.get(row["station_code"])
             if not st_id:
                 continue
 
+            ts = pd.to_datetime(row["timestamp"]).to_pydatetime()
+            if (st_id, ts) in existing_keys:
+                continue
+
             obs = AirQualityObservation(
                 station_id=st_id,
-                timestamp=pd.to_datetime(row["timestamp"]).to_pydatetime(),
+                timestamp=ts,
                 pm25=float(row["pm25"]),
                 pm10=float(row["pm10"]),
                 no2=float(row["no2"]),
@@ -292,6 +412,7 @@ def seed_database(days_back: int = 90):
                 data_source="sample_dataset"
             )
             records_to_insert.append(obs)
+            existing_keys.add((st_id, ts))
 
             if len(records_to_insert) >= batch_size:
                 db.bulk_save_objects(records_to_insert)
@@ -302,8 +423,8 @@ def seed_database(days_back: int = 90):
             db.bulk_save_objects(records_to_insert)
             db.commit()
 
-        # Seed initial smart alert records for high pollution hotspots
-        latest_severe = db.query(AirQualityObservation).filter(AirQualityObservation.aqi >= 301).order_by(AirQualityObservation.timestamp.desc()).limit(5).all()
+        # Seed initial smart alert records
+        latest_severe = db.query(AirQualityObservation).filter(AirQualityObservation.aqi >= 301).order_by(AirQualityObservation.timestamp.desc()).limit(8).all()
         for obs in latest_severe:
             st = db.query(Station).filter(Station.id == obs.station_id).first()
             alert = AlertRecord(
@@ -315,22 +436,24 @@ def seed_database(days_back: int = 90):
                 pollutant=obs.primary_pollutant.upper(),
                 measured_value=obs.aqi,
                 threshold_value=300.0,
-                message=f"Severe air pollution detected at {st.name} with AQI reaching {obs.aqi:.0f} (Category: {obs.aqi_category}). Sensitive groups should avoid outdoor exertion.",
+                message=f"Severe air pollution detected at {st.name} with AQI reaching {obs.aqi:.0f} ({obs.aqi_category}). Vulnerable citizens must stay indoors.",
                 triggered_at=obs.timestamp,
                 is_acknowledged=False
             )
             db.add(alert)
         db.commit()
 
+        total_stations = db.query(Station).count()
         total_obs = db.query(AirQualityObservation).count()
-        print(f"[Seed] Successfully seeded {len(station_id_map)} stations and {total_obs} observations!")
+        print(f"[Seed] Successfully seeded {total_stations} stations and {total_obs} total observations across India!")
 
     except Exception as e:
         db.rollback()
-        print(f"[Seed] Error seeding database: {e}")
+        print(f"[Seed] Error: {e}")
         raise
     finally:
         db.close()
 
 if __name__ == "__main__":
-    seed_database()
+    force_run = "--force" in sys.argv
+    seed_database(days_back=90, force=force_run)
