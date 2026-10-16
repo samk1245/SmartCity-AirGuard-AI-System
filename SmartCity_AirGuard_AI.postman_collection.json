@@ -1,0 +1,210 @@
+{
+  "info": {
+    "_postman_id": "smartcity-airguard-ai-v1",
+    "name": "SmartCity AirGuard AI — REST API Collection",
+    "description": "Production-grade API endpoints for the SmartCity AirGuard AI environmental prediction and air pollution intelligence system.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "System",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "health"]
+            },
+            "description": "Returns operational status, database connectivity, active monitoring stations, and ML engine readiness."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Locations & Stations",
+      "item": [
+        {
+          "name": "Get All Locations & Stations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/locations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "locations"]
+            },
+            "description": "Lists all 15 supported cities and their respective ambient monitoring stations with geographic coordinates."
+          }
+        },
+        {
+          "name": "Get Map Stations Pins",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/map/stations?city_name=All",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "map", "stations"],
+              "query": [
+                { "key": "city_name", "value": "All" }
+              ]
+            },
+            "description": "Geospatial station pins colored by real-time AQI category with pollutant breakdowns for Leaflet."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Air Quality Observations",
+      "item": [
+        {
+          "name": "Current Air Quality Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/air-quality/current?city_name=Delhi",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "air-quality", "current"],
+              "query": [
+                { "key": "city_name", "value": "Delhi" }
+              ]
+            },
+            "description": "Returns current composite AQI, cleanest station, and worst pollution hotspot."
+          }
+        },
+        {
+          "name": "Historical Trends & Aggregation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/air-quality/summary?aggregation=daily&city_name=Prayagraj",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "air-quality", "summary"],
+              "query": [
+                { "key": "aggregation", "value": "daily" },
+                { "key": "city_name", "value": "Prayagraj" }
+              ]
+            },
+            "description": "Calculates aggregated trends, summary statistics, and Pearson pollutant correlation matrix."
+          }
+        },
+        {
+          "name": "Export Historical Observations (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/data/export?city_name=Mumbai",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "data", "export"],
+              "query": [
+                { "key": "city_name", "value": "Mumbai" }
+              ]
+            },
+            "description": "Directly downloads filtered historical air quality observations as a standard CSV file."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Forecasting & Machine Learning",
+      "item": [
+        {
+          "name": "Generate Multi-Hour Forecast",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/predictions/forecast?station_id=1&horizon_hours=24",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "predictions", "forecast"],
+              "query": [
+                { "key": "station_id", "value": "1" },
+                { "key": "horizon_hours", "value": "24" }
+              ]
+            },
+            "description": "Forecasts forward AQI, PM2.5, and 10th-90th quantile uncertainty intervals for up to 72 hours."
+          }
+        },
+        {
+          "name": "Get Active Model Metrics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/models/metrics",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "models", "metrics"]
+            },
+            "description": "Returns active model version, chronological MAE, RMSE, R2, and actual-vs-predicted test curve."
+          }
+        },
+        {
+          "name": "Trigger Online Model Retraining",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model_type\": \"HistGradientBoosting\",\n  \"test_size_ratio\": 0.2,\n  \"target_pollutant\": \"aqi\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/models/train",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "models", "train"]
+            },
+            "description": "Retrains the machine learning model with chronologically split held-out evaluation."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Alerts & Health Advisories",
+      "item": [
+        {
+          "name": "Get Active Alerts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/alerts?severity=Critical",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "alerts"],
+              "query": [
+                { "key": "severity", "value": "Critical" }
+              ]
+            },
+            "description": "Lists threshold violation alerts suppressed under 4-hour cooldown windows."
+          }
+        },
+        {
+          "name": "Acknowledge Alert Advisory",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/alerts/1/acknowledge",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "alerts", "1", "acknowledge"]
+            },
+            "description": "Marks an alert as reviewed and acknowledged by an environmental operator."
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000"
+    }
+  ]
+}
