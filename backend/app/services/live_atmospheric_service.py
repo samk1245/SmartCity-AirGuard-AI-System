@@ -167,6 +167,51 @@ async def fetch_live_atmospheric_data(lat: float, lng: float, city_name: Optiona
     _ATMOSPHERIC_CACHE[cache_key] = {"data": result, "cached_at": now}
     return result
 
+async def reverse_geocode_coordinates(lat: float, lng: float) -> Dict[str, Any]:
+    """Reverse-geocodes GPS coordinates to human-readable street, neighbourhood, city, and country."""
+    url = f"https://nominatim.openstreetmap.org/reverse?lat={lat}&lon={lng}&format=json"
+    headers = {"User-Agent": "SmartCityAirGuardAI/1.0"}
+    async with httpx.AsyncClient(timeout=4.0) as client:
+        try:
+            res = await client.get(url, headers=headers)
+            if res.status_code == 200:
+                data = res.json()
+                addr = data.get("address", {})
+                road = addr.get("road") or addr.get("pedestrian") or addr.get("street") or ""
+                suburb = addr.get("suburb") or addr.get("neighbourhood") or addr.get("quarter") or ""
+                city = addr.get("city") or addr.get("town") or addr.get("village") or addr.get("municipality") or addr.get("county") or "Detected Area"
+                state = addr.get("state") or addr.get("province") or ""
+                country = addr.get("country", "")
+                
+                parts = [p for p in [road, suburb, city, country] if p]
+                display_label = ", ".join(parts[:3]) if parts else data.get("display_name", f"{lat:.4f}, {lng:.4f}")
+                
+                return {
+                    "display_name": data.get("display_name", display_label),
+                    "short_name": display_label,
+                    "road": road,
+                    "suburb": suburb,
+                    "city": city,
+                    "state": state,
+                    "country": country,
+                    "latitude": lat,
+                    "longitude": lng
+                }
+        except Exception as e:
+            print(f"[Reverse Geocode] Error: {e}")
+
+    return {
+        "display_name": f"{lat:.4f}° N, {lng:.4f}° E",
+        "short_name": f"{lat:.4f}° N, {lng:.4f}° E",
+        "road": "",
+        "suburb": "",
+        "city": "Current Location",
+        "state": "",
+        "country": "",
+        "latitude": lat,
+        "longitude": lng
+    }
+
 async def search_geocoding_locations(query: str) -> List[Dict[str, Any]]:
     """Searches for cities and administrative regions worldwide matching a query string."""
     if not query or len(query.strip()) < 2:

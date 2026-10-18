@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wind, ShieldAlert, Bell, RefreshCw, Cpu, Globe } from 'lucide-react';
+import { Wind, ShieldAlert, Bell, RefreshCw, Cpu, Globe, Compass, Crosshair } from 'lucide-react';
 import { City } from '../types';
 
 interface NavbarProps {
@@ -11,6 +11,7 @@ interface NavbarProps {
   onRefresh: () => void;
   isRefreshing: boolean;
   onNavigateToEarth3D?: () => void;
+  onNavigateToStreetView?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -22,6 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onRefresh,
   isRefreshing,
   onNavigateToEarth3D,
+  onNavigateToStreetView,
 }) => {
   return (
     <header className="sticky top-0 z-30 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-6 py-3.5">
@@ -47,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Controls */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           {/* 3D Earth Shortcut Button */}
           {onNavigateToEarth3D && (
             <button
@@ -56,6 +58,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Globe className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
               <span>3D Earth</span>
+            </button>
+          )}
+
+          {/* My Location Street View Button */}
+          {onNavigateToStreetView && (
+            <button
+              onClick={onNavigateToStreetView}
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-xs font-bold transition-all shadow-md active:scale-95"
+              title="View live street view of your current location"
+            >
+              <Crosshair className="w-3.5 h-3.5 text-emerald-400" />
+              <span>My Street View</span>
             </button>
           )}
 

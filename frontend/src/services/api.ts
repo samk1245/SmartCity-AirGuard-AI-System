@@ -11,7 +11,8 @@ import {
   GeocodingResult,
   GlobePoint,
   AIInsights,
-  StreetViewMetadata
+  StreetViewMetadata,
+  ReverseGeocodeResult
 } from '../types';
 
 const API_BASE = '/api';
@@ -206,6 +207,17 @@ export const api = {
     if (cityName) params.append('city_name', cityName);
     const res = await fetch(`${API_BASE}/streetview/metadata?${params.toString()}`);
     if (!res.ok) throw new Error('Failed to fetch street view metadata');
+    return res.json();
+  },
+
+  // Reverse Geocoding (coordinates to exact street, neighbourhood, city)
+  async reverseGeocode(lat: number, lng: number): Promise<ReverseGeocodeResult> {
+    const params = new URLSearchParams({
+      latitude: lat.toString(),
+      longitude: lng.toString(),
+    });
+    const res = await fetch(`${API_BASE}/live-location/reverse?${params.toString()}`);
+    if (!res.ok) throw new Error('Failed to reverse geocode coordinates');
     return res.json();
   }
 };

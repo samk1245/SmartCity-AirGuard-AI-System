@@ -402,6 +402,15 @@ async def search_locations(
     results = await search_geocoding_locations(query=query)
     return results
 
+# 13b. Reverse Geocoding for Exact Coordinates & Street Name
+@router.get("/live-location/reverse", tags=["Live Location & Global GIS"])
+async def reverse_geocode_location(
+    latitude: float = Query(..., description="Target Latitude (-90 to 90)"),
+    longitude: float = Query(..., description="Target Longitude (-180 to 180)")
+):
+    from app.services.live_atmospheric_service import reverse_geocode_coordinates
+    return await reverse_geocode_coordinates(lat=latitude, lng=longitude)
+
 # 14. 3D Earth Globe Coordinates & Global AQI Points
 @router.get("/globe/points", tags=["3D Visualization"])
 def get_globe_points():

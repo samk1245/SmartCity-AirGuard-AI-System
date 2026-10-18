@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Compass,
   MapPin,
@@ -11,15 +11,20 @@ import {
   Sparkles,
   Maximize2,
   AlertTriangle,
-  RotateCcw
+  RotateCcw,
+  Crosshair,
+  Navigation,
+  CheckCircle2,
+  RefreshCw
 } from 'lucide-react';
 import { api } from '../services/api';
-import { StreetViewMetadata, LiveAtmosphericData, AIInsights, GeocodingResult } from '../types';
+import { StreetViewMetadata, LiveAtmosphericData, AIInsights, GeocodingResult, ReverseGeocodeResult } from '../types';
 
 interface StreetViewPageProps {
   initialLat?: number;
   initialLng?: number;
   initialName?: string;
+  autoLocate?: boolean;
 }
 
 const PRESET_LOCATIONS = [
@@ -36,15 +41,20 @@ export const StreetViewPage: React.FC<StreetViewPageProps> = ({
   initialLat = 28.6129,
   initialLng = 77.2295,
   initialName = 'India Gate, New Delhi',
+  autoLocate = false,
 }) => {
   const [lat, setLat] = useState<number>(initialLat);
   const [lng, setLng] = useState<number>(initialLng);
   const [locationName, setLocationName] = useState<string>(initialName);
+  const [isCurrentLocation, setIsCurrentLocation] = useState<boolean>(false);
 
   const [metadata, setMetadata] = useState<StreetViewMetadata | null>(null);
   const [liveData, setLiveData] = useState<LiveAtmosphericData | null>(null);
   const [aiInsights, setAiInsights] = useState<AIInsights | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isLocating, setIsLocating] = useState<boolean>(false);
+  const [geoError, setGeoError] = useState<string | null>(null);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<GeocodingResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -94,6 +104,56 @@ export const StreetViewPage: React.FC<StreetViewPageProps> = ({
     loadStreetData();
   }, [lat, lng, locationName]);
 
+  // Core function: Locate user and switch to current location Street View
+  const handleUseCurrentLocation = useCallback(() => {
+    if (!navigator.geolocation) {
+      setGeoError('Geolocation is not supported by your browser.');
+      return;
+    }
+
+    setGeoError(null);
+    setIsLocating(true);
+
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const { latitude, longitude } = pos.coords;
+        setLat(latitude);
+        setLng(longitude);
+        setIsCurrentLocation(true);
+
+        try {
+          // Reverse-geocode to get precise street and neighbourhood
+          const rev = await api.reverseGeocode(latitude, longitude);
+          const detectedTitle = rev.short_name || `${rev.city}${rev.country ? `, ${rev.country}` : ''}`;
+          setLocationName(detectedTitle || 'My Current Location');
+        } catch (err) {
+          console.warn('Reverse geocode fallback:', err);
+          setLocationName(`Current Location (${latitude.toFixed(4)}°, ${longitude.toFixed(4)}°)`);
+        } finally {
+          setIsLocating(false);
+        }
+      },
+      (err) => {
+        setIsLocating(false);
+        if (err.code === err.PERMISSION_DENIED) {
+          setGeoError('GPS Location permission was denied. Please allow location access in your browser settings to view your street.');
+        } else if (err.code === err.POSITION_UNAVAILABLE) {
+          setGeoError('GPS position is currently unavailable on your device.');
+        } else {
+          setGeoError(`Location detection timed out: ${err.message}`);
+        }
+      },
+      { timeout: 12000, enableHighAccuracy: true, maximumAge: 30000 }
+    );
+  }, []);
+
+  // Auto locate if requested
+  useEffect(() => {
+    if (autoLocate) {
+      handleUseCurrentLocation();
+    }
+  }, [autoLocate, handleUseCurrentLocation]);
+
   // Geocoding search
   const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const q = e.target.value;
@@ -114,17 +174,21 @@ export const StreetViewPage: React.FC<StreetViewPageProps> = ({
   };
 
   const handleSelectPreset = (preset: typeof PRESET_LOCATIONS[0]) => {
+    setIsCurrentLocation(false);
     setLat(preset.lat);
     setLng(preset.lng);
     setLocationName(preset.name);
+    setGeoError(null);
   };
 
   const handleSelectSearchResult = (res: GeocodingResult) => {
+    setIsCurrentLocation(false);
     setLat(res.latitude);
     setLng(res.longitude);
     setLocationName(`${res.name}${res.country ? `, ${res.country}` : ''}`);
     setSearchResults([]);
     setSearchQuery('');
+    setGeoError(null);
   };
 
   return (
@@ -148,48 +212,117 @@ export const StreetViewPage: React.FC<StreetViewPageProps> = ({
           </div>
         </div>
 
-        {/* Search Bar */}
-        <div className="relative w-72 md:w-96">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={handleSearchChange}
-            placeholder="Search address or street worldwide..."
-            className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
-          />
-          {isSearching && (
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-cyan-400 animate-pulse">
-              ...
-            </span>
-          )}
+        {/* Action Controls: Live GPS Button + Search Bar */}
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Primary View Current Location Button */}
+          <button
+            onClick={handleUseCurrentLocation}
+            disabled={isLocating}
+            className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all shadow-lg active:scale-95 ${
+              isCurrentLocation
+                ? 'bg-emerald-500 text-slate-950 shadow-emerald-500/30 border border-emerald-400 ring-2 ring-emerald-500/30'
+                : 'bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 shadow-cyan-500/25 border border-cyan-400'
+            }`}
+            title="Detect GPS coordinates and open street view of your current location"
+          >
+            {isLocating ? (
+              <>
+                <RefreshCw className="w-4 h-4 animate-spin text-slate-950" />
+                <span>Acquiring Live GPS...</span>
+              </>
+            ) : isCurrentLocation ? (
+              <>
+                <CheckCircle2 className="w-4 h-4 text-slate-950" />
+                <span>Viewing My Location</span>
+              </>
+            ) : (
+              <>
+                <Crosshair className="w-4 h-4 text-slate-950" />
+                <span>View My Current Location</span>
+              </>
+            )}
+          </button>
 
-          {searchResults.length > 0 && (
-            <div className="absolute top-full left-0 right-0 mt-1.5 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-50 overflow-hidden divide-y divide-slate-800">
-              {searchResults.map((res) => (
-                <button
-                  key={res.id}
-                  onClick={() => handleSelectSearchResult(res)}
-                  className="w-full text-left px-3.5 py-2.5 text-xs hover:bg-slate-800/80 transition-colors flex items-center justify-between"
-                >
-                  <span className="font-semibold text-white">{res.name}</span>
-                  <span className="text-[10px] text-cyan-400 font-mono">{res.country}</span>
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Search Bar */}
+          <div className="relative w-64 md:w-80">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              placeholder="Search address or street worldwide..."
+              className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+            />
+            {isSearching && (
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-cyan-400 animate-pulse">
+                ...
+              </span>
+            )}
+
+            {searchResults.length > 0 && (
+              <div className="absolute top-full left-0 right-0 mt-1.5 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-50 overflow-hidden divide-y divide-slate-800">
+                {searchResults.map((res) => (
+                  <button
+                    key={res.id}
+                    onClick={() => handleSelectSearchResult(res)}
+                    className="w-full text-left px-3.5 py-2.5 text-xs hover:bg-slate-800/80 transition-colors flex items-center justify-between"
+                  >
+                    <span className="font-semibold text-white">{res.name}</span>
+                    <span className="text-[10px] text-cyan-400 font-mono">{res.country}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
+      {/* Geolocation Feedback / Error Message */}
+      {geoError && (
+        <div className="p-3.5 rounded-xl bg-amber-950/40 border border-amber-800/60 text-amber-200 text-xs flex items-center justify-between gap-3 shadow-lg animate-in fade-in">
+          <div className="flex items-center gap-2.5">
+            <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+            <span>{geoError}</span>
+          </div>
+          <button
+            onClick={() => setGeoError(null)}
+            className="text-[11px] underline text-amber-400 hover:text-amber-300"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
+
+      {/* Live Location Active Banner */}
+      {isCurrentLocation && (
+        <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/40 text-emerald-300 text-xs flex items-center justify-between gap-3 shadow-md animate-in fade-in">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+            <span className="font-semibold text-white">Live Street View Active:</span>
+            <span>{locationName}</span>
+            <span className="text-emerald-400/80 font-mono text-[11px]">
+              ({lat.toFixed(5)}° N, {lng.toFixed(5)}° E)
+            </span>
+          </div>
+          <button
+            onClick={handleUseCurrentLocation}
+            className="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-200 text-[11px] font-bold border border-emerald-500/40 flex items-center gap-1 transition-all"
+          >
+            <RefreshCw className="w-3 h-3" />
+            <span>Re-scan GPS</span>
+          </button>
+        </div>
+      )}
+
       {/* Preset Landmarks Strip */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin">
-        <span className="text-xs text-slate-400 font-semibold whitespace-nowrap pl-1">Landmarks:</span>
+        <span className="text-xs text-slate-400 font-semibold whitespace-nowrap pl-1">Popular Spots:</span>
         {PRESET_LOCATIONS.map((preset) => (
           <button
             key={preset.name}
             onClick={() => handleSelectPreset(preset)}
             className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap border transition-all ${
-              locationName === preset.name
+              !isCurrentLocation && locationName === preset.name
                 ? 'bg-cyan-500 text-slate-950 font-bold border-cyan-400 shadow-md shadow-cyan-500/20'
                 : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 border-slate-800'
             }`}
@@ -202,18 +335,19 @@ export const StreetViewPage: React.FC<StreetViewPageProps> = ({
       {/* Main Street View Panorama + Live HUD */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Street View Embed Viewport with Floating HUD */}
-        <div className="lg:col-span-8 relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl min-h-[540px]">
+        <div className="lg:col-span-8 relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl min-h-[560px]">
           {metadata ? (
             <iframe
+              key={`${lat}_${lng}`}
               title="Street View Explorer"
               src={metadata.embed_url}
-              className="w-full h-full min-h-[540px] border-0"
+              className="w-full h-full min-h-[560px] border-0"
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
           ) : (
-            <div className="flex items-center justify-center h-full min-h-[540px] text-slate-500">
+            <div className="flex items-center justify-center h-full min-h-[560px] text-slate-500">
               Loading street view panorama...
             </div>
           )}
@@ -222,12 +356,12 @@ export const StreetViewPage: React.FC<StreetViewPageProps> = ({
           {liveData && (
             <div className="absolute top-4 left-4 z-20 flex flex-col gap-2.5 max-w-sm pointer-events-none">
               {/* Glass AQI Badge */}
-              <div className="p-3.5 rounded-2xl bg-slate-950/85 backdrop-blur-md border border-cyan-500/30 shadow-2xl text-white space-y-2 pointer-events-auto">
+              <div className="p-3.5 rounded-2xl bg-slate-950/90 backdrop-blur-md border border-cyan-500/30 shadow-2xl text-white space-y-2 pointer-events-auto">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
                     <span className="text-xs font-bold text-cyan-300 uppercase tracking-wider">
-                      Ground Telemetry
+                      {isCurrentLocation ? 'My Street Telemetry' : 'Ground Telemetry'}
                     </span>
                   </div>
                   <span
@@ -270,8 +404,20 @@ export const StreetViewPage: React.FC<StreetViewPageProps> = ({
             </div>
           )}
 
-          {/* Bottom Controls Bar inside Viewport */}
-          <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 pointer-events-auto">
+          {/* Bottom Right In-Viewport Action Controls */}
+          <div className="absolute bottom-4 right-4 z-20 flex flex-wrap items-center gap-2 pointer-events-auto">
+            {/* Direct GPS Recenter Button inside Viewport */}
+            {!isCurrentLocation && (
+              <button
+                onClick={handleUseCurrentLocation}
+                disabled={isLocating}
+                className="px-3.5 py-2 rounded-xl bg-slate-900/90 backdrop-blur border border-emerald-500/50 hover:bg-emerald-500/20 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 shadow-xl transition-all"
+              >
+                <Crosshair className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Jump to My Street</span>
+              </button>
+            )}
+
             {metadata && (
               <a
                 href={metadata.external_link}
@@ -291,11 +437,20 @@ export const StreetViewPage: React.FC<StreetViewPageProps> = ({
         <div className="lg:col-span-4 space-y-4">
           {/* Location Coordinates Card */}
           <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-3">
-            <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-wider">
-              <MapPin className="w-4 h-4" />
-              <span>Inspection Target</span>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-wider">
+                <MapPin className="w-4 h-4" />
+                <span>{isCurrentLocation ? 'My Current Location' : 'Inspection Target'}</span>
+              </div>
+              {isCurrentLocation && (
+                <span className="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 text-[10px] font-bold">
+                  GPS Active
+                </span>
+              )}
             </div>
-            <h3 className="text-lg font-black text-white">{locationName}</h3>
+
+            <h3 className="text-lg font-black text-white leading-snug">{locationName}</h3>
+            
             <div className="grid grid-cols-2 gap-2 text-xs font-mono text-slate-300 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
               <div>
                 <span className="text-slate-500 block text-[10px]">LATITUDE</span>
@@ -334,7 +489,7 @@ export const StreetViewPage: React.FC<StreetViewPageProps> = ({
             <div className="p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-cyan-950/30 border border-cyan-500/30 shadow-xl space-y-3">
               <div className="flex items-center gap-2 text-xs font-bold text-cyan-400 uppercase tracking-wider">
                 <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
-                <span>Pedestrian Environmental Impact</span>
+                <span>Pedestrian Atmospheric Advisory</span>
               </div>
 
               <p className="text-xs text-slate-200 leading-relaxed font-medium">
@@ -353,12 +508,22 @@ export const StreetViewPage: React.FC<StreetViewPageProps> = ({
             </div>
           )}
 
-          {/* Street View Integration Note */}
-          <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-[11px] text-slate-400 space-y-1 leading-relaxed">
-            <span className="font-bold text-slate-300 block">Integration Architecture</span>
-            <p>
-              SmartCity AirGuard AI links live satellite and atmospheric modeling from Open-Meteo with 360° panoramic spatial coordinates. Add your <code className="text-cyan-400 bg-slate-800 px-1 py-0.5 rounded">GOOGLE_MAPS_API_KEY</code> in Settings to unlock custom interactive panoramic movement.
+          {/* Quick Actions Card */}
+          <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2 text-xs">
+            <span className="font-bold text-slate-300 block text-xs">GPS Street Teleportation</span>
+            <p className="text-slate-400 text-[11px] leading-relaxed">
+              AirGuard AI connects your browser's physical location with Google Street View panoramas and Open-Meteo atmospheric sensors to give you real-time micro-climate visibility on the street where you stand.
             </p>
+            {!isCurrentLocation && (
+              <button
+                onClick={handleUseCurrentLocation}
+                disabled={isLocating}
+                className="w-full py-2 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5 transition-all mt-1"
+              >
+                <Crosshair className="w-3.5 h-3.5" />
+                <span>Switch to My Live Street Now</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

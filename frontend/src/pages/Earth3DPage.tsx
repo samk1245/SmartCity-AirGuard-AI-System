@@ -106,9 +106,19 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const { latitude, longitude } = pos.coords;
+        let readable = 'My Live GPS Location';
+        let country = 'Local Device';
+        try {
+          const rev = await api.reverseGeocode(latitude, longitude);
+          if (rev?.short_name) readable = rev.short_name;
+          if (rev?.country) country = rev.country;
+        } catch (e) {
+          console.warn('Reverse geocode error:', e);
+        }
+
         await handleSelectCity({
-          name: 'My Live GPS Location',
-          country: 'Local Device',
+          name: readable,
+          country,
           latitude,
           longitude,
         });

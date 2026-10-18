@@ -269,3 +269,15 @@ export interface StreetViewMetadata {
   embed_url: string;
   external_link: string;
 }
+
+export interface ReverseGeocodeResult {
+  display_name: string;
+  short_name: string;
+  road?: string;
+  suburb?: string;
+  city: string;
+  state?: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+}

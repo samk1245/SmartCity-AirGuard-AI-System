@@ -12,7 +12,8 @@ import {
   Share2,
   Download,
   Globe,
-  Compass
+  Compass,
+  Crosshair
 } from 'lucide-react';
 import { CurrentSummary, City } from '../types';
 import { StatCard } from '../components/StatCard';
@@ -138,7 +139,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               onClick={() => onNavigate('streetview')}
               className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-500/25 hover:scale-[1.02] transition-all"
             >
-              <Compass className="w-4 h-4 text-slate-950" /> Street View Explorer
+              <Crosshair className="w-4 h-4 text-slate-950" /> Street View (Live GPS)
             </button>
 
             <button

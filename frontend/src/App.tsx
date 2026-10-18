@@ -36,6 +36,7 @@ export const App: React.FC = () => {
     lng: 77.2295,
     name: 'India Gate, New Delhi',
   });
+  const [streetViewAutoLocate, setStreetViewAutoLocate] = useState<boolean>(false);
 
   const loadInitialData = async () => {
     try {
@@ -77,7 +78,13 @@ export const App: React.FC = () => {
   };
 
   const handleNavigateToStreetView = (lat: number, lng: number, name: string) => {
+    setStreetViewAutoLocate(false);
     setStreetViewTarget({ lat, lng, name });
+    setCurrentTab('streetview');
+  };
+
+  const handleNavigateToCurrentLocationStreetView = () => {
+    setStreetViewAutoLocate(true);
     setCurrentTab('streetview');
   };
 
@@ -97,6 +104,7 @@ export const App: React.FC = () => {
         onRefresh={handleRefresh}
         isRefreshing={isRefreshing}
         onNavigateToEarth3D={() => setCurrentTab('earth3d')}
+        onNavigateToStreetView={handleNavigateToCurrentLocationStreetView}
       />
 
       <div className="flex flex-1">
@@ -116,7 +124,13 @@ export const App: React.FC = () => {
               selectedCity={selectedCity}
               cities={cities}
               onSelectCity={setSelectedCity}
-              onNavigate={setCurrentTab}
+              onNavigate={(tab) => {
+                if (tab === 'streetview') {
+                  handleNavigateToCurrentLocationStreetView();
+                } else {
+                  setCurrentTab(tab);
+                }
+              }}
               onSelectStationForForecast={handleSelectStationForForecast}
             />
           )}
@@ -133,6 +147,7 @@ export const App: React.FC = () => {
               initialLat={streetViewTarget.lat}
               initialLng={streetViewTarget.lng}
               initialName={streetViewTarget.name}
+              autoLocate={streetViewAutoLocate}
             />
           )}
 
