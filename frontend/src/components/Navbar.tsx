@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wind, ShieldAlert, Bell, RefreshCw, Cpu } from 'lucide-react';
+import { Wind, ShieldAlert, Bell, RefreshCw, Cpu, Globe } from 'lucide-react';
 import { City } from '../types';
 
 interface NavbarProps {
@@ -10,6 +10,7 @@ interface NavbarProps {
   onOpenAlerts: () => void;
   onRefresh: () => void;
   isRefreshing: boolean;
+  onNavigateToEarth3D?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -20,6 +21,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenAlerts,
   onRefresh,
   isRefreshing,
+  onNavigateToEarth3D,
 }) => {
   return (
     <header className="sticky top-0 z-30 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-6 py-3.5">
@@ -46,6 +48,17 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Controls */}
         <div className="flex items-center gap-4">
+          {/* 3D Earth Shortcut Button */}
+          {onNavigateToEarth3D && (
+            <button
+              onClick={onNavigateToEarth3D}
+              className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-300 text-xs font-bold transition-all shadow-md active:scale-95"
+            >
+              <Globe className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+              <span>3D Earth</span>
+            </button>
+          )}
+
           {/* City Selector */}
           <div className="flex items-center gap-2 bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-1.5 text-sm">
             <span className="text-xs text-slate-400 font-medium">City:</span>

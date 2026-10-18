@@ -11,6 +11,8 @@ import { DatasetUploadPage } from './pages/DatasetUploadPage';
 import { ModelPerformancePage } from './pages/ModelPerformancePage';
 import { SettingsPage } from './pages/SettingsPage';
 import { AboutPage } from './pages/AboutPage';
+import { Earth3DPage } from './pages/Earth3DPage';
+import { StreetViewPage } from './pages/StreetViewPage';
 
 import { City, CurrentSummary } from './types';
 import { api } from './services/api';
@@ -24,12 +26,23 @@ export const App: React.FC = () => {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [forecastStationId, setForecastStationId] = useState<number | undefined>(undefined);
 
+  // Cross-page navigation state for Street View
+  const [streetViewTarget, setStreetViewTarget] = useState<{
+    lat: number;
+    lng: number;
+    name: string;
+  }>({
+    lat: 28.6129,
+    lng: 77.2295,
+    name: 'India Gate, New Delhi',
+  });
+
   const loadInitialData = async () => {
     try {
       setLoading(true);
       const [locs, sum] = await Promise.all([
         api.getLocations(),
-        api.getCurrentAirQuality(selectedCity !== 'All' ? selectedCity : undefined)
+        api.getCurrentAirQuality(selectedCity !== 'All' ? selectedCity : undefined),
       ]);
       setCities(locs);
       setSummary(sum);
@@ -63,6 +76,15 @@ export const App: React.FC = () => {
     setCurrentTab('forecast');
   };
 
+  const handleNavigateToStreetView = (lat: number, lng: number, name: string) => {
+    setStreetViewTarget({ lat, lng, name });
+    setCurrentTab('streetview');
+  };
+
+  const handleNavigateToMap = (lat: number, lng: number) => {
+    setCurrentTab('map');
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950">
       {/* Top Navbar */}
@@ -74,6 +96,7 @@ export const App: React.FC = () => {
         onOpenAlerts={() => setCurrentTab('alerts')}
         onRefresh={handleRefresh}
         isRefreshing={isRefreshing}
+        onNavigateToEarth3D={() => setCurrentTab('earth3d')}
       />
 
       <div className="flex flex-1">
@@ -98,6 +121,21 @@ export const App: React.FC = () => {
             />
           )}
 
+          {currentTab === 'earth3d' && (
+            <Earth3DPage
+              onNavigateToStreetView={handleNavigateToStreetView}
+              onNavigateToMap={handleNavigateToMap}
+            />
+          )}
+
+          {currentTab === 'streetview' && (
+            <StreetViewPage
+              initialLat={streetViewTarget.lat}
+              initialLng={streetViewTarget.lng}
+              initialName={streetViewTarget.name}
+            />
+          )}
+
           {currentTab === 'live' && (
             <CurrentAirQualityPage
               summary={summary}
@@ -119,6 +157,7 @@ export const App: React.FC = () => {
               cities={cities}
               selectedCity={selectedCity}
               onSelectStationForForecast={handleSelectStationForForecast}
+              onNavigateToStreetView={handleNavigateToStreetView}
             />
           )}
 

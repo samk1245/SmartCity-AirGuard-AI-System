@@ -10,7 +10,9 @@ import {
   Wind,
   ArrowRightLeft,
   Share2,
-  Download
+  Download,
+  Globe,
+  Compass
 } from 'lucide-react';
 import { CurrentSummary, City } from '../types';
 import { StatCard } from '../components/StatCard';
@@ -124,26 +126,40 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap items-center gap-3 pt-1">
+          <div className="flex flex-wrap items-center gap-2.5 pt-1">
+            <button
+              onClick={() => onNavigate('earth3d')}
+              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/25 hover:scale-[1.02] transition-all"
+            >
+              <Globe className="w-4 h-4 text-slate-950" /> 3D Earth Globe
+            </button>
+
+            <button
+              onClick={() => onNavigate('streetview')}
+              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-500/25 hover:scale-[1.02] transition-all"
+            >
+              <Compass className="w-4 h-4 text-slate-950" /> Street View Explorer
+            </button>
+
             <button
               onClick={() => onNavigate('forecast')}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-400 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition-all"
+              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 font-semibold text-xs border border-cyan-800/60 flex items-center gap-2 transition-all"
             >
-              <Sparkles className="w-4 h-4 text-slate-950" /> Run AI Forward Forecast
+              <Sparkles className="w-4 h-4 text-cyan-400" /> AI Forecast
             </button>
 
             <button
               onClick={() => setShowComparison(true)}
-              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-slate-700 flex items-center gap-2 transition-all"
+              className="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-slate-700 flex items-center gap-1.5 transition-all"
             >
-              <ArrowRightLeft className="w-4 h-4 text-cyan-400" /> Compare Cities
+              <ArrowRightLeft className="w-3.5 h-3.5 text-slate-400" /> Compare
             </button>
 
             <button
               onClick={() => onNavigate('map')}
-              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 flex items-center gap-2 transition-all"
+              className="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 flex items-center gap-1.5 transition-all"
             >
-              <MapPin className="w-4 h-4 text-rose-400" /> Geospatial Map
+              <MapPin className="w-3.5 h-3.5 text-rose-400" /> GIS Map
             </button>
           </div>
 

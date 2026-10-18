@@ -185,3 +185,87 @@ export interface ModelMetrics {
   }>;
   is_active: boolean;
 }
+
+export interface LiveAtmosphericData {
+  location: {
+    city: string;
+    latitude: number;
+    longitude: number;
+  };
+  air_quality: {
+    aqi: number;
+    category: string;
+    dominant_pollutant: string;
+    pm25?: number;
+    pm10?: number;
+    no2?: number;
+    so2?: number;
+    co?: number;
+    o3?: number;
+    european_aqi?: number;
+    us_aqi?: number;
+    data_source: string;
+    last_updated: string;
+  };
+  weather: {
+    temperature: number;
+    apparent_temperature: number;
+    humidity: number;
+    wind_speed: number;
+    wind_direction: number;
+    precipitation: number;
+    weather_code: number;
+  };
+  forecast_24h: Array<{
+    time: string;
+    predicted_aqi: number;
+    category: string;
+    pm25: number;
+    pm10: number;
+  }>;
+  is_modeled: boolean;
+}
+
+export interface GeocodingResult {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  country: string;
+  admin1?: string;
+  timezone?: string;
+}
+
+export interface GlobePoint {
+  name: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  position_3d: { x: number; y: number; z: number };
+  aqi: number;
+  category: string;
+}
+
+export interface AIInsights {
+  location: string;
+  aqi: number;
+  category: string;
+  generated_at: string;
+  executive_summary: string;
+  pollutant_assessment: string;
+  meteorological_context: string;
+  spike_risk: string;
+  short_term_outlook: string;
+  citizen_precautions: string[];
+  confidence_score: number;
+  source: string;
+}
+
+export interface StreetViewMetadata {
+  latitude: number;
+  longitude: number;
+  city_name: string;
+  has_custom_key: boolean;
+  embed_url: string;
+  external_link: string;
+}

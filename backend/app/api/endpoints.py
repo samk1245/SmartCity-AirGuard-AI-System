@@ -381,3 +381,84 @@ def get_map_stations(city_name: Optional[str] = None, db: Session = Depends(get_
         stations=map_items,
         city_centers=city_centers
     )
+
+# 12. Live User Location & Global Coordinates Air Quality
+@router.get("/live-location/air-quality", tags=["Live Location & Global GIS"])
+async def get_live_location_air_quality(
+    latitude: float = Query(..., description="Target Latitude (-90 to 90)"),
+    longitude: float = Query(..., description="Target Longitude (-180 to 180)"),
+    city_name: Optional[str] = Query(None, description="Optional city or landmark name")
+):
+    from app.services.live_atmospheric_service import fetch_live_atmospheric_data
+    data = await fetch_live_atmospheric_data(lat=latitude, lng=longitude, city_name=city_name)
+    return data
+
+# 13. Location Search & Geocoding Autocomplete
+@router.get("/live-location/search", tags=["Live Location & Global GIS"])
+async def search_locations(
+    query: str = Query(..., min_length=2, description="City name or address query")
+):
+    from app.services.live_atmospheric_service import search_geocoding_locations
+    results = await search_geocoding_locations(query=query)
+    return results
+
+# 14. 3D Earth Globe Coordinates & Global AQI Points
+@router.get("/globe/points", tags=["3D Visualization"])
+def get_globe_points():
+    from app.services.live_atmospheric_service import get_global_earth_points
+    return get_global_earth_points()
+
+# 15. AI Environmental Insights & Health Advisor
+@router.get("/ai/insights", tags=["AI Intelligence"])
+async def get_ai_insights(
+    location_name: str = Query("Current Location"),
+    aqi: float = Query(..., ge=0, le=1000),
+    category: str = Query("Moderate"),
+    dominant_pollutant: str = Query("PM2.5"),
+    pm25: Optional[float] = Query(None),
+    pm10: Optional[float] = Query(None),
+    no2: Optional[float] = Query(None),
+    temperature: Optional[float] = Query(None),
+    humidity: Optional[float] = Query(None),
+    wind_speed: Optional[float] = Query(None)
+):
+    from app.services.ai_insights_service import generate_environmental_ai_insights
+    insights = generate_environmental_ai_insights(
+        location_name=location_name,
+        aqi=aqi,
+        category=category,
+        dominant_pollutant=dominant_pollutant,
+        pm25=pm25,
+        pm10=pm10,
+        no2=no2,
+        temp=temperature,
+        humidity=humidity,
+        wind_speed=wind_speed
+    )
+    return insights
+
+# 16. Street View Metadata & Panoramic Location Info
+@router.get("/streetview/metadata", tags=["Street View"])
+def get_streetview_metadata(
+    latitude: float = Query(...),
+    longitude: float = Query(...),
+    city_name: Optional[str] = Query(None)
+):
+    api_key = os.getenv("GOOGLE_MAPS_API_KEY", "")
+    has_google_key = bool(api_key and api_key != "YOUR_GOOGLE_MAPS_API_KEY")
+    
+    # Generate Google Street View Embed URL if key exists, else OpenStreetMap / Mapillary compatible link
+    if has_google_key:
+        embed_url = f"https://www.google.com/maps/embed/v1/streetview?key={api_key}&location={latitude},{longitude}&heading=210&pitch=10&fov=80"
+    else:
+        # Authorized fallback preview frame using Google Maps public Street View coordinate locator
+        embed_url = f"https://maps.google.com/maps?q={latitude},{longitude}&layer=c&cbll={latitude},{longitude}&cbp=11,0,0,0,0&output=svembed"
+
+    return {
+        "latitude": latitude,
+        "longitude": longitude,
+        "city_name": city_name or "Selected Location",
+        "has_custom_key": has_google_key,
+        "embed_url": embed_url,
+        "external_link": f"https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={latitude},{longitude}"
+    }

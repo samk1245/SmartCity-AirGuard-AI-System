@@ -1,6 +1,7 @@
-import React from 'react';
 import {
   LayoutDashboard,
+  Globe,
+  Compass,
   Activity,
   LineChart,
   Sparkles,
@@ -14,6 +15,8 @@ import {
 
 export type NavTab =
   | 'dashboard'
+  | 'earth3d'
+  | 'streetview'
   | 'live'
   | 'historical'
   | 'forecast'
@@ -37,6 +40,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const menuItems = [
     { id: 'dashboard' as NavTab, label: 'Overview Dashboard', icon: LayoutDashboard },
+    { id: 'earth3d' as NavTab, label: '3D Earth & Atmosphere', icon: Globe, badge: '3D', badgeColor: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' },
+    { id: 'streetview' as NavTab, label: 'Street View Explorer', icon: Compass, badge: '360°', badgeColor: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' },
     { id: 'live' as NavTab, label: 'Live Station Quality', icon: Activity },
     { id: 'historical' as NavTab, label: 'Historical Analytics', icon: LineChart },
     { id: 'forecast' as NavTab, label: 'AI Pollution Forecast', icon: Sparkles, badge: 'ML' },

@@ -6,7 +6,12 @@ import {
   AlertSummary,
   AlertItem,
   StationMapItem,
-  ModelMetrics
+  ModelMetrics,
+  LiveAtmosphericData,
+  GeocodingResult,
+  GlobePoint,
+  AIInsights,
+  StreetViewMetadata
 } from '../types';
 
 const API_BASE = '/api';
@@ -131,5 +136,76 @@ export const api = {
     if (stationId) params.append('station_id', stationId.toString());
     if (cityName && cityName !== 'All') params.append('city_name', cityName);
     return `${API_BASE}/data/export?${params.toString()}`;
+  },
+
+  // Live Location & Coordinates Air Quality
+  async getLiveLocationAirQuality(lat: number, lng: number, cityName?: string): Promise<LiveAtmosphericData> {
+    const params = new URLSearchParams({
+      latitude: lat.toString(),
+      longitude: lng.toString(),
+    });
+    if (cityName) params.append('city_name', cityName);
+    const res = await fetch(`${API_BASE}/live-location/air-quality?${params.toString()}`);
+    if (!res.ok) throw new Error('Failed to fetch live location air quality');
+    return res.json();
+  },
+
+  // Location Geocoding Search
+  async searchLocations(query: string): Promise<GeocodingResult[]> {
+    if (!query || query.trim().length < 2) return [];
+    const params = new URLSearchParams({ query: query.trim() });
+    const res = await fetch(`${API_BASE}/live-location/search?${params.toString()}`);
+    if (!res.ok) throw new Error('Failed to search locations');
+    return res.json();
+  },
+
+  // 3D Earth Globe Coordinates & AQI Points
+  async getGlobePoints(): Promise<GlobePoint[]> {
+    const res = await fetch(`${API_BASE}/globe/points`);
+    if (!res.ok) throw new Error('Failed to fetch 3D globe points');
+    return res.json();
+  },
+
+  // AI Environmental Insights & Health Advisor
+  async getAiInsights(params: {
+    locationName?: string;
+    aqi: number;
+    category?: string;
+    dominantPollutant?: string;
+    pm25?: number;
+    pm10?: number;
+    no2?: number;
+    temperature?: number;
+    humidity?: number;
+    windSpeed?: number;
+  }): Promise<AIInsights> {
+    const query = new URLSearchParams({
+      aqi: params.aqi.toString(),
+      location_name: params.locationName || 'Current Location',
+      category: params.category || 'Moderate',
+      dominant_pollutant: params.dominantPollutant || 'PM2.5',
+    });
+    if (params.pm25 !== undefined) query.append('pm25', params.pm25.toString());
+    if (params.pm10 !== undefined) query.append('pm10', params.pm10.toString());
+    if (params.no2 !== undefined) query.append('no2', params.no2.toString());
+    if (params.temperature !== undefined) query.append('temperature', params.temperature.toString());
+    if (params.humidity !== undefined) query.append('humidity', params.humidity.toString());
+    if (params.windSpeed !== undefined) query.append('wind_speed', params.windSpeed.toString());
+
+    const res = await fetch(`${API_BASE}/ai/insights?${query.toString()}`);
+    if (!res.ok) throw new Error('Failed to generate AI insights');
+    return res.json();
+  },
+
+  // Street View Metadata & Embed
+  async getStreetViewMetadata(lat: number, lng: number, cityName?: string): Promise<StreetViewMetadata> {
+    const params = new URLSearchParams({
+      latitude: lat.toString(),
+      longitude: lng.toString(),
+    });
+    if (cityName) params.append('city_name', cityName);
+    const res = await fetch(`${API_BASE}/streetview/metadata?${params.toString()}`);
+    if (!res.ok) throw new Error('Failed to fetch street view metadata');
+    return res.json();
   }
 };
