@@ -13,6 +13,7 @@ import { SettingsPage } from './pages/SettingsPage';
 import { AboutPage } from './pages/AboutPage';
 import { Earth3DPage } from './pages/Earth3DPage';
 import { StreetViewPage } from './pages/StreetViewPage';
+import { ScenarioStudioPage } from './pages/ScenarioStudioPage';
 
 import { City, CurrentSummary } from './types';
 import { api } from './services/api';
@@ -149,6 +150,10 @@ export const App: React.FC = () => {
               initialName={streetViewTarget.name}
               autoLocate={streetViewAutoLocate}
             />
+          )}
+
+          {currentTab === 'scenario' && (
+            <ScenarioStudioPage cities={cities} selectedCity={selectedCity} />
           )}
 
           {currentTab === 'live' && (

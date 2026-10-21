@@ -13,7 +13,14 @@ export type Icon3DType =
   | 'runner'
   | 'home'
   | 'chart'
-  | 'shield';
+  | 'shield'
+  | 'molecule'
+  | 'radar'
+  | 'satellite'
+  | 'car'
+  | 'sparkle3d'
+  | 'sun'
+  | 'tree';
 
 interface ThreeDIconProps {
   name: Icon3DType;
@@ -298,6 +305,163 @@ export const ThreeDIcon: React.FC<ThreeDIconProps> = ({
             <rect x="27" y="10" width="10" height="34" rx="5" fill="#1e293b" stroke="#64748b" strokeWidth="2" />
             <circle cx="32" cy="46" r="10" fill="url(#thermoG)" stroke="#64748b" strokeWidth="2" />
             <rect x="29" y="24" width="6" height="20" rx="3" fill="url(#thermoG)" />
+          </svg>
+        );
+
+      case 'molecule':
+        return (
+          <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-[0_8px_14px_rgba(168,85,247,0.4)]">
+            <defs>
+              <radialGradient id="molCenter" cx="35%" cy="35%" r="65%">
+                <stop offset="0%" stopColor="#c084fc" />
+                <stop offset="60%" stopColor="#9333ea" />
+                <stop offset="100%" stopColor="#581c87" />
+              </radialGradient>
+              <radialGradient id="molOrbit1" cx="35%" cy="35%" r="65%">
+                <stop offset="0%" stopColor="#38bdf8" />
+                <stop offset="70%" stopColor="#0284c7" />
+                <stop offset="100%" stopColor="#0369a1" />
+              </radialGradient>
+              <radialGradient id="molOrbit2" cx="35%" cy="35%" r="65%">
+                <stop offset="0%" stopColor="#f43f5e" />
+                <stop offset="70%" stopColor="#e11d48" />
+                <stop offset="100%" stopColor="#881337" />
+              </radialGradient>
+            </defs>
+            <line x1="32" y1="32" x2="16" y2="18" stroke="#94a3b8" strokeWidth="4" strokeLinecap="round" />
+            <line x1="32" y1="32" x2="48" y2="18" stroke="#94a3b8" strokeWidth="4" strokeLinecap="round" />
+            <line x1="32" y1="32" x2="32" y2="52" stroke="#94a3b8" strokeWidth="4" strokeLinecap="round" />
+            <circle cx="32" cy="32" r="14" fill="url(#molCenter)" />
+            <circle cx="16" cy="18" r="9" fill="url(#molOrbit1)" />
+            <circle cx="48" cy="18" r="9" fill="url(#molOrbit2)" />
+            <circle cx="32" cy="52" r="8" fill="url(#molOrbit1)" />
+            <ellipse cx="30" cy="28" rx="5" ry="2.5" fill="#ffffff" opacity="0.4" />
+          </svg>
+        );
+
+      case 'radar':
+        return (
+          <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-[0_8px_14px_rgba(6,182,212,0.45)]">
+            <defs>
+              <linearGradient id="radarDish" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#38bdf8" />
+                <stop offset="50%" stopColor="#0284c7" />
+                <stop offset="100%" stopColor="#0c4a6e" />
+              </linearGradient>
+            </defs>
+            <circle cx="32" cy="32" r="28" fill="#0f172a" stroke="#0284c7" strokeWidth="2" opacity="0.6" />
+            <circle cx="32" cy="32" r="18" fill="none" stroke="#06b6d4" strokeWidth="1.5" strokeDasharray="3 3" />
+            <circle cx="32" cy="32" r="8" fill="none" stroke="#38bdf8" strokeWidth="1.5" />
+            <path d="M32 32 L56 22 A28 28 0 0 0 46 12 Z" fill="#06b6d4" opacity="0.4" />
+            <circle cx="32" cy="32" r="3.5" fill="#38bdf8" />
+            <circle cx="44" cy="24" r="2.5" fill="#f43f5e" className="animate-ping" />
+          </svg>
+        );
+
+      case 'satellite':
+        return (
+          <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-[0_8px_14px_rgba(59,130,246,0.4)]">
+            <defs>
+              <linearGradient id="satPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#60a5fa" />
+                <stop offset="100%" stopColor="#1d4ed8" />
+              </linearGradient>
+              <linearGradient id="satBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#e2e8f0" />
+                <stop offset="100%" stopColor="#64748b" />
+              </linearGradient>
+            </defs>
+            <rect x="6" y="22" width="16" height="20" rx="2" fill="url(#satPanel)" stroke="#1e3a8a" strokeWidth="1.5" />
+            <line x1="14" y1="22" x2="14" y2="42" stroke="#93c5fd" strokeWidth="1" />
+            <line x1="6" y1="32" x2="22" y2="32" stroke="#93c5fd" strokeWidth="1" />
+            <rect x="42" y="22" width="16" height="20" rx="2" fill="url(#satPanel)" stroke="#1e3a8a" strokeWidth="1.5" />
+            <line x1="50" y1="22" x2="50" y2="42" stroke="#93c5fd" strokeWidth="1" />
+            <line x1="42" y1="32" x2="58" y2="32" stroke="#93c5fd" strokeWidth="1" />
+            <line x1="22" y1="32" x2="42" y2="32" stroke="#cbd5e1" strokeWidth="3" />
+            <rect x="26" y="24" width="12" height="16" rx="3" fill="url(#satBody)" stroke="#334155" strokeWidth="1.5" />
+            <path d="M32 40 L32 52 M28 52 A4 4 0 0 0 36 52" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        );
+
+      case 'car':
+        return (
+          <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-[0_8px_14px_rgba(16,185,129,0.4)]">
+            <defs>
+              <linearGradient id="evBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#34d399" />
+                <stop offset="60%" stopColor="#10b981" />
+                <stop offset="100%" stopColor="#047857" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M10 38 L14 26 C16 22 20 20 25 20 L39 20 C44 20 48 22 50 26 L54 38 C56 38 58 40 58 43 L58 48 C58 50 56 52 54 52 L52 52 C52 48 48 45 44 45 C40 45 36 48 36 52 L28 52 C28 48 24 45 20 45 C16 45 12 48 12 52 L10 52 C8 52 6 50 6 48 L6 43 C6 40 8 38 10 38 Z"
+              fill="url(#evBody)"
+              stroke="#065f46"
+              strokeWidth="1.5"
+            />
+            <path d="M16 27 L25 24 L39 24 L48 27 L46 36 L18 36 Z" fill="#0f172a" opacity="0.75" />
+            <circle cx="20" cy="51" r="5" fill="#1e293b" stroke="#94a3b8" strokeWidth="1.5" />
+            <circle cx="44" cy="51" r="5" fill="#1e293b" stroke="#94a3b8" strokeWidth="1.5" />
+            <path d="M30 14 L34 8 L32 18" stroke="#38bdf8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        );
+
+      case 'sparkle3d':
+        return (
+          <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-[0_8px_14px_rgba(250,204,21,0.45)]">
+            <defs>
+              <radialGradient id="sparkG" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#ffffff" />
+                <stop offset="40%" stopColor="#fde047" />
+                <stop offset="80%" stopColor="#eab308" />
+                <stop offset="100%" stopColor="#ca8a04" />
+              </radialGradient>
+            </defs>
+            <path
+              d="M32 4 C32 18 36 28 50 32 C36 36 32 46 32 60 C32 46 28 36 14 32 C28 28 32 18 32 4 Z"
+              fill="url(#sparkG)"
+            />
+            <circle cx="48" cy="14" r="3.5" fill="#fde047" />
+            <circle cx="16" cy="48" r="2.5" fill="#fef08a" />
+          </svg>
+        );
+
+      case 'sun':
+        return (
+          <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-[0_8px_14px_rgba(249,115,22,0.45)]">
+            <defs>
+              <radialGradient id="sunG" cx="40%" cy="40%" r="60%">
+                <stop offset="0%" stopColor="#fef08a" />
+                <stop offset="40%" stopColor="#f59e0b" />
+                <stop offset="100%" stopColor="#ea580c" />
+              </radialGradient>
+            </defs>
+            <circle cx="32" cy="32" r="16" fill="url(#sunG)" />
+            <path
+              d="M32 6 L32 12 M32 52 L32 58 M6 32 L12 32 M52 32 L58 32 M14 14 L18 18 M46 46 L50 50 M14 50 L18 46 M46 18 L50 14"
+              stroke="#fbbf24"
+              strokeWidth="4"
+              strokeLinecap="round"
+            />
+          </svg>
+        );
+
+      case 'tree':
+        return (
+          <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-[0_8px_14px_rgba(16,185,129,0.45)]">
+            <defs>
+              <linearGradient id="treeG1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#34d399" />
+                <stop offset="100%" stopColor="#059669" />
+              </linearGradient>
+              <linearGradient id="treeG2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#10b981" />
+                <stop offset="100%" stopColor="#047857" />
+              </linearGradient>
+            </defs>
+            <rect x="29" y="46" width="6" height="12" rx="2" fill="#78350f" />
+            <polygon points="32,8 14,32 50,32" fill="url(#treeG1)" />
+            <polygon points="32,22 10,48 54,48" fill="url(#treeG2)" />
           </svg>
         );
 
