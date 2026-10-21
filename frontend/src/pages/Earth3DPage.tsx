@@ -12,9 +12,12 @@ import {
   Navigation,
   Compass,
   AlertTriangle,
-  MapPin
+  MapPin,
+  Building2,
+  Layers
 } from 'lucide-react';
 import { ThreeDGlobe } from '../components/ThreeDGlobe';
+import { CityDigitalTwin3D } from '../components/CityDigitalTwin3D';
 import { api } from '../services/api';
 import { GlobePoint, LiveAtmosphericData, GeocodingResult, AIInsights } from '../types';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
@@ -37,6 +40,7 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
   const [aiInsights, setAiInsights] = useState<AIInsights | null>(null);
   const [loadingAtmosphere, setLoadingAtmosphere] = useState(false);
   const [geoError, setGeoError] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'globe' | 'city'>('globe');
 
   // Load initial 3D globe points
   useEffect(() => {
@@ -240,16 +244,62 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
         </div>
       )}
 
-      {/* Main Grid: 3D Globe + Inspection Drawer */}
+      {/* Main Grid: 3D Globe / City Digital Twin + Inspection Drawer */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* 3D WebGL Globe Canvas */}
+        {/* 3D WebGL Canvas Area */}
         <div className="lg:col-span-8 flex flex-col gap-4">
-          <ThreeDGlobe
-            points={globePoints}
-            selectedCityName={selectedPoint?.name}
-            onSelectPoint={handleSelectCity}
-            height="580px"
-          />
+          {/* Mode Switcher Banner */}
+          <div className="flex items-center justify-between bg-slate-900/90 border border-slate-800 p-2 rounded-2xl">
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => setViewMode('globe')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+                  viewMode === 'globe'
+                    ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/30'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <Globe className="w-3.5 h-3.5" />
+                <span>3D Earth Globe</span>
+              </button>
+
+              <button
+                onClick={() => setViewMode('city')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+                  viewMode === 'city'
+                    ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/30'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <Building2 className="w-3.5 h-3.5" />
+                <span>3D City Digital Twin</span>
+              </button>
+            </div>
+
+            <span className="text-[11px] text-slate-400 pr-2 hidden sm:inline">
+              {viewMode === 'globe' ? 'Planetary telemetric radar' : `${selectedPoint?.name || 'City'} extruded canopy`}
+            </span>
+          </div>
+
+          {viewMode === 'globe' ? (
+            <ThreeDGlobe
+              points={globePoints}
+              selectedCityName={selectedPoint?.name}
+              onSelectPoint={handleSelectCity}
+              height="580px"
+            />
+          ) : (
+            <CityDigitalTwin3D
+              cityName={selectedPoint?.name || 'Target City'}
+              aqi={liveData?.air_quality.aqi || selectedPoint?.aqi || 140}
+              category={liveData?.air_quality.category || selectedPoint?.category || 'Moderate'}
+              pm25={liveData?.air_quality.pm25 || 65}
+              pm10={liveData?.air_quality.pm10 || 110}
+              windSpeed={liveData?.weather.wind_speed || 8.5}
+              temperature={liveData?.weather.temperature || 27}
+              height="580px"
+            />
+          )}
 
           {/* Quick Megacity Shortcuts */}
           <div className="flex flex-wrap items-center gap-2 bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-xs">

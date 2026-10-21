@@ -1,6 +1,7 @@
-import React from 'react';
-import { Wind, ShieldAlert, Bell, RefreshCw, Cpu, Globe, Compass, Crosshair } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Wind, ShieldAlert, Bell, RefreshCw, Cpu, Globe, Compass, Crosshair, Volume2, VolumeX } from 'lucide-react';
 import { City } from '../types';
+import { isSoundEnabled, setSoundEnabled, playCyberClick } from '../utils/audioSystem';
 
 interface NavbarProps {
   cities: City[];
@@ -25,6 +26,19 @@ export const Navbar: React.FC<NavbarProps> = ({
   onNavigateToEarth3D,
   onNavigateToStreetView,
 }) => {
+  const [soundActive, setSoundActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    setSoundActive(isSoundEnabled());
+  }, []);
+
+  const handleToggleSound = () => {
+    const next = !soundActive;
+    setSoundEnabled(next);
+    setSoundActive(next);
+    if (next) playCyberClick();
+  };
+
   return (
     <header className="sticky top-0 z-30 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-6 py-3.5">
       <div className="flex items-center justify-between">
@@ -108,6 +122,19 @@ export const Navbar: React.FC<NavbarProps> = ({
                 {unreadAlertsCount}
               </span>
             )}
+          </button>
+
+          {/* Audio Feedback Toggle */}
+          <button
+            onClick={handleToggleSound}
+            className={`p-2 rounded-lg border transition-colors ${
+              soundActive
+                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-md shadow-cyan-950'
+                : 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-400 hover:text-white'
+            }`}
+            title={soundActive ? 'Sound Feedback: ON' : 'Sound Feedback: OFF (Click to Enable)'}
+          >
+            {soundActive ? <Volume2 className="w-5 h-5 text-cyan-400" /> : <VolumeX className="w-5 h-5" />}
           </button>
 
           {/* Refresh Button */}
