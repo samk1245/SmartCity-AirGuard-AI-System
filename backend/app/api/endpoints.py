@@ -23,6 +23,8 @@ from app.services.aqi_calculator import get_aqi_category
 from app.services.analytics_service import get_historical_analytics
 from app.services.alert_service import get_alerts_list, acknowledge_alert
 from app.services.dataset_service import validate_and_import_csv
+from app.services.india_locations import get_all_states, get_cities_for_state, search_cities_india, get_state_summary
+from app.services.health_recommendations import get_health_recommendations
 from app.ml.train import train_and_save_model
 from app.ml.predict import generate_forecast, get_latest_model_bundle
 from app.core.config import settings
@@ -471,3 +473,220 @@ def get_streetview_metadata(
         "embed_url": embed_url,
         "external_link": f"https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={latitude},{longitude}"
     }
+
+# 17. India Geographic Directory & State Explorer
+@router.get("/locations/states", tags=["India Location Explorer"])
+def get_states():
+    """Return all 36 Indian states and Union Territories with summary statistics."""
+    return {"states": get_state_summary()}
+
+
+@router.get("/locations/states/{state_name}/cities", tags=["India Location Explorer"])
+def get_cities_by_state(state_name: str):
+    """Return all cities for a given Indian state with real-time station availability."""
+    cities = get_cities_for_state(state_name)
+    if not cities:
+        raise HTTPException(status_code=404, detail=f"State '{state_name}' not found or has no city records.")
+    return {"state": state_name, "cities": cities, "total": len(cities)}
+
+
+@router.get("/locations/india/search", tags=["India Location Explorer"])
+def search_india_cities(
+    q: str = Query(..., min_length=2, description="City or district name to search"),
+    limit: int = Query(20, ge=1, le=50)
+):
+    """Search all Indian cities and districts by keyword."""
+    results = search_cities_india(q, limit=limit)
+    return {"query": q, "results": results, "count": len(results)}
+
+
+@router.get("/locations/india/all-states", tags=["India Location Explorer"])
+def list_all_states():
+    """Return sorted array of all 36 Indian states and Union Territories."""
+    states = get_all_states()
+    return {"states": states, "count": len(states)}
+
+
+# 18. Evidence-Based Health Guidance & Outdoor Activity Planner
+@router.get("/health-recommendations", tags=["Health & Environmental Guidance"])
+def get_environmental_health_guidance(
+    aqi: float = Query(..., ge=0, le=500, description="Current AQI value"),
+    category: str = Query("Moderate", description="AQI category"),
+    dominant_pollutant: str = Query("pm25", description="Primary pollutant driving AQI"),
+    temperature: Optional[float] = Query(None, description="Temperature in Celsius"),
+    humidity: Optional[float] = Query(None, description="Relative humidity %"),
+    wind_speed: Optional[float] = Query(None, description="Wind speed in km/h"),
+):
+    """
+    Generate evidence-based health recommendations, outdoor activity guidance,
+    and vulnerable group advisories according to CPCB NAQI thresholds.
+    """
+    return get_health_recommendations(
+        aqi=aqi,
+        category=category,
+        dominant_pollutant=dominant_pollutant,
+        temperature=temperature,
+        humidity=humidity,
+        wind_speed=wind_speed,
+    )
+
+
+# 19. Multi-City Air Quality Comparison
+@router.get("/air-quality/compare", tags=["Air Quality"])
+def compare_locations_air_quality(
+    cities: str = Query(..., description="Comma-separated city names to compare (max 5)"),
+    db: Session = Depends(get_db)
+):
+    """
+    Compare current air quality, pollutants, and CPCB category across multiple Indian cities.
+    """
+    city_list = [c.strip() for c in cities.split(",") if c.strip()][:5]
+    if not city_list:
+        raise HTTPException(status_code=400, detail="Provide at least one city name.")
+
+    results = []
+    for city_name in city_list:
+        stations = db.query(Station).join(City).filter(
+            City.name.ilike(f"%{city_name}%"),
+            Station.is_active == True
+        ).all()
+        if not stations:
+            results.append({"city": city_name, "available": False, "error": "No continuous monitoring data available"})
+            continue
+
+        city_readings = []
+        for st in stations:
+            latest = db.query(AirQualityObservation)\
+                .filter(AirQualityObservation.station_id == st.id)\
+                .order_by(desc(AirQualityObservation.timestamp))\
+                .first()
+            if latest:
+                city_readings.append({
+                    "station": st.name,
+                    "aqi": latest.aqi,
+                    "pm25": latest.pm25,
+                    "pm10": latest.pm10,
+                    "category": get_aqi_category(latest.aqi),
+                    "timestamp": latest.timestamp.isoformat() if latest.timestamp else None,
+                })
+
+        if city_readings:
+            avg_aqi = sum(r["aqi"] for r in city_readings) / len(city_readings)
+            results.append({
+                "city": city_name,
+                "available": True,
+                "station_count": len(city_readings),
+                "average_aqi": round(avg_aqi, 1),
+                "category": get_aqi_category(avg_aqi),
+                "stations": city_readings,
+            })
+        else:
+            results.append({"city": city_name, "available": False, "error": "No recent observations recorded"})
+
+    return {"comparison": results, "timestamp": datetime.utcnow().isoformat()}
+
+
+# 20. Nearby Monitoring Radar
+@router.get("/air-quality/nearby", tags=["Air Quality"])
+def get_nearby_stations(
+    latitude: float = Query(..., ge=-90, le=90),
+    longitude: float = Query(..., ge=-180, le=180),
+    radius_km: float = Query(100.0, ge=1, le=1000),
+    limit: int = Query(10, ge=1, le=50),
+    db: Session = Depends(get_db)
+):
+    """
+    Find monitoring stations within a radial distance using Great-Circle Haversine calculation.
+    """
+    import math
+
+    def haversine_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
+        R = 6371.0
+        phi1, phi2 = math.radians(lat1), math.radians(lat2)
+        dphi = math.radians(lat2 - lat1)
+        dlambda = math.radians(lng2 - lng1)
+        a = math.sin(dphi / 2)**2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2)**2
+        return 2 * R * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+    all_stations = db.query(Station).filter(Station.is_active == True).all()
+    nearby = []
+    for st in all_stations:
+        if st.latitude is None or st.longitude is None:
+            continue
+        dist = haversine_km(latitude, longitude, st.latitude, st.longitude)
+        if dist <= radius_km:
+            latest = db.query(AirQualityObservation)\
+                .filter(AirQualityObservation.station_id == st.id)\
+                .order_by(desc(AirQualityObservation.timestamp))\
+                .first()
+            nearby.append({
+                "station_id": st.id,
+                "station_name": st.name,
+                "city": st.city.name if st.city else "Unknown",
+                "latitude": st.latitude,
+                "longitude": st.longitude,
+                "distance_km": round(dist, 1),
+                "aqi": latest.aqi if latest else None,
+                "category": get_aqi_category(latest.aqi) if latest else None,
+                "pm25": latest.pm25 if latest else None,
+                "pm10": latest.pm10 if latest else None,
+                "timestamp": latest.timestamp.isoformat() if latest and latest.timestamp else None,
+            })
+
+    nearby.sort(key=lambda x: x["distance_km"])
+    return {
+        "latitude": latitude,
+        "longitude": longitude,
+        "radius_km": radius_km,
+        "stations": nearby[:limit],
+        "total_found": len(nearby),
+    }
+
+
+# 21. India Pollution Scoreboard
+@router.get("/scoreboard", tags=["Analytics"])
+def get_india_pollution_scoreboard(
+    limit: int = Query(10, ge=1, le=50),
+    sort_by: str = Query("worst", pattern="^(worst|best)$"),
+    db: Session = Depends(get_db)
+):
+    """
+    India Pollution Scoreboard: Ranking Indian cities by verified current ambient AQI.
+    """
+    cities_db = db.query(City).all()
+    city_scores = []
+
+    for city in cities_db:
+        active_stations = [s for s in city.stations if s.is_active]
+        if not active_stations:
+            continue
+        readings = []
+        for st in active_stations:
+            latest = db.query(AirQualityObservation)\
+                .filter(AirQualityObservation.station_id == st.id)\
+                .order_by(desc(AirQualityObservation.timestamp))\
+                .first()
+            if latest:
+                readings.append(latest.aqi)
+        if readings:
+            avg_aqi = sum(readings) / len(readings)
+            city_scores.append({
+                "city": city.name,
+                "state": city.state,
+                "average_aqi": round(avg_aqi, 1),
+                "category": get_aqi_category(avg_aqi),
+                "station_count": len(readings),
+                "latitude": city.latitude,
+                "longitude": city.longitude,
+                "data_coverage": "CPCB CAAQMS Station Network",
+            })
+
+    city_scores.sort(key=lambda x: x["average_aqi"], reverse=(sort_by == "worst"))
+    return {
+        "scoreboard": city_scores[:limit],
+        "sort_by": sort_by,
+        "timestamp": datetime.utcnow().isoformat(),
+        "methodology": "Composite average of real-time CAAQMS station telemetry across municipal boundary",
+        "note": "Exclusively verified continuous monitoring stations are ranked.",
+    }
+

@@ -281,3 +281,143 @@ export interface ReverseGeocodeResult {
   latitude: number;
   longitude: number;
 }
+
+// ── India Geographic Directory Types ──
+export interface StateSummary {
+  state: string;
+  capital: string;
+  type: string;
+  total_cities: number;
+  monitored_cities: number;
+  coverage_percentage: number;
+  latitude: number;
+  longitude: number;
+}
+
+export interface StateCityInfo {
+  name: string;
+  state: string;
+  has_monitoring_station: boolean;
+  latitude: number;
+  longitude: number;
+}
+
+export interface IndiaCitySearchResult {
+  name: string;
+  state: string;
+  capital: string;
+  has_monitoring_station: boolean;
+  latitude: number;
+  longitude: number;
+}
+
+// ── Health Recommendations & Outdoor Activity Types ──
+export interface ActivityItem {
+  activity: string;
+  status: string;
+  allowed: boolean;
+  icon: string;
+  notes: string;
+}
+
+export interface VulnerableGroupItem {
+  group: string;
+  risk_level: string;
+  guidance: string;
+  action: string;
+}
+
+export interface ThresholdReferenceItem {
+  range: string;
+  category: string;
+  color: string;
+  badge: string;
+}
+
+export interface HealthRecommendationResponse {
+  aqi: number;
+  category: string;
+  dominant_pollutant: string;
+  outdoor_activity_status: string;
+  mask_required: boolean;
+  mask_recommendation: string;
+  exercise_guidance: string;
+  window_guidance: string;
+  general_advice: string;
+  school_sports_guidance: string;
+  travel_advisory: string;
+  pollutant_specific_note: string;
+  activity_recommendations: ActivityItem[];
+  vulnerable_groups: VulnerableGroupItem[];
+  threshold_reference: ThresholdReferenceItem[];
+  disclaimer: string;
+  source: string;
+}
+
+// ── Nearby Monitoring Radar Types ──
+export interface NearbyStationItem {
+  station_id: number;
+  station_name: string;
+  city: string;
+  latitude: number;
+  longitude: number;
+  distance_km: number;
+  aqi: number | null;
+  category: string | null;
+  pm25: number | null;
+  pm10: number | null;
+  timestamp: string | null;
+}
+
+export interface NearbyStationsResponse {
+  latitude: number;
+  longitude: number;
+  radius_km: number;
+  stations: NearbyStationItem[];
+  total_found: number;
+}
+
+// ── India Pollution Scoreboard Types ──
+export interface ScoreboardItem {
+  city: string;
+  state: string;
+  average_aqi: number;
+  category: string;
+  station_count: number;
+  latitude: number;
+  longitude: number;
+  data_coverage: string;
+}
+
+export interface ScoreboardResponse {
+  scoreboard: ScoreboardItem[];
+  sort_by: string;
+  timestamp: string;
+  methodology: string;
+  note: string;
+}
+
+// ── Multi-City Air Quality Comparison Types ──
+export interface CityComparisonStation {
+  station: string;
+  aqi: number;
+  pm25: number;
+  pm10: number;
+  category: string;
+  timestamp: string | null;
+}
+
+export interface CityComparisonItem {
+  city: string;
+  available: boolean;
+  station_count?: number;
+  average_aqi?: number;
+  category?: string;
+  stations?: CityComparisonStation[];
+  error?: string;
+}
+
+export interface CityComparisonResponse {
+  comparison: CityComparisonItem[];
+  timestamp: string;
+}

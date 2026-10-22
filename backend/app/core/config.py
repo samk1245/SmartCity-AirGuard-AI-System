@@ -4,8 +4,8 @@ from pydantic import AnyHttpUrl, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "SmartCity AirGuard AI"
-    VERSION: str = "1.0.0"
+    PROJECT_NAME: str = "SmartCity AirGuard AI 2.0"
+    VERSION: str = "2.0.0"
     ENVIRONMENT: str = "development"
     DEBUG: bool = True
     API_V1_STR: str = "/api"
@@ -15,6 +15,7 @@ class Settings(BaseSettings):
         "http://localhost:5173",
         "http://127.0.0.1:5173",
         "http://localhost:3000",
+        "http://127.0.0.1:3000",
     ]
 
     # Database
@@ -24,9 +25,11 @@ class Settings(BaseSettings):
     DATASETS_DIR: str = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "datasets")
     MODELS_DIR: str = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "saved_models")
 
-    # Optional APIs
+    # External APIs
     OPENAQ_API_KEY: str = ""
     WEATHER_API_KEY: str = ""
+    GEMINI_API_KEY: str = ""
+    GOOGLE_MAPS_API_KEY: str = ""
 
     model_config = SettingsConfigDict(
         env_file=".env",

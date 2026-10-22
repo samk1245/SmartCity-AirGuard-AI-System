@@ -12,7 +12,14 @@ import {
   GlobePoint,
   AIInsights,
   StreetViewMetadata,
-  ReverseGeocodeResult
+  ReverseGeocodeResult,
+  StateSummary,
+  StateCityInfo,
+  IndiaCitySearchResult,
+  HealthRecommendationResponse,
+  NearbyStationsResponse,
+  ScoreboardResponse,
+  CityComparisonResponse
 } from '../types';
 
 const API_BASE = '/api';
@@ -218,6 +225,84 @@ export const api = {
     });
     const res = await fetch(`${API_BASE}/live-location/reverse?${params.toString()}`);
     if (!res.ok) throw new Error('Failed to reverse geocode coordinates');
+    return res.json();
+  },
+
+  // India Geographic Directory: States & UTs
+  async getStates(): Promise<{ states: StateSummary[] }> {
+    const res = await fetch(`${API_BASE}/locations/states`);
+    if (!res.ok) throw new Error('Failed to fetch Indian states');
+    return res.json();
+  },
+
+  // Cities for a specific State
+  async getCitiesByState(stateName: string): Promise<{ state: string; cities: StateCityInfo[]; total: number }> {
+    const res = await fetch(`${API_BASE}/locations/states/${encodeURIComponent(stateName)}/cities`);
+    if (!res.ok) throw new Error(`Failed to fetch cities for ${stateName}`);
+    return res.json();
+  },
+
+  // Search Indian Cities & Districts
+  async searchIndiaCities(query: string, limit: number = 20): Promise<{ query: string; results: IndiaCitySearchResult[]; count: number }> {
+    if (!query || query.trim().length < 2) return { query, results: [], count: 0 };
+    const params = new URLSearchParams({ q: query.trim(), limit: limit.toString() });
+    const res = await fetch(`${API_BASE}/locations/india/search?${params.toString()}`);
+    if (!res.ok) throw new Error('Failed to search Indian cities');
+    return res.json();
+  },
+
+  // Health Recommendations & Activity Planner
+  async getHealthRecommendations(params: {
+    aqi: number;
+    category?: string;
+    dominantPollutant?: string;
+    temperature?: number;
+    humidity?: number;
+    windSpeed?: number;
+  }): Promise<HealthRecommendationResponse> {
+    const query = new URLSearchParams({
+      aqi: params.aqi.toString(),
+      category: params.category || 'Moderate',
+      dominant_pollutant: params.dominantPollutant || 'pm25',
+    });
+    if (params.temperature !== undefined) query.append('temperature', params.temperature.toString());
+    if (params.humidity !== undefined) query.append('humidity', params.humidity.toString());
+    if (params.windSpeed !== undefined) query.append('wind_speed', params.windSpeed.toString());
+
+    const res = await fetch(`${API_BASE}/health-recommendations?${query.toString()}`);
+    if (!res.ok) throw new Error('Failed to fetch health recommendations');
+    return res.json();
+  },
+
+  // Nearby Monitoring Radar
+  async getNearbyStations(lat: number, lng: number, radiusKm: number = 100, limit: number = 10): Promise<NearbyStationsResponse> {
+    const params = new URLSearchParams({
+      latitude: lat.toString(),
+      longitude: lng.toString(),
+      radius_km: radiusKm.toString(),
+      limit: limit.toString(),
+    });
+    const res = await fetch(`${API_BASE}/air-quality/nearby?${params.toString()}`);
+    if (!res.ok) throw new Error('Failed to fetch nearby stations');
+    return res.json();
+  },
+
+  // India Pollution Scoreboard
+  async getScoreboard(limit: number = 15, sortBy: 'worst' | 'best' = 'worst'): Promise<ScoreboardResponse> {
+    const params = new URLSearchParams({
+      limit: limit.toString(),
+      sort_by: sortBy,
+    });
+    const res = await fetch(`${API_BASE}/scoreboard?${params.toString()}`);
+    if (!res.ok) throw new Error('Failed to fetch pollution scoreboard');
+    return res.json();
+  },
+
+  // Multi-City Air Quality Comparison
+  async compareCities(cities: string[]): Promise<CityComparisonResponse> {
+    const params = new URLSearchParams({ cities: cities.join(',') });
+    const res = await fetch(`${API_BASE}/air-quality/compare?${params.toString()}`);
+    if (!res.ok) throw new Error('Failed to compare city air quality');
     return res.json();
   }
 };

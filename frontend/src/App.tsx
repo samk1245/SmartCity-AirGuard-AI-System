@@ -14,6 +14,11 @@ import { AboutPage } from './pages/AboutPage';
 import { Earth3DPage } from './pages/Earth3DPage';
 import { StreetViewPage } from './pages/StreetViewPage';
 import { ScenarioStudioPage } from './pages/ScenarioStudioPage';
+import { CityExplorerPage } from './pages/CityExplorerPage';
+import { PollutantAnalyticsPage } from './pages/PollutantAnalyticsPage';
+import { HealthRecommendationsPage } from './pages/HealthRecommendationsPage';
+import { NearbyAirQualityPage } from './pages/NearbyAirQualityPage';
+import { ScoreboardPage } from './pages/ScoreboardPage';
 
 import { City, CurrentSummary } from './types';
 import { api } from './services/api';
@@ -133,6 +138,49 @@ export const App: React.FC = () => {
                 }
               }}
               onSelectStationForForecast={handleSelectStationForForecast}
+            />
+          )}
+
+          {currentTab === 'explorer' && (
+            <CityExplorerPage
+              onSelectCity={(city) => {
+                setSelectedCity(city);
+                setCurrentTab('dashboard');
+              }}
+              onNavigateToMap={handleNavigateToMap}
+              onNavigateToStreetView={handleNavigateToStreetView}
+            />
+          )}
+
+          {currentTab === 'nearby' && (
+            <NearbyAirQualityPage
+              onNavigateToStreetView={handleNavigateToStreetView}
+              onNavigateToMap={handleNavigateToMap}
+              onSelectStationForForecast={handleSelectStationForForecast}
+            />
+          )}
+
+          {currentTab === 'pollutants' && (
+            <PollutantAnalyticsPage
+              summary={summary}
+              selectedCity={selectedCity}
+            />
+          )}
+
+          {currentTab === 'health' && (
+            <HealthRecommendationsPage
+              summary={summary}
+              selectedCity={selectedCity}
+            />
+          )}
+
+          {currentTab === 'scoreboard' && (
+            <ScoreboardPage
+              onSelectCity={(city) => {
+                setSelectedCity(city);
+                setCurrentTab('dashboard');
+              }}
+              onNavigateToMap={handleNavigateToMap}
             />
           )}
 
