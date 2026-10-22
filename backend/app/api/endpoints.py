@@ -167,7 +167,7 @@ def get_historical_summary(
     city_name: Optional[str] = None,
     start_date: Optional[datetime] = None,
     end_date: Optional[datetime] = None,
-    aggregation: str = Query("daily", regex="^(hourly|daily|weekly|monthly)$"),
+    aggregation: str = Query("daily", pattern="^(hourly|daily|weekly|monthly)$"),
     db: Session = Depends(get_db)
 ):
     analytics = get_historical_analytics(
