@@ -19,17 +19,21 @@ import {
   Heart,
   Trophy,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Plane,
+  Wind
 } from 'lucide-react';
 
 export type NavTab =
   | 'dashboard'
   | 'explorer'
+  | 'travel'
   | 'nearby'
   | 'pollutants'
   | 'health'
   | 'scoreboard'
   | 'earth3d'
+  | 'plume'
   | 'streetview'
   | 'scenario'
   | 'live'
@@ -66,6 +70,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const primaryMenuItems: SidebarMenuItem[] = [
     { id: 'dashboard', label: 'Overview Dashboard', icon: LayoutDashboard },
     { id: 'explorer', label: 'City & State Explorer', icon: Building2, badge: '36 States', badgeColor: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' },
+    { id: 'travel', label: 'Travel Air Guard', icon: Plane, badge: 'TRIP', badgeColor: 'bg-sky-500/20 text-sky-300 border border-sky-500/40' },
     { id: 'nearby', label: 'Nearby Station Radar', icon: Radio, badge: 'GPS', badgeColor: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' },
     { id: 'pollutants', label: 'Pollutant Deep Dive', icon: Flame },
     { id: 'health', label: 'Health & Outdoor Planner', icon: Heart },
@@ -74,6 +79,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const immersiveVisualItems: SidebarMenuItem[] = [
     { id: 'earth3d', label: '3D Earth & Atmosphere', icon: Globe, badge: '3D', badgeColor: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' },
+    { id: 'plume', label: '3D Plume Dispersion', icon: Wind, badge: 'PHYSICS', badgeColor: 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' },
     { id: 'streetview', label: 'Street View Explorer', icon: Compass, badge: '360°', badgeColor: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' },
     { id: 'map', label: 'Interactive Pollution Map', icon: MapPin },
     { id: 'scenario', label: '"What-If" Policy Studio', icon: Sliders, badge: 'SIM', badgeColor: 'bg-purple-500/20 text-purple-300 border border-purple-500/40' },

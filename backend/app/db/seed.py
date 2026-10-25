@@ -191,6 +191,172 @@ INDIAN_CITIES = [
             {"name": "Sector 22 Commercial", "code": "CHD-S22-01", "lat": 30.7352, "lng": 76.7719, "elevation": 321.0, "base_pm25": 56},
             {"name": "Sector 53 Nature Park", "code": "CHD-S53-02", "lat": 30.7183, "lng": 76.7369, "elevation": 318.0, "base_pm25": 40},
         ]
+    },
+    {
+        "name": "Chennai",
+        "state": "Tamil Nadu",
+        "country": "India",
+        "latitude": 13.0827,
+        "longitude": 80.2707,
+        "stations": [
+            {"name": "Alandur Urban Bus Terminus", "code": "CHN-ALN-01", "lat": 13.0037, "lng": 80.2014, "elevation": 12.0, "base_pm25": 54},
+            {"name": "Manali Petrochem Industrial", "code": "CHN-MNL-02", "lat": 13.1667, "lng": 80.2600, "elevation": 8.0, "base_pm25": 82},
+            {"name": "Velachery Residential Hub", "code": "CHN-VEL-03", "lat": 12.9815, "lng": 80.2180, "elevation": 10.0, "base_pm25": 48},
+        ]
+    },
+    {
+        "name": "Bhopal",
+        "state": "Madhya Pradesh",
+        "country": "India",
+        "latitude": 23.2599,
+        "longitude": 77.4126,
+        "stations": [
+            {"name": "TT Nagar Central, Bhopal", "code": "BHP-TTN-01", "lat": 23.2355, "lng": 77.4026, "elevation": 505.0, "base_pm25": 66},
+            {"name": "Paryavaran Parisar, Bhopal", "code": "BHP-PAR-02", "lat": 23.2180, "lng": 77.4320, "elevation": 510.0, "base_pm25": 52},
+        ]
+    },
+    {
+        "name": "Indore",
+        "state": "Madhya Pradesh",
+        "country": "India",
+        "latitude": 22.7196,
+        "longitude": 75.8577,
+        "stations": [
+            {"name": "Vijay Nagar Commerce Hub", "code": "IND-VJN-01", "lat": 22.7533, "lng": 75.8937, "elevation": 553.0, "base_pm25": 72},
+            {"name": "Sanwer Road Industrial GIDC", "code": "IND-SWR-02", "lat": 22.7850, "lng": 75.8450, "elevation": 545.0, "base_pm25": 94},
+        ]
+    },
+    {
+        "name": "Dehradun",
+        "state": "Uttarakhand",
+        "country": "India",
+        "latitude": 30.3165,
+        "longitude": 78.0322,
+        "stations": [
+            {"name": "Clock Tower Paltan Bazaar", "code": "DDN-CLK-01", "lat": 30.3256, "lng": 78.0413, "elevation": 640.0, "base_pm25": 58},
+            {"name": "Rishikesh Bypass Corridor", "code": "DDN-RSK-02", "lat": 30.2980, "lng": 78.0750, "elevation": 630.0, "base_pm25": 46},
+        ]
+    },
+    {
+        "name": "Guwahati",
+        "state": "Assam",
+        "country": "India",
+        "latitude": 26.1445,
+        "longitude": 91.7362,
+        "stations": [
+            {"name": "Pan Bazaar Brahmaputra Hub", "code": "GAU-PAN-01", "lat": 26.1878, "lng": 91.7450, "elevation": 55.0, "base_pm25": 68},
+            {"name": "IIT Guwahati Eco North", "code": "GAU-IIT-02", "lat": 26.1920, "lng": 91.6980, "elevation": 60.0, "base_pm25": 42},
+        ]
+    },
+    {
+        "name": "Srinagar",
+        "state": "Jammu and Kashmir",
+        "country": "India",
+        "latitude": 34.0837,
+        "longitude": 74.7973,
+        "stations": [
+            {"name": "Dal Lake Boulevard Zone", "code": "SXR-DAL-01", "lat": 34.0880, "lng": 74.8320, "elevation": 1585.0, "base_pm25": 38},
+            {"name": "Lal Chowk City Center", "code": "SXR-LAL-02", "lat": 34.0720, "lng": 74.8100, "elevation": 1580.0, "base_pm25": 64},
+        ]
+    },
+    {
+        "name": "Visakhapatnam",
+        "state": "Andhra Pradesh",
+        "country": "India",
+        "latitude": 17.6868,
+        "longitude": 83.2185,
+        "stations": [
+            {"name": "Gajuwaka Industrial Belt", "code": "VTZ-GJW-01", "lat": 17.6920, "lng": 83.1850, "elevation": 22.0, "base_pm25": 76},
+            {"name": "RK Beach Promenade", "code": "VTZ-RKB-02", "lat": 17.7120, "lng": 83.3220, "elevation": 10.0, "base_pm25": 42},
+        ]
+    },
+    {
+        "name": "Kochi",
+        "state": "Kerala",
+        "country": "India",
+        "latitude": 9.9312,
+        "longitude": 76.2673,
+        "stations": [
+            {"name": "Vytilla Mobility Hub", "code": "COK-VYT-01", "lat": 9.9678, "lng": 76.3194, "elevation": 6.0, "base_pm25": 48},
+            {"name": "Eloor Chemical Industrial", "code": "COK-ELR-02", "lat": 10.0650, "lng": 76.3050, "elevation": 8.0, "base_pm25": 65},
+        ]
+    },
+    {
+        "name": "Bhubaneswar",
+        "state": "Odisha",
+        "country": "India",
+        "latitude": 20.2961,
+        "longitude": 85.8245,
+        "stations": [
+            {"name": "Patia InfoCity Silicon Hub", "code": "BBI-PAT-01", "lat": 20.3550, "lng": 85.8180, "elevation": 50.0, "base_pm25": 56},
+            {"name": "Master Canteen Junction", "code": "BBI-MCJ-02", "lat": 20.2650, "lng": 85.8420, "elevation": 45.0, "base_pm25": 74},
+        ]
+    },
+    {
+        "name": "Ranchi",
+        "state": "Jharkhand",
+        "country": "India",
+        "latitude": 23.3441,
+        "longitude": 85.3096,
+        "stations": [
+            {"name": "Albert Ekka Chowk Central", "code": "IXR-AEK-01", "lat": 23.3700, "lng": 85.3250, "elevation": 651.0, "base_pm25": 70},
+            {"name": "Khelgaon Sports Complex", "code": "IXR-KHG-02", "lat": 23.3980, "lng": 85.3850, "elevation": 648.0, "base_pm25": 52},
+        ]
+    },
+    {
+        "name": "Raipur",
+        "state": "Chhattisgarh",
+        "country": "India",
+        "latitude": 21.2514,
+        "longitude": 81.6296,
+        "stations": [
+            {"name": "Telibandha Marine Drive", "code": "RPR-TLB-01", "lat": 21.2380, "lng": 81.6620, "elevation": 298.0, "base_pm25": 72},
+            {"name": "Urla Heavy Industrial Estate", "code": "RPR-URL-02", "lat": 21.3150, "lng": 81.5950, "elevation": 302.0, "base_pm25": 110},
+        ]
+    },
+    {
+        "name": "Amritsar",
+        "state": "Punjab",
+        "country": "India",
+        "latitude": 31.6340,
+        "longitude": 74.8723,
+        "stations": [
+            {"name": "Golden Temple Heritage Buffer", "code": "ATQ-GLD-01", "lat": 31.6200, "lng": 74.8765, "elevation": 232.0, "base_pm25": 78},
+            {"name": "Civil Lines Mall Road", "code": "ATQ-CVL-02", "lat": 31.6520, "lng": 74.8650, "elevation": 234.0, "base_pm25": 92},
+        ]
+    },
+    {
+        "name": "Surat",
+        "state": "Gujarat",
+        "country": "India",
+        "latitude": 21.1702,
+        "longitude": 72.8311,
+        "stations": [
+            {"name": "Ring Road Textile Commerce", "code": "STV-RRD-01", "lat": 21.1890, "lng": 72.8420, "elevation": 15.0, "base_pm25": 74},
+            {"name": "Dumas Coastal Road", "code": "STV-DMS-02", "lat": 21.0850, "lng": 72.7150, "elevation": 8.0, "base_pm25": 50},
+        ]
+    },
+    {
+        "name": "Nagpur",
+        "state": "Maharashtra",
+        "country": "India",
+        "latitude": 21.1458,
+        "longitude": 79.0882,
+        "stations": [
+            {"name": "Civil Lines Zero Mile", "code": "NAG-ZML-01", "lat": 21.1480, "lng": 79.0810, "elevation": 310.0, "base_pm25": 62},
+            {"name": "MIDC Hingna Industrial", "code": "NAG-HNG-02", "lat": 21.1150, "lng": 78.9850, "elevation": 318.0, "base_pm25": 88},
+        ]
+    },
+    {
+        "name": "Shimla",
+        "state": "Himachal Pradesh",
+        "country": "India",
+        "latitude": 31.1048,
+        "longitude": 77.1734,
+        "stations": [
+            {"name": "The Ridge Mall Road", "code": "SML-RDG-01", "lat": 31.1048, "lng": 77.1734, "elevation": 2205.0, "base_pm25": 28},
+            {"name": "Sanjauli High Altitude Hub", "code": "SML-SNJ-02", "lat": 31.1020, "lng": 77.2020, "elevation": 2240.0, "base_pm25": 32},
+        ]
     }
 ]
 
@@ -329,12 +495,12 @@ def seed_database(days_back: int = 90, force: bool = False):
     db: Session = SessionLocal()
     try:
         station_count = db.query(Station).count()
-        # If all 42 stations exist and not forced, skip
-        if not force and station_count >= 35:
+        total_expected_stations = sum(len(c["stations"]) for c in INDIAN_CITIES)
+        if not force and station_count >= total_expected_stations:
             print(f"[Seed] Database already contains {station_count} stations. Skipping seed.")
             return
 
-        print(f"[Seed] Seeding database with 15 Indian metropolitan cities and 42 monitoring stations...")
+        print(f"[Seed] Seeding database with {len(INDIAN_CITIES)} Indian cities and {total_expected_stations} monitoring stations...")
         df = generate_synthetic_data(days_back=days_back)
 
         csv_path = os.path.join(settings.DATASETS_DIR, "indian_cities_air_quality_sample.csv")

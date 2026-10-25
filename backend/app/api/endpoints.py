@@ -25,6 +25,8 @@ from app.services.alert_service import get_alerts_list, acknowledge_alert
 from app.services.dataset_service import validate_and_import_csv
 from app.services.india_locations import get_all_states, get_cities_for_state, search_cities_india, get_state_summary
 from app.services.health_recommendations import get_health_recommendations
+from app.services.atmospheric_inversion_service import calculate_boundary_layer_dynamics
+from app.services.travel_advisor_service import analyze_travel_route
 from app.ml.train import train_and_save_model
 from app.ml.predict import generate_forecast, get_latest_model_bundle
 from app.core.config import settings
@@ -689,4 +691,43 @@ def get_india_pollution_scoreboard(
         "methodology": "Composite average of real-time CAAQMS station telemetry across municipal boundary",
         "note": "Exclusively verified continuous monitoring stations are ranked.",
     }
+
+
+# 22. Atmospheric Boundary Layer & Thermal Inversion Analysis
+@router.get("/atmospheric/inversion", tags=["Atmospheric Dynamics"])
+def get_atmospheric_inversion_analysis(
+    temperature: float = Query(28.0, description="Surface temperature in Celsius"),
+    humidity: float = Query(60.0, description="Relative humidity %"),
+    wind_speed: float = Query(8.5, description="Wind speed in km/h"),
+    hour: Optional[int] = Query(None, ge=0, le=23, description="Hour of day (0-23 UTC)")
+):
+    """
+    Computes Planetary Boundary Layer Height (PBLH), Ventilation Index (Vi),
+    and nocturnal smog inversion risk based on CPCB / IMD guidelines.
+    """
+    return calculate_boundary_layer_dynamics(
+        temperature=temperature,
+        humidity=humidity,
+        wind_speed_kmh=wind_speed,
+        hour_of_day=hour
+    )
+
+
+# 23. Travel Air Guard - Inter-City Route Environmental Exposure
+@router.get("/travel/route-analysis", tags=["Travel Air Guard"])
+def get_travel_route_analysis(
+    origin: str = Query(..., description="Origin / departure city name"),
+    destination: str = Query(..., description="Destination arrival city name"),
+    db: Session = Depends(get_db)
+):
+    """
+    Computes comparative respiratory exposure deltas, transit mode cabin filtration tips,
+    optimal travel departure windows, and packing essentials between two Indian cities.
+    """
+    return analyze_travel_route(
+        db=db,
+        origin_city_name=origin,
+        destination_city_name=destination
+    )
+
 

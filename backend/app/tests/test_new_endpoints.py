@@ -165,3 +165,27 @@ def test_compare_cities_endpoint():
     data = response.json()
     assert "comparison" in data
     assert len(data["comparison"]) == 2
+
+
+def test_atmospheric_inversion_endpoint():
+    response = client.get("/api/atmospheric/inversion?temperature=24.5&humidity=65&wind_speed=6.0&hour=14")
+    assert response.status_code == 200
+    data = response.json()
+    assert "mixing_height_m" in data
+    assert "ventilation_coefficient_m2s" in data
+    assert "ventilation_status" in data
+    assert "pasquill_stability" in data
+    assert data["mixing_height_m"] > 0
+
+
+def test_travel_route_analysis_endpoint():
+    response = client.get("/api/travel/route-analysis?origin=Bengaluru&destination=Delhi")
+    assert response.status_code == 200
+    data = response.json()
+    assert "origin" in data
+    assert "destination" in data
+    assert "exposure_delta_aqi" in data
+    assert "transit_modes" in data
+    assert "packing_checklist" in data
+    assert len(data["transit_modes"]) >= 3
+

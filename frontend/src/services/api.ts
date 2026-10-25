@@ -304,5 +304,38 @@ export const api = {
     const res = await fetch(`${API_BASE}/air-quality/compare?${params.toString()}`);
     if (!res.ok) throw new Error('Failed to compare city air quality');
     return res.json();
+  },
+
+  // Atmospheric Boundary Layer & Inversion Telemetry
+  async getAtmosphericInversion(params: {
+    temperature_c?: number;
+    wind_speed_ms?: number;
+    solar_radiation_wm2?: number;
+    cloud_cover_pct?: number;
+    is_daytime?: boolean;
+    boundary_layer_height_m?: number;
+  } = {}) {
+    const query = new URLSearchParams();
+    if (params.temperature_c !== undefined) query.append('temperature_c', params.temperature_c.toString());
+    if (params.wind_speed_ms !== undefined) query.append('wind_speed_ms', params.wind_speed_ms.toString());
+    if (params.solar_radiation_wm2 !== undefined) query.append('solar_radiation_wm2', params.solar_radiation_wm2.toString());
+    if (params.cloud_cover_pct !== undefined) query.append('cloud_cover_pct', params.cloud_cover_pct.toString());
+    if (params.is_daytime !== undefined) query.append('is_daytime', params.is_daytime.toString());
+    if (params.boundary_layer_height_m !== undefined) query.append('boundary_layer_height_m', params.boundary_layer_height_m.toString());
+
+    const res = await fetch(`${API_BASE}/atmospheric/inversion?${query.toString()}`);
+    if (!res.ok) throw new Error('Failed to fetch atmospheric inversion data');
+    return res.json();
+  },
+
+  // Travel Air Guard Route Exposure Analysis
+  async getTravelRouteAnalysis(originCity: string, destinationCity: string) {
+    const params = new URLSearchParams({
+      origin_city: originCity,
+      destination_city: destinationCity,
+    });
+    const res = await fetch(`${API_BASE}/travel/route-analysis?${params.toString()}`);
+    if (!res.ok) throw new Error('Failed to fetch travel route analysis');
+    return res.json();
   }
 };

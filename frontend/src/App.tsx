@@ -19,6 +19,8 @@ import { PollutantAnalyticsPage } from './pages/PollutantAnalyticsPage';
 import { HealthRecommendationsPage } from './pages/HealthRecommendationsPage';
 import { NearbyAirQualityPage } from './pages/NearbyAirQualityPage';
 import { ScoreboardPage } from './pages/ScoreboardPage';
+import { TravelAirCheckPage } from './pages/TravelAirCheckPage';
+import { PlumeSimulatorPage } from './pages/PlumeSimulatorPage';
 
 import { City, CurrentSummary } from './types';
 import { api } from './services/api';
@@ -150,6 +152,20 @@ export const App: React.FC = () => {
               onNavigateToMap={handleNavigateToMap}
               onNavigateToStreetView={handleNavigateToStreetView}
             />
+          )}
+
+          {currentTab === 'travel' && (
+            <TravelAirCheckPage
+              cities={cities}
+              onSelectCity={(city: string) => {
+                setSelectedCity(city);
+                setCurrentTab('dashboard');
+              }}
+            />
+          )}
+
+          {currentTab === 'plume' && (
+            <PlumeSimulatorPage />
           )}
 
           {currentTab === 'nearby' && (

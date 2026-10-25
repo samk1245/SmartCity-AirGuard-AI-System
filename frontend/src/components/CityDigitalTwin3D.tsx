@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as THREE from 'three';
-import { Building2, Wind, Eye, RotateCcw, Sparkles, Layers } from 'lucide-react';
+import { Building2, Wind, Eye, RotateCcw, Sparkles, Layers, Sun, Moon, Sunset, Video } from 'lucide-react';
 
 interface CityDigitalTwin3DProps {
   cityName?: string;
@@ -13,6 +13,8 @@ interface CityDigitalTwin3DProps {
   className?: string;
   height?: string | number;
 }
+
+type LightingMode = 'cyber' | 'smog' | 'daylight';
 
 export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
   cityName = 'SmartCity Central',
@@ -28,7 +30,8 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
   const mountRef = useRef<HTMLDivElement>(null);
   const [selectedZone, setSelectedZone] = useState<{ name: string; aqi: number; type: string } | null>(null);
   const [smogDomeVisible, setSmogDomeVisible] = useState<boolean>(true);
-  const [trafficActive, setTrafficActive] = useState<boolean>(true);
+  const [lightingMode, setLightingMode] = useState<LightingMode>('cyber');
+  const [autoTour, setAutoTour] = useState<boolean>(true);
 
   const stateRef = useRef<{
     scene?: THREE.Scene;
@@ -37,18 +40,24 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
     cityGroup?: THREE.Group;
     smogMesh?: THREE.Mesh;
     trafficBeams?: THREE.Points;
+    industrialPlumes?: THREE.Points;
+    ambientLight?: THREE.AmbientLight;
+    dirLight1?: THREE.DirectionalLight;
+    dirLight2?: THREE.DirectionalLight;
     animId?: number;
     isDragging: boolean;
     prevMouse: { x: number; y: number };
     rotX: number;
     rotY: number;
     zoom: number;
+    tourAngle: number;
   }>({
     isDragging: false,
     prevMouse: { x: 0, y: 0 },
     rotX: 0.55,
     rotY: 0.75,
     zoom: 16,
+    tourAngle: 0,
   });
 
   const getAqiColor = useCallback((value: number): number => {
@@ -59,6 +68,40 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
     if (value <= 400) return 0xef4444; // Red
     return 0x991b1b; // Maroon
   }, []);
+
+  // Update lighting when lightingMode changes
+  useEffect(() => {
+    const { scene, ambientLight, dirLight1, dirLight2 } = stateRef.current;
+    if (!scene || !ambientLight || !dirLight1 || !dirLight2) return;
+
+    if (lightingMode === 'cyber') {
+      scene.fog = new THREE.FogExp2(0x020817, 0.04);
+      ambientLight.color.setHex(0xffffff);
+      ambientLight.intensity = 0.6;
+      dirLight1.color.setHex(0x38bdf8);
+      dirLight1.intensity = 1.8;
+      dirLight2.color.setHex(0x818cf8);
+      dirLight2.intensity = 1.0;
+    } else if (lightingMode === 'smog') {
+      // Golden Hour Smog Haze
+      scene.fog = new THREE.FogExp2(0x291400, 0.05);
+      ambientLight.color.setHex(0xfb923c);
+      ambientLight.intensity = 1.0;
+      dirLight1.color.setHex(0xf59e0b);
+      dirLight1.intensity = 2.4;
+      dirLight2.color.setHex(0xb45309);
+      dirLight2.intensity = 0.8;
+    } else {
+      // Daylight Clarity
+      scene.fog = new THREE.FogExp2(0x0f172a, 0.025);
+      ambientLight.color.setHex(0xf8fafc);
+      ambientLight.intensity = 1.2;
+      dirLight1.color.setHex(0xffffff);
+      dirLight1.intensity = 2.0;
+      dirLight2.color.setHex(0x94a3b8);
+      dirLight2.intensity = 0.6;
+    }
+  }, [lightingMode]);
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -121,12 +164,6 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
       metalness: 0.8,
     });
 
-    const windowGlowMat = new THREE.MeshBasicMaterial({
-      color: 0x38bdf8,
-      transparent: true,
-      opacity: 0.8,
-    });
-
     for (let r = -gridSize / 2; r <= gridSize / 2; r++) {
       for (let c = -gridSize / 2; c <= gridSize / 2; c++) {
         // Skip some spots for plazas / parks
@@ -163,7 +200,57 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
       }
     }
 
-    // 8. Monitoring Station Masts (4 sensor nodes)
+    // 8. Industrial Chimney Stacks with Animated Smoke
+    const chimneyPositions = [
+      { x: 7.2, z: 7.2, h: 4.5 },
+      { x: 8.5, z: 6.0, h: 5.2 },
+    ];
+    chimneyPositions.forEach((ch) => {
+      const cGeo = new THREE.CylinderGeometry(0.4, 0.65, ch.h, 16);
+      const cMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.8 });
+      const chimney = new THREE.Mesh(cGeo, cMat);
+      chimney.position.set(ch.x, ch.h / 2, ch.z);
+      cityGroup.add(chimney);
+
+      // Top warning rim
+      const rimGeo = new THREE.TorusGeometry(0.42, 0.06, 8, 16);
+      const rimMat = new THREE.MeshBasicMaterial({ color: 0xf97316 });
+      const rim = new THREE.Mesh(rimGeo, rimMat);
+      rim.position.set(ch.x, ch.h, ch.z);
+      rim.rotation.x = Math.PI / 2;
+      cityGroup.add(rim);
+    });
+
+    // Chimney smoke particle system
+    const smokeCount = 180;
+    const smokePos = new Float32Array(smokeCount * 3);
+    const smokeVelocities: { x: number; y: number; z: number; startY: number }[] = [];
+    for (let i = 0; i < smokeCount; i++) {
+      const ch = chimneyPositions[i % 2];
+      const idx = i * 3;
+      smokePos[idx] = ch.x + (Math.random() - 0.5) * 0.3;
+      smokePos[idx + 1] = ch.h + Math.random() * 4.0;
+      smokePos[idx + 2] = ch.z + (Math.random() - 0.5) * 0.3;
+      smokeVelocities.push({
+        x: 0.015 + Math.random() * 0.02,
+        y: 0.025 + Math.random() * 0.03,
+        z: -0.015 + Math.random() * 0.01,
+        startY: ch.h,
+      });
+    }
+    const smokeGeo = new THREE.BufferGeometry();
+    smokeGeo.setAttribute('position', new THREE.BufferAttribute(smokePos, 3));
+    const smokeMat = new THREE.PointsMaterial({
+      color: 0x94a3b8,
+      size: 0.35,
+      transparent: true,
+      opacity: 0.45,
+      blending: THREE.NormalBlending,
+    });
+    const industrialPlumes = new THREE.Points(smokeGeo, smokeMat);
+    cityGroup.add(industrialPlumes);
+
+    // 9. Monitoring Station Masts (4 sensor nodes)
     const stationPositions = [
       { name: 'City Center Hub', x: 0, z: 0, aqiOffset: 0 },
       { name: 'North Industrial Sector', x: 5.5, z: 5.5, aqiOffset: 35 },
@@ -195,7 +282,7 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
       cityGroup.add(beam);
     });
 
-    // 9. Volumetric Smog / Particulate Dome
+    // 10. Volumetric Smog / Particulate Dome
     const aqiColorHex = getAqiColor(aqi);
     const smogGeo = new THREE.SphereGeometry(11, 32, 24, 0, Math.PI * 2, 0, Math.PI / 2);
     const smogMat = new THREE.MeshPhongMaterial({
@@ -211,7 +298,7 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
     smogMesh.position.y = 0;
     cityGroup.add(smogMesh);
 
-    // 10. Traffic Particulate Pulses
+    // 11. Traffic Particulate Pulses
     const trafficCount = 350;
     const trafficPos = new Float32Array(trafficCount * 3);
     for (let i = 0; i < trafficCount; i++) {
@@ -247,6 +334,10 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
       cityGroup,
       smogMesh,
       trafficBeams,
+      industrialPlumes,
+      ambientLight,
+      dirLight1,
+      dirLight2,
     };
 
     let isMounted = true;
@@ -254,16 +345,40 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
       if (!isMounted) return;
       stateRef.current.animId = requestAnimationFrame(animate);
 
-      const { renderer, scene, camera, cityGroup, smogMesh, trafficBeams, isDragging, rotX, rotY } = stateRef.current;
+      const { renderer, scene, camera, cityGroup, smogMesh, industrialPlumes, isDragging } = stateRef.current;
       if (!renderer || !scene || !camera || !cityGroup) return;
 
-      // Idle rotation when not dragging
-      if (!isDragging) {
-        stateRef.current.rotY += 0.002;
+      // Idle rotation / Drone Tour
+      if (!isDragging && autoTour) {
+        stateRef.current.rotY += 0.0025;
+        stateRef.current.tourAngle += 0.002;
+        // Subtle tilt oscillation for drone effect
+        stateRef.current.rotX = 0.52 + Math.sin(stateRef.current.tourAngle * 0.8) * 0.04;
       }
 
       cityGroup.rotation.y = stateRef.current.rotY;
       cityGroup.rotation.x = stateRef.current.rotX;
+
+      // Animate industrial chimney smoke
+      if (industrialPlumes) {
+        const positions = industrialPlumes.geometry.attributes.position.array as Float32Array;
+        for (let i = 0; i < smokeCount; i++) {
+          const idx = i * 3;
+          const v = smokeVelocities[i];
+          positions[idx] += v.x;
+          positions[idx + 1] += v.y;
+          positions[idx + 2] += v.z;
+
+          // Reset if too high
+          if (positions[idx + 1] > v.startY + 6.0) {
+            const ch = chimneyPositions[i % 2];
+            positions[idx] = ch.x + (Math.random() - 0.5) * 0.2;
+            positions[idx + 1] = ch.h;
+            positions[idx + 2] = ch.z + (Math.random() - 0.5) * 0.2;
+          }
+        }
+        industrialPlumes.geometry.attributes.position.needsUpdate = true;
+      }
 
       // Pulsing smog dome breathing animation
       if (smogMesh) {
@@ -293,7 +408,7 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
       if (stateRef.current.animId) cancelAnimationFrame(stateRef.current.animId);
       renderer.dispose();
     };
-  }, [aqi, getAqiColor]);
+  }, [aqi, getAqiColor, autoTour]);
 
   // Mouse drag orbit controls
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -367,6 +482,52 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
         >
           {smogDomeVisible ? 'Volumetric Smog Dome: ON' : 'Smog Dome: OFF'}
         </button>
+
+        {/* Lighting preset selector */}
+        <div className="flex items-center bg-slate-900/90 backdrop-blur border border-slate-800 rounded-xl p-0.5">
+          <button
+            onClick={() => setLightingMode('cyber')}
+            title="Cyber Neon Mood"
+            className={`px-2.5 py-1 rounded-lg text-xs font-medium flex items-center gap-1 transition-all ${
+              lightingMode === 'cyber' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Moon className="w-3 h-3 text-cyan-400" />
+            <span className="hidden md:inline">Cyber</span>
+          </button>
+          <button
+            onClick={() => setLightingMode('smog')}
+            title="Golden Hour Smog"
+            className={`px-2.5 py-1 rounded-lg text-xs font-medium flex items-center gap-1 transition-all ${
+              lightingMode === 'smog' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Sunset className="w-3 h-3 text-amber-400" />
+            <span className="hidden md:inline">Smog Haze</span>
+          </button>
+          <button
+            onClick={() => setLightingMode('daylight')}
+            title="Daylight Clarity"
+            className={`px-2.5 py-1 rounded-lg text-xs font-medium flex items-center gap-1 transition-all ${
+              lightingMode === 'daylight' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Sun className="w-3 h-3 text-emerald-400" />
+            <span className="hidden md:inline">Day</span>
+          </button>
+        </div>
+
+        {/* Drone tour toggle */}
+        <button
+          onClick={() => setAutoTour(!autoTour)}
+          className={`px-2.5 py-1.5 rounded-xl text-xs font-medium border flex items-center gap-1.5 transition-all ${
+            autoTour ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40' : 'bg-slate-900/80 text-slate-400 border-slate-700'
+          }`}
+          title="Toggle Drone Orbit Camera"
+        >
+          <Video className="w-3 h-3 text-indigo-400" />
+          <span>{autoTour ? 'Drone Tour: ON' : 'Orbit: Manual'}</span>
+        </button>
       </div>
 
       {/* Real-time Environmental Metric Card */}
@@ -385,7 +546,7 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
 
       {/* Legend & Controls hint */}
       <div className="absolute bottom-4 left-4 z-10 px-3.5 py-2 rounded-xl bg-slate-900/90 backdrop-blur border border-slate-800 text-[11px] text-slate-400 font-medium pointer-events-none hidden sm:block">
-        Drag to rotate city • Scroll to zoom • Vertical beams denote monitoring towers
+        Drag to rotate • Scroll to zoom • Vertical beams denote CPCB CAAQMS masts • Smoke stacks show live industrial dispersion
       </div>
     </div>
   );
