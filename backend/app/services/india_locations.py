@@ -280,7 +280,8 @@ MONITORED_CITIES = {
     "Gurgaon", "Faridabad", "Panipat", "Ambala", "Karnal", "Sonipat",
     "Kochi", "Thiruvananthapuram", "Kozhikode", "Thrissur",
     "Bhubaneswar", "Cuttack", "Rourkela",
-    "Srinagar", "Jammu", "Shillong", "Guwahati"
+    "Srinagar", "Jammu", "Shillong", "Guwahati",
+    "Shimla", "Panaji", "Leh", "Gangtok", "Hubballi-Dharwad"
 }
 
 

@@ -17,20 +17,26 @@
 
 **SmartCity AirGuard AI 2.0** is an enterprise-grade environmental intelligence, GIS mapping, and predictive machine learning platform engineered to address severe urban air quality crises across India. Combining real-time **Central Pollution Control Board (CPCB)** Continuous Ambient Air Quality Monitoring Systems (CAAQMS), **Open-Meteo Global Atmospheric Reanalysis**, and **Nominatim GPS Geolocation**, AirGuard AI delivers cinematic 3D digital twins alongside defensible public health advisories.
 
-The platform provides comprehensive coverage across **all 28 Indian States and 8 Union Territories (36 administrative regions)**, tracking **30 major Indian municipal hubs**, **75 continuous CAAQMS monitoring towers**, over **172,000+ hourly environmental observations**, and spatial particulate dispersion patterns.
+The platform provides comprehensive coverage across **all 28 Indian States and 8 Union Territories (36 administrative regions)**, tracking **48 major Indian municipal hubs**, **111 continuous CAAQMS monitoring towers**, over **273,000+ hourly environmental observations**, and spatial particulate dispersion patterns.
 
 ---
 
 ## 2. Core Platform Capabilities
 
-### 🌐 1. Interactive 3D Earth, Urban Digital Twin & Gaussian Plume
+### 🌊 1. Eco-Shield Clean Air Oasis & Fluid Wave Aerodynamics
+- **Watery Atmospheric Fluid Wave**: Interactive HTML5 Canvas harmonic fluid wave simulation visualizing air mass streamlines with dynamic color shifting based on ambient CPCB AQI (emerald clean air currents to crimson thermal inversion streams).
+- **Interactive Water Ripple Physics**: Generates multi-ring expanding water ripples and harmonic wave crests on user mouse movements and clicks.
+- **Eco-Shield Purifier Simulator**: Real-time modeling of indoor Clean Air Delivery Rate (CADR), room volume air changes per hour (ACH), particulate clearance decay curves, and projected HEPA filter lifespan.
+- **Featured City Intelligence Carousel**: Dynamic slide show showcasing architectural landmarks, real-time microclimate conditions, and rapid city dashboard teleportation across Indian states.
+
+### 🌐 2. Interactive 3D Earth, Urban Digital Twin & Gaussian Plume
 - **Global 3D Earth**: Rotatable, zoomable WebGL globe displaying global atmospheric reference points and continental smog transport corridors.
 - **Urban Digital Twin (City Mode)**: Procedural 3D city scene featuring extruded architectural skyscrapers, traffic light beams, air quality monitoring beacons, an animated volumetric breathing smog dome, live industrial cooling and smoke chimneys with animated emission plumes, and **interactive atmospheric lighting presets** (Cyber Neon, Golden Hour Smog Haze, and Daylight Clarity).
 - **3D Gaussian Plume Dispersion Model**: Interactive WebGL physics simulator of industrial smokestack emissions using the classical Gaussian Plume equation, with real-time sliders for emission rate ($Q$), effective stack height ($H$), wind speed ($u$), and Pasquill-Gifford atmospheric stability classes ($A$ to $F$).
 - **Atmospheric Particle Flowfield**: Multi-threaded Canvas2D/WebGL simulation visualizing wind vector trajectories and particulate dispersal.
 
-### ✈️ 2. Travel Air Guard — Inter-City Route Exposure Planner
-- Comparative journey exposure analysis between any 2 of the 30 supported Indian cities.
+### ✈️ 3. Travel Air Guard — Inter-City Route Exposure Planner
+- Comparative journey exposure analysis between any 2 of the 48 supported Indian cities.
 - Calculation of destination exposure delta (e.g. $+85\%$ cleaner or $+140\%$ higher particulate load).
 - Mode-specific transit cabin recommendations:
   - **Aviation**: Commercial flights equipped with True HEPA filters (99.97% particulate capture).
@@ -38,19 +44,19 @@ The platform provides comprehensive coverage across **all 28 Indian States and 8
   - **Roadways**: Closed cabin with internal recirculating AC; advisory against two-wheeler/open-window travel on high-AQI corridors.
 - Time-of-day departure window advisories (afternoon mixing layer vs. nocturnal inversion) and customized luggage packing checklist.
 
-### 🌪️ 3. Planetary Boundary Layer & Atmospheric Inversion Telemetry
+### 🌪️ 4. Planetary Boundary Layer & Atmospheric Inversion Telemetry
 - Real-time estimation of **Planetary Boundary Layer Height (PBLH / Mixing Height)** and **Ventilation Index ($V_i$)**.
 - Pasquill-Gifford stability classification (Classes A through F) determining pollutant vertical dilution capacity.
 - Automated nocturnal thermal inversion risk scoring, identifying meteorological conditions that trap smog at breathing level.
 
-### 🧭 4. Real-Time 360° Street View & Live GPS Teleportation
+### 🧭 5. Real-Time 360° Street View & Live GPS Teleportation
 - Direct integration with Google Maps public street-level panoramic frames and OpenStreetMap viewports.
 - **One-Click Live Current Location Street View**: Browser Geolocation API detects user latitude/longitude, queries reverse-geocoding via Nominatim to identify exact street names, and renders immediate street-level atmospheric conditions.
 - Real-time pedestrian mask alerts, CPCB category badges, and telemetry overlays embedded beside the street view viewport.
 
-### 🗺️ 5. National India City & State Geographic Explorer
+### 🗺️ 6. National India City & State Geographic Explorer
 - Searchable directory covering **all 36 States & Union Territories**.
-- Real-time filtering by continuous CAAQMS monitoring station availability vs. satellite-modeled data across **30 key cities and 75 stations**.
+- Real-time filtering by continuous CAAQMS monitoring station availability vs. satellite-modeled data across **48 key cities and 111 stations**.
 - Search across cities, districts, and state capitals with instant navigation to 2D GIS maps, Street View, and analytical dashboards.
 
 ### 🧪 6. Chemical Speciation & Pollutant Analytics Deep Dive

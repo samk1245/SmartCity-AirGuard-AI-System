@@ -38,7 +38,10 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
         'Jaipur', 'Patna', 'Agra', 'Pune', 'Chandigarh',
         'Chennai', 'Bhopal', 'Indore', 'Dehradun', 'Guwahati',
         'Srinagar', 'Visakhapatnam', 'Kochi', 'Bhubaneswar', 'Ranchi',
-        'Raipur', 'Amritsar', 'Surat', 'Nagpur', 'Shimla'
+        'Raipur', 'Amritsar', 'Surat', 'Nagpur', 'Shimla',
+        'Thiruvananthapuram', 'Coimbatore', 'Madurai', 'Kozhikode', 'Vijayawada',
+        'Tirupati', 'Mangaluru', 'Hubballi-Dharwad', 'Jamshedpur', 'Dhanbad',
+        'Gwalior', 'Jabalpur', 'Kota', 'Jodhpur', 'Udaipur', 'Panaji', 'Leh', 'Gangtok'
       ];
 
   const fetchRouteAnalysis = async (fromCity: string, toCity: string) => {
@@ -96,7 +99,7 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
 
           <div className="flex items-center gap-2">
             <span className="text-xs px-3 py-1.5 rounded-xl bg-cyan-950 border border-cyan-800 text-cyan-300 font-semibold">
-              30+ Cities Unified
+              48+ Indian Cities Unified
             </span>
           </div>
         </div>

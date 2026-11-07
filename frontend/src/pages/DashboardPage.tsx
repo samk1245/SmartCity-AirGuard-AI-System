@@ -30,6 +30,8 @@ import { SkeletonCard, SkeletonChart } from '../components/SkeletonLoader';
 import { LiveAqiTicker } from '../components/LiveAqiTicker';
 import { AtmosphericFlowfield3D } from '../components/AtmosphericFlowfield3D';
 import { ExposureCalculatorModal } from '../components/ExposureCalculatorModal';
+import { FluidWaveBanner } from '../components/FluidWaveBanner';
+import { CitySlideShow } from '../components/CitySlideShow';
 
 interface DashboardPageProps {
   summary: CurrentSummary | null;
@@ -78,6 +80,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     <div className="space-y-6">
       {/* Real-Time National Cities Ticker */}
       <LiveAqiTicker onSelectCity={onSelectCity} selectedCity={selectedCity} />
+
+      {/* Hero Animated Watery Flow Telemetry Banner */}
+      <FluidWaveBanner
+        selectedCity={selectedCity}
+        stationCount={summary.readings.length}
+        overallAqi={Math.round(summary.overall_aqi)}
+        onNavigate={onNavigate}
+        onOpenExposureModal={() => setShowExposureModal(true)}
+      />
 
       {/* Quick City Navigation Ribbon */}
       <CityRibbon
@@ -140,53 +151,60 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Action Buttons with Liquid Glass Tactile Styles */}
           <div className="flex flex-wrap items-center gap-2.5 pt-1">
             <button
               onClick={() => onNavigate('earth3d')}
-              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/25 hover:scale-[1.02] transition-all"
+              className="btn-liquid-cyan px-4 py-2.5 rounded-xl text-xs flex items-center gap-2"
             >
               <Globe className="w-4 h-4 text-slate-950" /> 3D Earth Globe
             </button>
 
             <button
               onClick={() => onNavigate('streetview')}
-              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-500/25 hover:scale-[1.02] transition-all"
+              className="btn-liquid-emerald px-4 py-2.5 rounded-xl text-xs flex items-center gap-2"
             >
               <Crosshair className="w-4 h-4 text-slate-950" /> Street View (Live GPS)
             </button>
 
             <button
+              onClick={() => onNavigate('ecoshield')}
+              className="btn-liquid-purple px-4 py-2.5 rounded-xl text-xs flex items-center gap-2"
+            >
+              <Droplets className="w-4 h-4 text-white" /> Eco-Shield Lab
+            </button>
+
+            <button
               onClick={() => onNavigate('forecast')}
-              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 font-semibold text-xs border border-cyan-800/60 flex items-center gap-2 transition-all"
+              className="btn-glass-tactile px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-2"
             >
               <Sparkles className="w-4 h-4 text-cyan-400" /> AI Forecast
             </button>
 
             <button
               onClick={() => onNavigate('scenario')}
-              className="px-3.5 py-2.5 rounded-xl bg-purple-950/60 hover:bg-purple-900/60 border border-purple-800 text-purple-300 font-bold text-xs flex items-center gap-1.5 transition-all shadow-md"
+              className="btn-glass-tactile px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5"
             >
               <Sliders className="w-3.5 h-3.5 text-purple-400" /> Policy Studio
             </button>
 
             <button
               onClick={() => setShowExposureModal(true)}
-              className="px-3.5 py-2.5 rounded-xl bg-rose-950/60 hover:bg-rose-900/60 border border-rose-800 text-rose-300 font-bold text-xs flex items-center gap-1.5 transition-all shadow-md"
+              className="btn-liquid-rose px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5"
             >
-              <HeartPulse className="w-3.5 h-3.5 text-rose-400 animate-pulse" /> Inhaled Dose
+              <HeartPulse className="w-3.5 h-3.5 text-white animate-pulse" /> Inhaled Dose
             </button>
 
             <button
               onClick={() => setShowComparison(true)}
-              className="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-slate-700 flex items-center gap-1.5 transition-all"
+              className="btn-glass-tactile px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5"
             >
               <ArrowRightLeft className="w-3.5 h-3.5 text-slate-400" /> Compare
             </button>
 
             <button
               onClick={() => onNavigate('map')}
-              className="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 flex items-center gap-1.5 transition-all"
+              className="btn-glass-tactile px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5"
             >
               <MapPin className="w-3.5 h-3.5 text-rose-400" /> GIS Map
             </button>
@@ -209,6 +227,12 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Featured Indian City Intelligence Carousel */}
+      <CitySlideShow
+        selectedCity={selectedCity}
+        onSelectCity={onSelectCity}
+      />
 
       {/* Citizen Health & Actionable Advisories */}
       <HealthAdvisoryCard aqi={summary.overall_aqi} category={summary.overall_category} />

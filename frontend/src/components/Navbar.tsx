@@ -53,7 +53,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 AirGuard <span className="text-cyan-400">AI</span>
               </span>
               <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800">
-                SmartCity
+                48 Cities
               </span>
             </div>
             <p className="text-xs text-slate-400 hidden sm:block">
@@ -63,14 +63,14 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           {/* 3D Earth Shortcut Button */}
           {onNavigateToEarth3D && (
             <button
               onClick={onNavigateToEarth3D}
-              className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-300 text-xs font-bold transition-all shadow-md active:scale-95"
+              className="btn-liquid-cyan hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs"
             >
-              <Globe className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+              <Globe className="w-3.5 h-3.5 text-slate-950 animate-pulse" />
               <span>3D Earth</span>
             </button>
           )}
@@ -79,10 +79,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           {onNavigateToStreetView && (
             <button
               onClick={onNavigateToStreetView}
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-xs font-bold transition-all shadow-md active:scale-95"
+              className="btn-liquid-emerald hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs"
               title="View live street view of your current location"
             >
-              <Crosshair className="w-3.5 h-3.5 text-emerald-400" />
+              <Crosshair className="w-3.5 h-3.5 text-slate-950" />
               <span>My Street View</span>
             </button>
           )}

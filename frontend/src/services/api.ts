@@ -331,6 +331,8 @@ export const api = {
   // Travel Air Guard Route Exposure Analysis
   async getTravelRouteAnalysis(originCity: string, destinationCity: string) {
     const params = new URLSearchParams({
+      origin: originCity,
+      destination: destinationCity,
       origin_city: originCity,
       destination_city: destinationCity,
     });

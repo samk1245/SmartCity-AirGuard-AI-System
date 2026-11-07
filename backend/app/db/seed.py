@@ -357,6 +357,204 @@ INDIAN_CITIES = [
             {"name": "The Ridge Mall Road", "code": "SML-RDG-01", "lat": 31.1048, "lng": 77.1734, "elevation": 2205.0, "base_pm25": 28},
             {"name": "Sanjauli High Altitude Hub", "code": "SML-SNJ-02", "lat": 31.1020, "lng": 77.2020, "elevation": 2240.0, "base_pm25": 32},
         ]
+    },
+    {
+        "name": "Thiruvananthapuram",
+        "state": "Kerala",
+        "country": "India",
+        "latitude": 8.5241,
+        "longitude": 76.9366,
+        "stations": [
+            {"name": "Kariavattom University Campus", "code": "TRV-KRV-01", "lat": 8.5580, "lng": 76.8840, "elevation": 32.0, "base_pm25": 36},
+            {"name": "Palayam Secretariat Central", "code": "TRV-PLY-02", "lat": 8.5020, "lng": 76.9530, "elevation": 18.0, "base_pm25": 45},
+        ]
+    },
+    {
+        "name": "Coimbatore",
+        "state": "Tamil Nadu",
+        "country": "India",
+        "latitude": 11.0168,
+        "longitude": 76.9558,
+        "stations": [
+            {"name": "SIDCO Industrial Kurichi", "code": "CBE-KRC-01", "lat": 10.9450, "lng": 76.9680, "elevation": 420.0, "base_pm25": 58},
+            {"name": "Gandhipuram Bus Transit", "code": "CBE-GND-02", "lat": 11.0180, "lng": 76.9690, "elevation": 412.0, "base_pm25": 52},
+        ]
+    },
+    {
+        "name": "Madurai",
+        "state": "Tamil Nadu",
+        "country": "India",
+        "latitude": 9.9252,
+        "longitude": 78.1198,
+        "stations": [
+            {"name": "Meenakshi Heritage Buffer", "code": "IXM-MNK-01", "lat": 9.9195, "lng": 78.1193, "elevation": 136.0, "base_pm25": 54},
+            {"name": "Sellur Vaigai North", "code": "IXM-SLR-02", "lat": 9.9410, "lng": 78.1120, "elevation": 134.0, "base_pm25": 62},
+        ]
+    },
+    {
+        "name": "Kozhikode",
+        "state": "Kerala",
+        "country": "India",
+        "latitude": 11.2588,
+        "longitude": 75.7804,
+        "stations": [
+            {"name": "Palayam Commercial Sector", "code": "CCJ-PLY-01", "lat": 11.2510, "lng": 75.7890, "elevation": 8.0, "base_pm25": 42},
+            {"name": "Calicut Beach Promenade", "code": "CCJ-BCH-02", "lat": 11.2620, "lng": 75.7680, "elevation": 5.0, "base_pm25": 34},
+        ]
+    },
+    {
+        "name": "Vijayawada",
+        "state": "Andhra Pradesh",
+        "country": "India",
+        "latitude": 16.5062,
+        "longitude": 80.6480,
+        "stations": [
+            {"name": "Benz Circle Traffic Hub", "code": "BZA-BNZ-01", "lat": 16.4980, "lng": 80.6550, "elevation": 24.0, "base_pm25": 64},
+            {"name": "Autonagar Industrial Zone", "code": "BZA-ATG-02", "lat": 16.5020, "lng": 80.6840, "elevation": 22.0, "base_pm25": 82},
+        ]
+    },
+    {
+        "name": "Tirupati",
+        "state": "Andhra Pradesh",
+        "country": "India",
+        "latitude": 13.6288,
+        "longitude": 79.4192,
+        "stations": [
+            {"name": "Alipiri Foothills Sanctuary", "code": "TIR-ALP-01", "lat": 13.6520, "lng": 79.3950, "elevation": 180.0, "base_pm25": 38},
+            {"name": "Tirupati Central Bus Station", "code": "TIR-CBS-02", "lat": 13.6250, "lng": 79.4280, "elevation": 162.0, "base_pm25": 56},
+        ]
+    },
+    {
+        "name": "Mangaluru",
+        "state": "Karnataka",
+        "country": "India",
+        "latitude": 12.9141,
+        "longitude": 74.8560,
+        "stations": [
+            {"name": "Baikampady NMPT Harbor", "code": "IXE-BKP-01", "lat": 12.9480, "lng": 74.8150, "elevation": 12.0, "base_pm25": 66},
+            {"name": "Kadri Hills Ecological Park", "code": "IXE-KDR-02", "lat": 12.8850, "lng": 74.8620, "elevation": 45.0, "base_pm25": 38},
+        ]
+    },
+    {
+        "name": "Hubballi-Dharwad",
+        "state": "Karnataka",
+        "country": "India",
+        "latitude": 15.3647,
+        "longitude": 75.1240,
+        "stations": [
+            {"name": "Vidyanagar City Center", "code": "HBX-VDN-01", "lat": 15.3720, "lng": 75.1210, "elevation": 670.0, "base_pm25": 55},
+            {"name": "Gokul Road Industrial", "code": "HBX-GKL-02", "lat": 15.3520, "lng": 75.0980, "elevation": 665.0, "base_pm25": 72},
+        ]
+    },
+    {
+        "name": "Jamshedpur",
+        "state": "Jharkhand",
+        "country": "India",
+        "latitude": 22.8046,
+        "longitude": 86.2029,
+        "stations": [
+            {"name": "Bistupur Tata Steel Zone", "code": "IXW-BST-01", "lat": 22.7950, "lng": 86.1850, "elevation": 165.0, "base_pm25": 85},
+            {"name": "Golmuri Industrial Belt", "code": "IXW-GLM-02", "lat": 22.8120, "lng": 86.2250, "elevation": 160.0, "base_pm25": 96},
+        ]
+    },
+    {
+        "name": "Dhanbad",
+        "state": "Jharkhand",
+        "country": "India",
+        "latitude": 23.7957,
+        "longitude": 86.4304,
+        "stations": [
+            {"name": "Bank More Commerce Node", "code": "DHN-BNK-01", "lat": 23.7880, "lng": 86.4250, "elevation": 225.0, "base_pm25": 98},
+            {"name": "Jharia Mining Air Corridor", "code": "DHN-JHR-02", "lat": 23.7420, "lng": 86.4150, "elevation": 218.0, "base_pm25": 125},
+        ]
+    },
+    {
+        "name": "Gwalior",
+        "state": "Madhya Pradesh",
+        "country": "India",
+        "latitude": 26.2183,
+        "longitude": 78.1828,
+        "stations": [
+            {"name": "Maharaj Bada Heritage Area", "code": "GWL-MBD-01", "lat": 26.2050, "lng": 78.1620, "elevation": 210.0, "base_pm25": 88},
+            {"name": "Morar Urban Cantonment", "code": "GWL-MRR-02", "lat": 26.2280, "lng": 78.2180, "elevation": 215.0, "base_pm25": 74},
+        ]
+    },
+    {
+        "name": "Jabalpur",
+        "state": "Madhya Pradesh",
+        "country": "India",
+        "latitude": 23.1815,
+        "longitude": 79.9864,
+        "stations": [
+            {"name": "Wright Town Commercial", "code": "JLR-WRT-01", "lat": 23.1650, "lng": 79.9320, "elevation": 415.0, "base_pm25": 72},
+            {"name": "Madan Mahal Historic Basin", "code": "JLR-MDM-02", "lat": 23.1520, "lng": 79.9080, "elevation": 420.0, "base_pm25": 60},
+        ]
+    },
+    {
+        "name": "Kota",
+        "state": "Rajasthan",
+        "country": "India",
+        "latitude": 25.2138,
+        "longitude": 75.8648,
+        "stations": [
+            {"name": "DCM Thermal Industrial Zone", "code": "KTU-DCM-01", "lat": 25.1750, "lng": 75.8350, "elevation": 275.0, "base_pm25": 92},
+            {"name": "Aerodrome Circle Vibrant Hub", "code": "KTU-AER-02", "lat": 25.1950, "lng": 75.8520, "elevation": 272.0, "base_pm25": 70},
+        ]
+    },
+    {
+        "name": "Jodhpur",
+        "state": "Rajasthan",
+        "country": "India",
+        "latitude": 26.2389,
+        "longitude": 73.0243,
+        "stations": [
+            {"name": "Sojati Gate Old City", "code": "JDH-SJT-01", "lat": 26.2880, "lng": 73.0250, "elevation": 235.0, "base_pm25": 78},
+            {"name": "Shastri Nagar Sector 5", "code": "JDH-SHS-02", "lat": 26.2650, "lng": 73.0080, "elevation": 240.0, "base_pm25": 65},
+        ]
+    },
+    {
+        "name": "Udaipur",
+        "state": "Rajasthan",
+        "country": "India",
+        "latitude": 24.5854,
+        "longitude": 73.7125,
+        "stations": [
+            {"name": "Chetak Circle Central", "code": "UDR-CHT-01", "lat": 24.5920, "lng": 73.6880, "elevation": 598.0, "base_pm25": 62},
+            {"name": "Fatehsagar Lake Clean Belt", "code": "UDR-FTS-02", "lat": 24.6050, "lng": 73.6720, "elevation": 602.0, "base_pm25": 44},
+        ]
+    },
+    {
+        "name": "Panaji",
+        "state": "Goa",
+        "country": "India",
+        "latitude": 15.4909,
+        "longitude": 73.8278,
+        "stations": [
+            {"name": "Miramar Coastal Haven", "code": "GOI-MRM-01", "lat": 15.4820, "lng": 73.8090, "elevation": 6.0, "base_pm25": 32},
+            {"name": "Kadamba Central Terminus", "code": "GOI-KDM-02", "lat": 15.4980, "lng": 73.8350, "elevation": 8.0, "base_pm25": 46},
+        ]
+    },
+    {
+        "name": "Leh",
+        "state": "Ladakh",
+        "country": "India",
+        "latitude": 34.1526,
+        "longitude": 77.5770,
+        "stations": [
+            {"name": "Shanti Stupa Pristine Zone", "code": "IXL-SST-01", "lat": 34.1680, "lng": 77.5850, "elevation": 3520.0, "base_pm25": 16},
+            {"name": "Main Market High Valley", "code": "IXL-MKT-02", "lat": 34.1540, "lng": 77.5820, "elevation": 3500.0, "base_pm25": 24},
+        ]
+    },
+    {
+        "name": "Gangtok",
+        "state": "Sikkim",
+        "country": "India",
+        "latitude": 27.3389,
+        "longitude": 88.6065,
+        "stations": [
+            {"name": "MG Marg Eco Pedestrian Zone", "code": "IXT-MGM-01", "lat": 27.3310, "lng": 88.6140, "elevation": 1650.0, "base_pm25": 22},
+            {"name": "Deorali Forest Canopy Station", "code": "IXT-DRL-02", "lat": 27.3200, "lng": 88.6080, "elevation": 1680.0, "base_pm25": 19},
+        ]
     }
 ]
 

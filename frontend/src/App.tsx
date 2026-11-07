@@ -21,6 +21,7 @@ import { NearbyAirQualityPage } from './pages/NearbyAirQualityPage';
 import { ScoreboardPage } from './pages/ScoreboardPage';
 import { TravelAirCheckPage } from './pages/TravelAirCheckPage';
 import { PlumeSimulatorPage } from './pages/PlumeSimulatorPage';
+import { EcoShieldPage } from './pages/EcoShieldPage';
 
 import { City, CurrentSummary } from './types';
 import { api } from './services/api';
@@ -162,6 +163,10 @@ export const App: React.FC = () => {
                 setCurrentTab('dashboard');
               }}
             />
+          )}
+
+          {currentTab === 'ecoshield' && (
+            <EcoShieldPage />
           )}
 
           {currentTab === 'plume' && (

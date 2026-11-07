@@ -19,9 +19,9 @@ export const CityRibbon: React.FC<CityRibbonProps> = ({
         {/* All Cities Chip */}
         <button
           onClick={() => onSelectCity('All')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-bold transition-all border ${
+          className={`btn-liquid flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-bold transition-all border ${
             selectedCity === 'All'
-              ? 'bg-gradient-to-r from-cyan-500 to-emerald-400 text-slate-950 border-transparent shadow-lg shadow-cyan-500/25 scale-[1.02]'
+              ? 'btn-liquid-cyan scale-[1.02]'
               : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 border-slate-800 hover:border-slate-700'
           }`}
         >
@@ -35,9 +35,9 @@ export const CityRibbon: React.FC<CityRibbonProps> = ({
             <button
               key={city.id}
               onClick={() => onSelectCity(city.name)}
-              className={`flex items-center gap-2.5 px-3.5 py-2 rounded-2xl text-xs font-semibold transition-all border ${
+              className={`btn-liquid flex items-center gap-2.5 px-3.5 py-2 rounded-2xl text-xs font-semibold transition-all border ${
                 isSelected
-                  ? 'bg-gradient-to-r from-cyan-500 to-sky-400 text-slate-950 border-transparent shadow-lg shadow-cyan-500/25 scale-[1.02] font-bold'
+                  ? 'btn-liquid-emerald scale-[1.02] font-bold'
                   : 'bg-slate-900/70 hover:bg-slate-800 text-slate-300 border-slate-800 hover:border-slate-700'
               }`}
             >

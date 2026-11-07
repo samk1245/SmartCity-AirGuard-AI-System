@@ -21,13 +21,15 @@ import {
   ChevronLeft,
   ChevronRight,
   Plane,
-  Wind
+  Wind,
+  Droplets
 } from 'lucide-react';
 
 export type NavTab =
   | 'dashboard'
   | 'explorer'
   | 'travel'
+  | 'ecoshield'
   | 'nearby'
   | 'pollutants'
   | 'health'
@@ -78,6 +80,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   const immersiveVisualItems: SidebarMenuItem[] = [
+    { id: 'ecoshield', label: 'Eco-Shield & Fluid Wave', icon: Droplets, badge: 'FLUID', badgeColor: 'bg-teal-500/20 text-teal-300 border border-teal-500/40' },
     { id: 'earth3d', label: '3D Earth & Atmosphere', icon: Globe, badge: '3D', badgeColor: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' },
     { id: 'plume', label: '3D Plume Dispersion', icon: Wind, badge: 'PHYSICS', badgeColor: 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' },
     { id: 'streetview', label: 'Street View Explorer', icon: Compass, badge: '360°', badgeColor: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' },

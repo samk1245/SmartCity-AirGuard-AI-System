@@ -716,18 +716,22 @@ def get_atmospheric_inversion_analysis(
 # 23. Travel Air Guard - Inter-City Route Environmental Exposure
 @router.get("/travel/route-analysis", tags=["Travel Air Guard"])
 def get_travel_route_analysis(
-    origin: str = Query(..., description="Origin / departure city name"),
-    destination: str = Query(..., description="Destination arrival city name"),
+    origin: Optional[str] = Query(None, description="Origin / departure city name"),
+    destination: Optional[str] = Query(None, description="Destination arrival city name"),
+    origin_city: Optional[str] = Query(None, description="Alternative origin parameter"),
+    destination_city: Optional[str] = Query(None, description="Alternative destination parameter"),
     db: Session = Depends(get_db)
 ):
     """
     Computes comparative respiratory exposure deltas, transit mode cabin filtration tips,
     optimal travel departure windows, and packing essentials between two Indian cities.
     """
+    from_city = origin or origin_city or "Bengaluru"
+    to_city = destination or destination_city or "Delhi"
     return analyze_travel_route(
         db=db,
-        origin_city_name=origin,
-        destination_city_name=destination
+        origin_city_name=from_city,
+        destination_city_name=to_city
     )
 
 
