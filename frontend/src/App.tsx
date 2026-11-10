@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Sidebar, NavTab } from './components/Sidebar';
+import { AtmosphericCanvas } from './components/AtmosphericCanvas';
+import { EcoAIAssistant } from './components/EcoAIAssistant';
+import { GlobalSearchModal } from './components/GlobalSearchModal';
+
+// Existing Pages
 import { DashboardPage } from './pages/DashboardPage';
 import { CurrentAirQualityPage } from './pages/CurrentAirQualityPage';
 import { HistoricalAnalyticsPage } from './pages/HistoricalAnalyticsPage';
@@ -23,6 +28,14 @@ import { TravelAirCheckPage } from './pages/TravelAirCheckPage';
 import { PlumeSimulatorPage } from './pages/PlumeSimulatorPage';
 import { EcoShieldPage } from './pages/EcoShieldPage';
 
+// New Premium Pages
+import { PollutionHotspotsPage } from './pages/PollutionHotspotsPage';
+import { CityComparisonPage } from './pages/CityComparisonPage';
+import { EnvironmentalAnalyticsPage } from './pages/EnvironmentalAnalyticsPage';
+import { EcoAIPage } from './pages/EcoAIPage';
+import { AdminPanelPage } from './pages/AdminPanelPage';
+import { ReportsPage } from './pages/ReportsPage';
+
 import { City, CurrentSummary } from './types';
 import { api } from './services/api';
 
@@ -34,6 +47,8 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [forecastStationId, setForecastStationId] = useState<number | undefined>(undefined);
+  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   // Cross-page navigation state for Street View
   const [streetViewTarget, setStreetViewTarget] = useState<{
@@ -66,6 +81,18 @@ export const App: React.FC = () => {
   useEffect(() => {
     loadInitialData();
   }, [selectedCity]);
+
+  // Global Keyboard Shortcut for Search (Ctrl+K or Cmd+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const handleRefresh = async () => {
     try {
@@ -101,8 +128,45 @@ export const App: React.FC = () => {
     setCurrentTab('map');
   };
 
+  const handleToggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
+  const primaryReading = summary?.readings[0];
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950">
+    <div
+      className={`min-h-screen text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950 relative overflow-x-hidden ${
+        theme === 'light' ? 'light bg-slate-100 text-slate-900' : 'bg-midnight-950 text-slate-100'
+      }`}
+    >
+      {/* Background Animated Atmospheric Particles */}
+      <AtmosphericCanvas aqi={summary ? summary.overall_aqi : 120} />
+
+      {/* Global Quick Search Modal (Cmd+K) */}
+      <GlobalSearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        cities={cities}
+        onSelectCity={(city) => {
+          setSelectedCity(city);
+          setCurrentTab('dashboard');
+        }}
+        onNavigateTab={(tab) => setCurrentTab(tab)}
+      />
+
+      {/* Floating ECO AI Copilot Assistant */}
+      <EcoAIAssistant
+        selectedCity={selectedCity === 'All' ? 'National Smart Cities' : selectedCity}
+        currentAqi={summary ? Math.round(summary.overall_aqi) : 135}
+        currentCategory={summary ? summary.overall_category : 'Moderate'}
+        pm25={primaryReading?.pm25 || 74.2}
+        pm10={primaryReading?.pm10 || 128.5}
+        temperature={primaryReading?.temperature || 28.5}
+        humidity={primaryReading?.humidity || 58.0}
+        windSpeed={primaryReading?.wind_speed || 8.5}
+      />
+
       {/* Top Navbar */}
       <Navbar
         cities={cities}
@@ -112,11 +176,14 @@ export const App: React.FC = () => {
         onOpenAlerts={() => setCurrentTab('alerts')}
         onRefresh={handleRefresh}
         isRefreshing={isRefreshing}
+        onOpenGlobalSearch={() => setIsSearchOpen(true)}
         onNavigateToEarth3D={() => setCurrentTab('earth3d')}
         onNavigateToStreetView={handleNavigateToCurrentLocationStreetView}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
       />
 
-      <div className="flex flex-1">
+      <div className="flex flex-1 relative z-10">
         {/* Left Navigation Sidebar */}
         <Sidebar
           currentTab={currentTab}
@@ -125,7 +192,8 @@ export const App: React.FC = () => {
         />
 
         {/* Main Content Area */}
-        <main className="flex-1 p-6 lg:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
+          {/* Core Platform Views */}
           {currentTab === 'dashboard' && (
             <DashboardPage
               summary={summary}
@@ -144,6 +212,69 @@ export const App: React.FC = () => {
             />
           )}
 
+          {currentTab === 'live' && (
+            <CurrentAirQualityPage
+              summary={summary}
+              loading={loading}
+              onSelectStationForForecast={handleSelectStationForForecast}
+            />
+          )}
+
+          {currentTab === 'forecast' && (
+            <ForecastPage cities={cities} defaultStationId={forecastStationId} />
+          )}
+
+          {currentTab === 'map' && (
+            <MapPage
+              cities={cities}
+              selectedCity={selectedCity}
+              onSelectStationForForecast={handleSelectStationForForecast}
+              onNavigateToStreetView={handleNavigateToStreetView}
+            />
+          )}
+
+          {currentTab === 'hotspots' && (
+            <PollutionHotspotsPage
+              onNavigateToMap={handleNavigateToMap}
+              onSelectCity={(city) => {
+                setSelectedCity(city);
+                setCurrentTab('dashboard');
+              }}
+            />
+          )}
+
+          {currentTab === 'comparison' && (
+            <CityComparisonPage
+              cities={cities}
+              onSelectCityForDashboard={(city) => {
+                setSelectedCity(city);
+                setCurrentTab('dashboard');
+              }}
+            />
+          )}
+
+          {currentTab === 'analytics' && (
+            <EnvironmentalAnalyticsPage selectedCity={selectedCity} />
+          )}
+
+          {currentTab === 'assistant' && (
+            <EcoAIPage
+              selectedCity={selectedCity === 'All' ? 'National Smart Cities' : selectedCity}
+              currentAqi={summary ? Math.round(summary.overall_aqi) : 135}
+            />
+          )}
+
+          {currentTab === 'alerts' && <AlertsPage />}
+
+          {currentTab === 'reports' && (
+            <ReportsPage cities={cities} selectedCity={selectedCity} />
+          )}
+
+          {currentTab === 'admin' && (
+            <AdminPanelPage cities={cities} />
+          )}
+
+          {/* Digital Twins, Simulations & Deep Explorer Views */}
           {currentTab === 'explorer' && (
             <CityExplorerPage
               onSelectCity={(city) => {
@@ -165,13 +296,9 @@ export const App: React.FC = () => {
             />
           )}
 
-          {currentTab === 'ecoshield' && (
-            <EcoShieldPage />
-          )}
+          {currentTab === 'ecoshield' && <EcoShieldPage />}
 
-          {currentTab === 'plume' && (
-            <PlumeSimulatorPage />
-          )}
+          {currentTab === 'plume' && <PlumeSimulatorPage />}
 
           {currentTab === 'nearby' && (
             <NearbyAirQualityPage
@@ -225,32 +352,9 @@ export const App: React.FC = () => {
             <ScenarioStudioPage cities={cities} selectedCity={selectedCity} />
           )}
 
-          {currentTab === 'live' && (
-            <CurrentAirQualityPage
-              summary={summary}
-              loading={loading}
-              onSelectStationForForecast={handleSelectStationForForecast}
-            />
-          )}
-
           {currentTab === 'historical' && (
             <HistoricalAnalyticsPage cities={cities} selectedCity={selectedCity} />
           )}
-
-          {currentTab === 'forecast' && (
-            <ForecastPage cities={cities} defaultStationId={forecastStationId} />
-          )}
-
-          {currentTab === 'map' && (
-            <MapPage
-              cities={cities}
-              selectedCity={selectedCity}
-              onSelectStationForForecast={handleSelectStationForForecast}
-              onNavigateToStreetView={handleNavigateToStreetView}
-            />
-          )}
-
-          {currentTab === 'alerts' && <AlertsPage />}
 
           {currentTab === 'upload' && <DatasetUploadPage />}
 

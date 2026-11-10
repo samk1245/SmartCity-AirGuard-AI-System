@@ -15,7 +15,12 @@ import {
   Compass,
   Crosshair,
   Sliders,
-  HeartPulse
+  HeartPulse,
+  Activity,
+  Layers,
+  ShieldCheck,
+  Radio,
+  Flame
 } from 'lucide-react';
 import { CurrentSummary, City } from '../types';
 import { StatCard } from '../components/StatCard';
@@ -32,6 +37,9 @@ import { AtmosphericFlowfield3D } from '../components/AtmosphericFlowfield3D';
 import { ExposureCalculatorModal } from '../components/ExposureCalculatorModal';
 import { FluidWaveBanner } from '../components/FluidWaveBanner';
 import { CitySlideShow } from '../components/CitySlideShow';
+import { CinematicHeroSection } from '../components/CinematicHeroSection';
+import { EnvironmentalMetricGrid } from '../components/EnvironmentalMetricGrid';
+import { playCyberClick } from '../utils/audioSystem';
 
 interface DashboardPageProps {
   summary: CurrentSummary | null;
@@ -50,7 +58,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   cities,
   onSelectCity,
   onNavigate,
-  onSelectStationForForecast
+  onSelectStationForForecast,
 }) => {
   const [showComparison, setShowComparison] = useState(false);
   const [showExposureModal, setShowExposureModal] = useState(false);
@@ -71,15 +79,56 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
   const highest = summary.highest_polluted_station;
   const cleanest = summary.cleanest_station;
-
-  // Extract primary pollutant level for exposure computation
   const primaryReading = summary.readings[0];
-  const currentPm25 = primaryReading?.pm25 || 85;
+  const currentPm25 = primaryReading?.pm25 || 74.2;
+  const currentPm10 = primaryReading?.pm10 || 128.5;
+  const currentTemp = primaryReading?.temperature || 28.5;
+  const currentWind = primaryReading?.wind_speed || 8.2;
 
   return (
     <div className="space-y-6">
       {/* Real-Time National Cities Ticker */}
       <LiveAqiTicker onSelectCity={onSelectCity} selectedCity={selectedCity} />
+
+      {/* Cinematic Hero Section (Heading: INTELLIGENCE FOR A CLEANER TOMORROW) */}
+      <CinematicHeroSection
+        selectedCity={selectedCity}
+        overallAqi={Math.round(summary.overall_aqi)}
+        overallCategory={summary.overall_category}
+        stationCount={summary.readings.length}
+        pm25={currentPm25}
+        pm10={currentPm10}
+        temperature={currentTemp}
+        windSpeed={currentWind}
+        onExploreDashboard={() => {
+          const el = document.getElementById('live-metrics-grid');
+          el?.scrollIntoView({ behavior: 'smooth' });
+        }}
+        onPredictFuture={() => onNavigate('forecast')}
+      />
+
+      {/* Live 11-Parameter Environmental Metric Grid */}
+      <div id="live-metrics-grid">
+        <EnvironmentalMetricGrid
+          reading={primaryReading}
+          overallAqi={summary.overall_aqi}
+          overallCategory={summary.overall_category}
+          lastUpdated={new Date(summary.last_updated).toLocaleTimeString('en-IN', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true,
+          })}
+          cityName={selectedCity}
+        />
+      </div>
+
+      {/* Quick City Navigation Ribbon */}
+      <CityRibbon
+        cities={cities}
+        selectedCity={selectedCity}
+        onSelectCity={onSelectCity}
+      />
 
       {/* Hero Animated Watery Flow Telemetry Banner */}
       <FluidWaveBanner
@@ -90,15 +139,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         onOpenExposureModal={() => setShowExposureModal(true)}
       />
 
-      {/* Quick City Navigation Ribbon */}
-      <CityRibbon
-        cities={cities}
-        selectedCity={selectedCity}
-        onSelectCity={onSelectCity}
-      />
-
-      {/* Hero Visual Dashboard: Radial Speedometer + Key Metrics */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700/80 rounded-3xl p-6 lg:p-8 shadow-2xl relative overflow-hidden">
+      {/* Overview Radar Speedometer + Quick Command Launchpad */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 glass-panel border border-cyan-500/30 rounded-3xl p-6 lg:p-8 shadow-2xl relative overflow-hidden">
         {/* Glow backdrop decorative orbs */}
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -106,22 +148,22 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         {/* Left Side: Overview & Description */}
         <div className="lg:col-span-7 flex flex-col justify-between space-y-6 z-10">
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-wider font-mono">
               <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
-              Real-Time Atmospheric Intelligence
+              <span>Real-Time Atmospheric Intelligence Core</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-              {selectedCity === 'All' ? 'National Smart Cities AQI' : `${selectedCity} Air Quality`}
-            </h1>
-            <p className="text-sm text-slate-300 max-w-xl leading-relaxed">
-              Monitoring ambient particulates, gaseous pollutants, and micro-climatic atmospheric variations across statutory Indian CPCB stations.
+            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              {selectedCity === 'All' ? 'National Smart Cities Overview' : `${selectedCity} Microclimate`}
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed">
+              Synthesizing continuous ambient observations across {summary.readings.length} CAAQMS statutory towers with boundary-layer meteorology.
             </p>
           </div>
 
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
             <div className="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/80">
-              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
+              <span className="text-[10px] text-slate-400 uppercase font-mono font-bold tracking-wider">
                 Reporting Nodes
               </span>
               <div className="text-xl font-black text-white mt-0.5">
@@ -131,17 +173,17 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             </div>
 
             <div className="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/80">
-              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
-                Dominant Agent
+              <span className="text-[10px] text-slate-400 uppercase font-mono font-bold tracking-wider">
+                Dominant Stressor
               </span>
-              <div className="text-xl font-black text-cyan-400 mt-0.5 uppercase">
+              <div className="text-xl font-black text-cyan-400 mt-0.5 uppercase font-mono">
                 PM2.5 / PM10
               </div>
               <span className="text-[11px] text-slate-400">Micro-particulates</span>
             </div>
 
             <div className="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/80 col-span-2 sm:col-span-1">
-              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
+              <span className="text-[10px] text-slate-400 uppercase font-mono font-bold tracking-wider">
                 Risk Classification
               </span>
               <div className="text-xl font-black text-white mt-0.5 truncate">
@@ -151,79 +193,89 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             </div>
           </div>
 
-          {/* Action Buttons with Liquid Glass Tactile Styles */}
-          <div className="flex flex-wrap items-center gap-2.5 pt-1">
+          {/* Action Launchpad Buttons */}
+          <div className="flex flex-wrap items-center gap-2 pt-1">
             <button
-              onClick={() => onNavigate('earth3d')}
-              className="btn-liquid-cyan px-4 py-2.5 rounded-xl text-xs flex items-center gap-2"
+              onClick={() => {
+                playCyberClick();
+                onNavigate('map');
+              }}
+              className="btn-cinematic-cyan px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5"
             >
-              <Globe className="w-4 h-4 text-slate-950" /> 3D Earth Globe
+              <MapPin className="w-3.5 h-3.5" />
+              <span>3D City Map</span>
             </button>
 
             <button
-              onClick={() => onNavigate('streetview')}
-              className="btn-liquid-emerald px-4 py-2.5 rounded-xl text-xs flex items-center gap-2"
+              onClick={() => {
+                playCyberClick();
+                onNavigate('hotspots');
+              }}
+              className="btn-cinematic-glass px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 hover:text-rose-400"
             >
-              <Crosshair className="w-4 h-4 text-slate-950" /> Street View (Live GPS)
+              <Flame className="w-3.5 h-3.5 text-rose-400" />
+              <span>Pollution Hotspots</span>
             </button>
 
             <button
-              onClick={() => onNavigate('ecoshield')}
-              className="btn-liquid-purple px-4 py-2.5 rounded-xl text-xs flex items-center gap-2"
+              onClick={() => {
+                playCyberClick();
+                onNavigate('comparison');
+              }}
+              className="btn-cinematic-glass px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5"
             >
-              <Droplets className="w-4 h-4 text-white" /> Eco-Shield Lab
+              <ArrowRightLeft className="w-3.5 h-3.5 text-cyan-400" />
+              <span>City Comparison</span>
             </button>
 
             <button
-              onClick={() => onNavigate('forecast')}
-              className="btn-glass-tactile px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-2"
+              onClick={() => {
+                playCyberClick();
+                onNavigate('assistant');
+              }}
+              className="btn-cinematic-glass px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 hover:text-purple-300"
             >
-              <Sparkles className="w-4 h-4 text-cyan-400" /> AI Forecast
+              <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+              <span>ECO AI Copilot</span>
             </button>
 
             <button
-              onClick={() => onNavigate('scenario')}
-              className="btn-glass-tactile px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5"
+              onClick={() => {
+                playCyberClick();
+                onNavigate('analytics');
+              }}
+              className="btn-cinematic-glass px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5"
             >
-              <Sliders className="w-3.5 h-3.5 text-purple-400" /> Policy Studio
+              <Activity className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Longitudinal Analytics</span>
             </button>
 
             <button
-              onClick={() => setShowExposureModal(true)}
-              className="btn-liquid-rose px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5"
+              onClick={() => {
+                playCyberClick();
+                setShowExposureModal(true);
+              }}
+              className="btn-cinematic-glass px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 hover:text-rose-300"
             >
-              <HeartPulse className="w-3.5 h-3.5 text-white animate-pulse" /> Inhaled Dose
-            </button>
-
-            <button
-              onClick={() => setShowComparison(true)}
-              className="btn-glass-tactile px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5"
-            >
-              <ArrowRightLeft className="w-3.5 h-3.5 text-slate-400" /> Compare
-            </button>
-
-            <button
-              onClick={() => onNavigate('map')}
-              className="btn-glass-tactile px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5"
-            >
-              <MapPin className="w-3.5 h-3.5 text-rose-400" /> GIS Map
+              <HeartPulse className="w-3.5 h-3.5 text-rose-400 animate-pulse" />
+              <span>Inhaled Dose</span>
             </button>
           </div>
 
-          <div className="text-[11px] text-slate-400 flex items-center gap-2">
-            <Clock className="w-3.5 h-3.5 text-slate-500" />
-            Last Synced: {new Date(summary.last_updated).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+          <div className="text-[11px] text-slate-400 flex items-center gap-2 font-mono">
+            <Clock className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Synced: {new Date(summary.last_updated).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</span>
           </div>
         </div>
 
-        {/* Right Side: Animated 3D Radial Speedometer Gauge */}
-        <div className="lg:col-span-5 flex flex-col items-center justify-center p-4 bg-slate-950/40 rounded-2xl border border-slate-800/80 z-10">
-          <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
-            Air Quality Gauge
+        {/* Right Side: Speedometer Radial Gauge */}
+        <div className="lg:col-span-5 flex flex-col items-center justify-center p-4 bg-slate-950/60 rounded-2xl border border-slate-800/80 z-10">
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 mb-2">
+            Air Quality Speedometer
           </div>
-          <AQIGauge aqi={summary.overall_aqi} category={summary.overall_category} size={290} />
-          <div className="text-center mt-3 text-xs text-slate-400 max-w-xs">
-            Official Indian Central Pollution Control Board (CPCB) Standard
+          <AQIGauge aqi={summary.overall_aqi} category={summary.overall_category} size={280} />
+          <div className="text-center mt-3 text-xs text-slate-400 max-w-xs font-sans">
+            Statutory Central Pollution Control Board (CPCB) Standard
           </div>
         </div>
       </div>
@@ -237,13 +289,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* Citizen Health & Actionable Advisories */}
       <HealthAdvisoryCard aqi={summary.overall_aqi} category={summary.overall_category} />
 
-      {/* KPI Cards Row with 3D Icons & 3D Interactive Parallax Tilt */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {/* 4 KPI Cards Row with Parallax Tilt */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <ThreeDCard glowColor="emerald" tiltStrength={10} depth={20}>
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl backdrop-blur-sm h-full flex flex-col justify-between">
+          <div className="glass-card p-5 rounded-2xl border border-slate-800 h-full flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
                   Cleanest Zone
                 </span>
                 <ThreeDIcon name="leaf" size="sm" />
@@ -252,7 +304,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 <span className="text-3xl font-extrabold text-emerald-400 tracking-tight">
                   {cleanest ? Math.round(cleanest.aqi) : '—'}
                 </span>
-                <span className="text-xs font-medium text-slate-400">AQI</span>
+                <span className="text-xs font-mono font-medium text-slate-400">AQI</span>
               </div>
               <div className="text-xs text-slate-300 font-semibold truncate mt-2">
                 {cleanest ? cleanest.station_name : '—'}
@@ -266,10 +318,10 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         </ThreeDCard>
 
         <ThreeDCard glowColor="rose" tiltStrength={10} depth={20}>
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl backdrop-blur-sm h-full flex flex-col justify-between">
+          <div className="glass-card p-5 rounded-2xl border border-slate-800 h-full flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
                   Highest Pollution Peak
                 </span>
                 <ThreeDIcon name="alert" size="sm" />
@@ -278,7 +330,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 <span className="text-3xl font-extrabold text-rose-400 tracking-tight">
                   {highest ? Math.round(highest.aqi) : '—'}
                 </span>
-                <span className="text-xs font-medium text-slate-400">AQI</span>
+                <span className="text-xs font-mono font-medium text-slate-400">AQI</span>
               </div>
               <div className="text-xs text-slate-300 font-semibold truncate mt-2">
                 {highest ? highest.station_name : 'No active alerts'}
@@ -292,19 +344,19 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         </ThreeDCard>
 
         <ThreeDCard glowColor="cyan" tiltStrength={10} depth={20}>
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl backdrop-blur-sm h-full flex flex-col justify-between">
+          <div className="glass-card p-5 rounded-2xl border border-slate-800 h-full flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
                   AI Forecast Readiness
                 </span>
                 <ThreeDIcon name="ai" size="sm" />
               </div>
               <div className="flex items-baseline gap-2 mb-1">
                 <span className="text-3xl font-extrabold text-white tracking-tight">
-                  72h
+                  7-Day
                 </span>
-                <span className="text-xs font-medium text-slate-400">Horizon</span>
+                <span className="text-xs font-mono font-medium text-slate-400">168h</span>
               </div>
               <div className="text-xs text-slate-300 font-semibold truncate mt-2">
                 Quantile Uncertainty Active
@@ -312,16 +364,16 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             </div>
             <div className="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
               <span className="text-slate-400">Confidence</span>
-              <span className="text-cyan-400 font-bold">10th - 90th Pct</span>
+              <span className="text-cyan-400 font-mono font-bold">10th - 90th Pct</span>
             </div>
           </div>
         </ThreeDCard>
 
         <ThreeDCard glowColor={summary.active_alerts_count > 0 ? 'amber' : 'emerald'} tiltStrength={10} depth={20}>
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl backdrop-blur-sm h-full flex flex-col justify-between">
+          <div className="glass-card p-5 rounded-2xl border border-slate-800 h-full flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
                   Active Health Advisories
                 </span>
                 <ThreeDIcon name="lungs" size="sm" />
@@ -330,7 +382,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 <span className={`text-3xl font-extrabold tracking-tight ${summary.active_alerts_count > 0 ? 'text-amber-400' : 'text-emerald-400'}`}>
                   {summary.active_alerts_count}
                 </span>
-                <span className="text-xs font-medium text-slate-400">Active</span>
+                <span className="text-xs font-mono font-medium text-slate-400">Active</span>
               </div>
               <div className="text-xs text-slate-300 font-semibold truncate mt-2">
                 {summary.active_alerts_count > 0 ? 'Requires Operator Review' : 'All Clear / Safe'}
@@ -357,7 +409,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             <div>
               <h2 className="text-lg font-black text-white tracking-tight flex items-center gap-2">
                 3D Atmospheric Particulate Dispersion Flowfield
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800">
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800">
                   WebGL Physics Simulation
                 </span>
               </h2>
@@ -383,16 +435,16 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         />
       </div>
 
-      {/* Monitoring Stations Matrix */}
-      <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+      {/* Monitoring Stations Grid */}
+      <div className="p-6 rounded-3xl glass-panel border border-slate-800 shadow-xl space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <ThreeDIcon name="wind" size="sm" />
-              Urban Monitoring Stations ({summary.readings.length})
+            <h2 className="text-base font-bold text-white flex items-center gap-2">
+              <Radio className="w-5 h-5 text-cyan-400" />
+              <span>Urban Monitoring Stations ({summary.readings.length})</span>
             </h2>
             <p className="text-xs text-slate-400">
-              Station-level pollutant breakdown across {selectedCity === 'All' ? '15 Indian cities' : selectedCity}
+              Station-level pollutant breakdown across {selectedCity === 'All' ? 'major Indian municipal centers' : selectedCity}
             </p>
           </div>
           <button
@@ -407,7 +459,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           {summary.readings.slice(0, 9).map((reading) => (
             <div
               key={reading.station_id}
-              className="bg-slate-900/70 border border-slate-700/50 rounded-2xl p-4 hover:border-slate-600 transition-all flex flex-col justify-between"
+              className="glass-card glass-card-hover p-4 rounded-2xl border border-slate-800 flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-start justify-between gap-2 mb-2">
@@ -415,12 +467,12 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                     <h3 className="text-sm font-bold text-white truncate max-w-[190px]">
                       {reading.station_name}
                     </h3>
-                    <p className="text-[11px] text-slate-400">{reading.city_name}</p>
+                    <p className="text-[11px] text-slate-400 font-medium">{reading.city_name}</p>
                   </div>
                   <AQIBadge category={reading.aqi_category} aqi={reading.aqi} size="sm" />
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 my-3 text-[11px] bg-slate-950/50 p-2.5 rounded-xl border border-slate-800">
+                <div className="grid grid-cols-3 gap-2 my-3 text-[11px] bg-slate-950/60 p-2.5 rounded-xl border border-slate-800 font-mono">
                   <div>
                     <div className="text-slate-400">PM2.5</div>
                     <div className="font-bold text-slate-200">
@@ -443,7 +495,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               </div>
 
               <div className="flex items-center justify-between pt-2.5 border-t border-slate-800 text-xs">
-                <div className="flex items-center gap-3 text-slate-400 text-[11px]">
+                <div className="flex items-center gap-3 text-slate-400 text-[11px] font-mono">
                   {reading.temperature && (
                     <span className="flex items-center gap-1">
                       <Thermometer className="w-3 h-3 text-cyan-400" />
@@ -488,3 +540,4 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     </div>
   );
 };
+export default DashboardPage;

@@ -1,7 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Wind, ShieldAlert, Bell, RefreshCw, Cpu, Globe, Compass, Crosshair, Volume2, VolumeX } from 'lucide-react';
+import {
+  Wind,
+  ShieldAlert,
+  Bell,
+  RefreshCw,
+  Cpu,
+  Globe,
+  Compass,
+  Crosshair,
+  Volume2,
+  VolumeX,
+  Search,
+  Sun,
+  Moon,
+  User,
+  Radio
+} from 'lucide-react';
 import { City } from '../types';
 import { isSoundEnabled, setSoundEnabled, playCyberClick } from '../utils/audioSystem';
+import { NotificationCenter } from './NotificationCenter';
 
 interface NavbarProps {
   cities: City[];
@@ -11,8 +28,11 @@ interface NavbarProps {
   onOpenAlerts: () => void;
   onRefresh: () => void;
   isRefreshing: boolean;
+  onOpenGlobalSearch: () => void;
   onNavigateToEarth3D?: () => void;
   onNavigateToStreetView?: () => void;
+  theme?: 'dark' | 'light';
+  onToggleTheme?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -23,13 +43,31 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenAlerts,
   onRefresh,
   isRefreshing,
+  onOpenGlobalSearch,
   onNavigateToEarth3D,
   onNavigateToStreetView,
+  theme = 'dark',
+  onToggleTheme,
 }) => {
   const [soundActive, setSoundActive] = useState<boolean>(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState<boolean>(false);
+  const [currentTime, setCurrentTime] = useState<string>('');
 
   useEffect(() => {
     setSoundActive(isSoundEnabled());
+    const updateClock = () => {
+      setCurrentTime(
+        new Date().toLocaleTimeString('en-IN', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        })
+      );
+    };
+    updateClock();
+    const interval = setInterval(updateClock, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleToggleSound = () => {
@@ -40,114 +78,154 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-6 py-3.5">
-      <div className="flex items-center justify-between">
+    <header className="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-xl border-b border-slate-800/80 px-4 sm:px-6 py-3">
+      <div className="flex items-center justify-between gap-4">
         {/* Brand identity */}
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-            <Wind className="w-6 h-6 text-slate-950 stroke-[2.5]" />
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="h-10 w-10 rounded-2xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+            <Wind className="w-5 h-5 text-slate-950 stroke-[2.5]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-extrabold text-lg text-white tracking-tight">
-                AirGuard <span className="text-cyan-400">AI</span>
+              <span className="font-black text-lg text-white tracking-tight">
+                AirGuard <span className="gradient-text-cyan">AI</span>
               </span>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800">
+              <span className="text-[10px] uppercase font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800">
                 48 Cities
               </span>
             </div>
-            <p className="text-xs text-slate-400 hidden sm:block">
-              Intelligent Urban Air Pollution & Environmental Forecasting
+            <p className="text-[11px] text-slate-400 hidden lg:block">
+              Smart City Environmental Intelligence Platform
             </p>
           </div>
         </div>
 
-        {/* Controls */}
-        <div className="flex items-center gap-2.5">
-          {/* 3D Earth Shortcut Button */}
-          {onNavigateToEarth3D && (
-            <button
-              onClick={onNavigateToEarth3D}
-              className="btn-liquid-cyan hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs"
-            >
-              <Globe className="w-3.5 h-3.5 text-slate-950 animate-pulse" />
-              <span>3D Earth</span>
-            </button>
-          )}
+        {/* Center: Global Search Bar Trigger */}
+        <div className="flex-1 max-w-md hidden md:block">
+          <button
+            onClick={() => {
+              playCyberClick();
+              onOpenGlobalSearch();
+            }}
+            className="w-full flex items-center justify-between px-3.5 py-1.5 rounded-xl bg-slate-950/70 hover:bg-slate-950 border border-slate-700/80 hover:border-cyan-500/40 text-xs text-slate-400 transition-all shadow-inner group"
+          >
+            <div className="flex items-center gap-2">
+              <Search className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
+              <span>Search smart cities, stations, predictive models...</span>
+            </div>
+            <div className="flex items-center gap-1 font-mono text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-300 border border-slate-700">
+              <span>Ctrl</span>
+              <span>K</span>
+            </div>
+          </button>
+        </div>
 
-          {/* My Location Street View Button */}
-          {onNavigateToStreetView && (
-            <button
-              onClick={onNavigateToStreetView}
-              className="btn-liquid-emerald hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs"
-              title="View live street view of your current location"
-            >
-              <Crosshair className="w-3.5 h-3.5 text-slate-950" />
-              <span>My Street View</span>
-            </button>
-          )}
+        {/* Right Controls */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Live Telemetry Clock */}
+          <div className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/60 border border-slate-800 text-[11px] font-mono text-slate-300">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span>UTC+5:30: <strong className="text-white">{currentTime}</strong></span>
+          </div>
 
           {/* City Selector */}
-          <div className="flex items-center gap-2 bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-1.5 text-sm">
-            <span className="text-xs text-slate-400 font-medium">City:</span>
+          <div className="flex items-center gap-1.5 bg-slate-950/80 border border-slate-700/80 rounded-xl px-2.5 py-1.5 text-xs">
+            <span className="text-slate-400 font-mono hidden sm:inline">City:</span>
             <select
               value={selectedCity}
               onChange={(e) => onSelectCity(e.target.value)}
-              className="bg-transparent text-white font-medium focus:outline-none cursor-pointer"
+              className="bg-transparent text-white font-bold focus:outline-none cursor-pointer max-w-[120px] sm:max-w-[150px] truncate"
             >
-              <option value="All" className="bg-slate-800">All Cities</option>
+              <option value="All" className="bg-slate-900">All Cities</option>
               {cities.map((c) => (
-                <option key={c.id} value={c.name} className="bg-slate-800">
-                  {c.name} ({c.state})
+                <option key={c.id} value={c.name} className="bg-slate-900">
+                  {c.name}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Model Status Pill */}
-          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-950/40 border border-emerald-800/50 text-emerald-400 text-xs font-semibold">
-            <Cpu className="w-3.5 h-3.5 animate-pulse text-emerald-400" />
-            <span>AI Model v1.0 Active</span>
-          </div>
-
-          {/* Alerts Notification Bell */}
-          <button
-            onClick={onOpenAlerts}
-            className="relative p-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-colors"
-            title="View Active Pollution Alerts"
-          >
-            <Bell className="w-5 h-5" />
-            {unreadAlertsCount > 0 && (
-              <span className="absolute -top-1 -right-1 px-1.5 py-0.2 min-w-5 h-5 rounded-full bg-rose-500 text-white text-[11px] font-bold flex items-center justify-center animate-bounce shadow-lg shadow-rose-500/40">
-                {unreadAlertsCount}
-              </span>
-            )}
-          </button>
-
-          {/* Audio Feedback Toggle */}
-          <button
-            onClick={handleToggleSound}
-            className={`p-2 rounded-lg border transition-colors ${
-              soundActive
-                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-md shadow-cyan-950'
-                : 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-400 hover:text-white'
-            }`}
-            title={soundActive ? 'Sound Feedback: ON' : 'Sound Feedback: OFF (Click to Enable)'}
-          >
-            {soundActive ? <Volume2 className="w-5 h-5 text-cyan-400" /> : <VolumeX className="w-5 h-5" />}
-          </button>
-
           {/* Refresh Button */}
           <button
-            onClick={onRefresh}
+            onClick={() => {
+              playCyberClick();
+              onRefresh();
+            }}
             disabled={isRefreshing}
-            className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-colors disabled:opacity-50"
-            title="Refresh Station Data"
+            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-cyan-400 transition-colors"
+            title="Refresh Real-Time Telemetry"
           >
-            <RefreshCw className={`w-5 h-5 ${isRefreshing ? 'animate-spin text-cyan-400' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin text-cyan-400' : ''}`} />
           </button>
+
+          {/* Sound Toggle */}
+          <button
+            onClick={handleToggleSound}
+            className={`p-2 rounded-xl border transition-colors ${
+              soundActive
+                ? 'bg-cyan-500/15 border-cyan-500/40 text-cyan-400 shadow-glow-cyan'
+                : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-white'
+            }`}
+            title={soundActive ? 'Sound Feedback Enabled' : 'Sound Feedback Disabled'}
+          >
+            {soundActive ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+          </button>
+
+          {/* Theme Toggle */}
+          {onToggleTheme && (
+            <button
+              onClick={() => {
+                playCyberClick();
+                onToggleTheme();
+              }}
+              className="p-2 rounded-xl bg-slate-800 border border-slate-700 text-slate-400 hover:text-amber-300 transition-colors"
+              title={theme === 'dark' ? 'Switch to Daylight Theme' : 'Switch to Midnight Theme'}
+            >
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+          )}
+
+          {/* Notifications Bell Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                playCyberClick();
+                setIsNotificationOpen(!isNotificationOpen);
+              }}
+              className="relative p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-colors"
+              title="Environmental Alerts"
+            >
+              <Bell className="w-4 h-4" />
+              {unreadAlertsCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
+                  <span className="relative inline-flex items-center justify-center rounded-full h-4 w-4 bg-rose-500 text-[9px] font-mono font-bold text-white">
+                    {unreadAlertsCount}
+                  </span>
+                </span>
+              )}
+            </button>
+
+            <NotificationCenter
+              isOpen={isNotificationOpen}
+              onClose={() => setIsNotificationOpen(false)}
+              onNavigateToAlerts={onOpenAlerts}
+            />
+          </div>
+
+          {/* User Profile Pill */}
+          <div className="hidden sm:flex items-center gap-2 pl-1 border-l border-slate-800">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-slate-950 font-bold text-xs shadow-md">
+              <User className="w-4 h-4" />
+            </div>
+            <div className="hidden xl:block text-left text-xs">
+              <span className="font-bold text-white block leading-tight">Admin Station</span>
+              <span className="text-[10px] text-cyan-400 font-mono">CPCB Analyst</span>
+            </div>
+          </div>
         </div>
       </div>
     </header>
   );
 };
+export default Navbar;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Circle, Polyline, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {
@@ -12,11 +12,20 @@ import {
   Droplets,
   RefreshCw,
   Sparkles,
-  ExternalLink
+  ExternalLink,
+  Flame,
+  Search,
+  Sliders,
+  ShieldCheck,
+  CheckCircle2,
+  TreePine,
+  Car,
+  Factory
 } from 'lucide-react';
 import { StationMapItem, City, LiveAtmosphericData } from '../types';
 import { api } from '../services/api';
 import { AQIBadge } from '../components/AQIBadge';
+import { playCyberClick } from '../utils/audioSystem';
 
 interface MapPageProps {
   cities: City[];
@@ -37,7 +46,7 @@ const MapCenterController: React.FC<{ center: [number, number]; zoom: number }> 
   return null;
 };
 
-// Map click listener component to allow pinpointing any spot on Earth
+// Map click listener component
 const MapClickListener: React.FC<{ onMapClick: (lat: number, lng: number) => void }> = ({
   onMapClick,
 }) => {
@@ -49,33 +58,36 @@ const MapClickListener: React.FC<{ onMapClick: (lat: number, lng: number) => voi
   return null;
 };
 
-// Custom glowing circular markers with AQI number
-const createCustomMarker = (aqi: number, category: string) => {
-  const colorMap: Record<string, string> = {
-    Good: '#10b981',
-    Satisfactory: '#84cc16',
-    Moderate: '#f59e0b',
-    Poor: '#f97316',
-    'Very Poor': '#ef4444',
-    Severe: '#7f1d1d',
-  };
-  const color = colorMap[category] || '#06b6d4';
+// Exact requested AQI marker colors:
+// Green: Good, Yellow: Moderate, Orange: Unhealthy for sensitive, Red: Unhealthy, Purple: Very Unhealthy, Maroon: Hazardous
+const getMarkerColor = (aqi: number) => {
+  if (aqi <= 50) return '#00E6A0'; // Emerald Green
+  if (aqi <= 100) return '#84CC16'; // Lime/Yellow
+  if (aqi <= 200) return '#FF9F43'; // Orange (Unhealthy for sensitive)
+  if (aqi <= 300) return '#F97316'; // Red-Orange (Unhealthy)
+  if (aqi <= 400) return '#FF4560'; // Purple/Crimson (Very unhealthy)
+  return '#991B1B'; // Maroon (Hazardous)
+};
+
+const createCustomMarker = (aqi: number) => {
+  const color = getMarkerColor(aqi);
 
   const html = `
     <div style="
       background-color: ${color};
-      color: #ffffff;
-      width: 36px;
-      height: 36px;
+      color: #07111F;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 11px;
-      box-shadow: 0 0 14px ${color}aa, 0 2px 6px rgba(0,0,0,0.6);
+      box-shadow: 0 0 18px ${color}cc, 0 4px 10px rgba(0,0,0,0.8);
       border: 2px solid #ffffff;
       cursor: pointer;
+      transition: transform 0.2s ease;
     ">
       ${Math.round(aqi)}
     </div>
@@ -84,17 +96,17 @@ const createCustomMarker = (aqi: number, category: string) => {
   return L.divIcon({
     html,
     className: 'custom-aqi-marker',
-    iconSize: [36, 36],
-    iconAnchor: [18, 18],
-    popupAnchor: [0, -20],
+    iconSize: [38, 38],
+    iconAnchor: [19, 19],
+    popupAnchor: [0, -22],
   });
 };
 
 const createPinMarker = () => {
   const html = `
     <div style="
-      background-color: #06b6d4;
-      color: #0f172a;
+      background-color: #00D9FF;
+      color: #07111F;
       width: 32px;
       height: 32px;
       border-radius: 50% 50% 50% 0;
@@ -102,7 +114,7 @@ const createPinMarker = () => {
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 16px #06b6d4, 0 2px 8px rgba(0,0,0,0.8);
+      box-shadow: 0 0 16px #00D9FF, 0 2px 8px rgba(0,0,0,0.8);
       border: 2px solid #ffffff;
     ">
       <div style="transform: rotate(45deg); font-weight: 900; font-size: 12px;">★</div>
@@ -124,16 +136,32 @@ export const MapPage: React.FC<MapPageProps> = ({
   onNavigateToStreetView,
 }) => {
   const [stations, setStations] = useState<StationMapItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [selectedStation, setSelectedStation] = useState<StationMapItem | null>(null);
 
-  // Custom clicked coordinate point
+  // Clicked coordinate
   const [clickedCoord, setClickedCoord] = useState<{ lat: number; lng: number } | null>(null);
   const [clickedAtmosphere, setClickedAtmosphere] = useState<LiveAtmosphericData | null>(null);
-  const [loadingClicked, setLoadingClicked] = useState(false);
+  const [loadingClicked, setLoadingClicked] = useState<boolean>(false);
 
-  // Map Tile Style layers
+  // Base map style: dark, satellite, streets
   const [tileLayer, setTileLayer] = useState<'dark' | 'satellite' | 'streets'>('dark');
+
+  // Multi-layer layer toggles:
+  // 1. Live Stations
+  // 2. Pollution Heatmap
+  // 3. Traffic Density Corridors
+  // 4. Industrial Pollution Zones
+  // 5. Green Zones & Parks
+  // 6. Geographic Hotspots
+  const [layerHeatmap, setLayerHeatmap] = useState<boolean>(true);
+  const [layerTraffic, setLayerTraffic] = useState<boolean>(true);
+  const [layerIndustrial, setLayerIndustrial] = useState<boolean>(true);
+  const [layerGreen, setLayerGreen] = useState<boolean>(true);
+  const [layerHotspots, setLayerHotspots] = useState<boolean>(true);
+
+  // Map search query
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const tileUrls = {
     dark: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
@@ -189,7 +217,7 @@ export const MapPage: React.FC<MapPageProps> = ({
     loadMapData();
   }, [selectedCity]);
 
-  // Click on any map coordinate to fetch real-time atmospheric data
+  // Click on coordinate
   const handleMapClick = async (lat: number, lng: number) => {
     setClickedCoord({ lat, lng });
     setSelectedStation(null);
@@ -204,7 +232,6 @@ export const MapPage: React.FC<MapPageProps> = ({
     }
   };
 
-  // User GPS locate me
   const handleLocateMe = () => {
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition((pos) => {
@@ -215,64 +242,166 @@ export const MapPage: React.FC<MapPageProps> = ({
     });
   };
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+    const matchCity = cities.find((c) => c.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    if (matchCity) {
+      setCurrentCenter([matchCity.latitude, matchCity.longitude]);
+      setZoomLevel(12);
+      return;
+    }
+    const matchStation = stations.find((s) => s.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    if (matchStation) {
+      setCurrentCenter([matchStation.latitude, matchStation.longitude]);
+      setZoomLevel(14);
+      setSelectedStation(matchStation);
+    }
+  };
+
+  // Geographic reference layers (Delhi & National hubs sample corridors)
+  const trafficCorridors: [number, number][][] = [
+    // Outer Ring Road corridor
+    [[28.7041, 77.1025], [28.6500, 77.1400], [28.5800, 77.2200], [28.5500, 77.2600]],
+    // NH-44 Grand Trunk road
+    [[28.7500, 77.1300], [28.6800, 77.1800], [28.6139, 77.2090]],
+  ];
+
+  const industrialZones: { name: string; center: [number, number]; radius: number }[] = [
+    { name: 'Okhla Industrial Cluster', center: [28.5300, 77.2750], radius: 2500 },
+    { name: 'Mayapuri Industrial Area', center: [28.6300, 77.1250], radius: 2000 },
+    { name: 'Wazirpur Industrial Area', center: [28.6950, 77.1650], radius: 2200 },
+  ];
+
+  const greenZones: { name: string; center: [number, number]; radius: number }[] = [
+    { name: 'Delhi Southern Ridge Sanctuary', center: [28.5150, 77.1700], radius: 3000 },
+    { name: 'Central Forest & Lodhi Green Belt', center: [28.5900, 77.2180], radius: 1800 },
+  ];
+
   return (
     <div className="space-y-4">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
-            <MapPin className="w-6 h-6 text-cyan-400" />
-            Interactive 2D/GIS Pollution Map
-            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800">
-              Station & Coordinate Radar
-            </span>
+      {/* Top Banner & Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-3xl glass-panel border border-cyan-500/30 shadow-2xl relative overflow-hidden">
+        <div className="space-y-1">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-semibold uppercase tracking-wider">
+            <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Interactive 3D Smart City GIS Map</span>
+          </div>
+          <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+            Geospatial Environmental Intelligence Map
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Click any station or tap any coordinate worldwide to query real-time atmospheric measurements.
+          <p className="text-xs text-slate-300 max-w-2xl">
+            Live CAAQMS towers, pollution heatmaps, vehicular traffic corridors, industrial zones, and urban green sanctuaries.
           </p>
         </div>
 
-        {/* Layer Switcher & Tools */}
-        <div className="flex items-center gap-2.5">
-          {/* Layer Selector */}
-          <div className="flex items-center bg-slate-900 border border-slate-700 rounded-xl p-1 text-xs">
-            <button
-              onClick={() => setTileLayer('dark')}
-              className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
-                tileLayer === 'dark' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              Dark Matter
-            </button>
-            <button
-              onClick={() => setTileLayer('streets')}
-              className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
-                tileLayer === 'streets' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              Streets
-            </button>
-          </div>
+        {/* Search Bar + GPS */}
+        <div className="flex items-center gap-2">
+          <form onSubmit={handleSearchSubmit} className="relative">
+            <Search className="w-3.5 h-3.5 text-cyan-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search station or city..."
+              className="glass-input pl-8 pr-3 py-1.5 rounded-xl text-xs w-48 sm:w-56 text-white focus:outline-none"
+            />
+          </form>
 
-          {/* GPS Button */}
           <button
             onClick={handleLocateMe}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-300 text-xs font-semibold shadow-md transition-all active:scale-95"
-            title="Locate my position on map"
+            className="btn-cinematic-cyan px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 shadow-glow-cyan"
+            title="Locate my position via GPS"
           >
-            <Crosshair className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Locate Me</span>
+            <Crosshair className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Locate Me</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Layer Toggles Strip */}
+      <div className="p-3 rounded-2xl glass-card border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Map Layers:</span>
+
+          <button
+            onClick={() => setLayerHeatmap(!layerHeatmap)}
+            className={`px-2.5 py-1 rounded-lg font-semibold flex items-center gap-1.5 transition-colors ${
+              layerHeatmap ? 'bg-orange-500/20 text-orange-300 border border-orange-500/40' : 'bg-slate-800 text-slate-500'
+            }`}
+          >
+            <Flame className="w-3 h-3" />
+            <span>Pollution Heatmap</span>
+          </button>
+
+          <button
+            onClick={() => setLayerTraffic(!layerTraffic)}
+            className={`px-2.5 py-1 rounded-lg font-semibold flex items-center gap-1.5 transition-colors ${
+              layerTraffic ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'bg-slate-800 text-slate-500'
+            }`}
+          >
+            <Car className="w-3 h-3" />
+            <span>Traffic Corridors</span>
+          </button>
+
+          <button
+            onClick={() => setLayerIndustrial(!layerIndustrial)}
+            className={`px-2.5 py-1 rounded-lg font-semibold flex items-center gap-1.5 transition-colors ${
+              layerIndustrial ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' : 'bg-slate-800 text-slate-500'
+            }`}
+          >
+            <Factory className="w-3 h-3" />
+            <span>Industrial Zones</span>
+          </button>
+
+          <button
+            onClick={() => setLayerGreen(!layerGreen)}
+            className={`px-2.5 py-1 rounded-lg font-semibold flex items-center gap-1.5 transition-colors ${
+              layerGreen ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-slate-500'
+            }`}
+          >
+            <TreePine className="w-3 h-3" />
+            <span>Green Sanctuaries</span>
+          </button>
+        </div>
+
+        {/* Base Map Switcher */}
+        <div className="flex items-center bg-slate-900 border border-slate-700/80 rounded-xl p-1 text-xs">
+          <button
+            onClick={() => setTileLayer('dark')}
+            className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
+              tileLayer === 'dark' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            Midnight
+          </button>
+          <button
+            onClick={() => setTileLayer('satellite')}
+            className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
+              tileLayer === 'satellite' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            Satellite
+          </button>
+          <button
+            onClick={() => setTileLayer('streets')}
+            className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
+              tileLayer === 'streets' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            Streets
           </button>
         </div>
       </div>
 
       {/* Main Map + Station Detail Drawer */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-[620px]">
-        {/* Leaflet Map Container */}
-        <div className="lg:col-span-3 rounded-2xl overflow-hidden border border-slate-800 shadow-2xl relative">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-[650px]">
+        {/* Leaflet Map Viewport */}
+        <div className="lg:col-span-3 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl relative">
           {loading && (
-            <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-20 flex items-center justify-center text-cyan-400 text-xs font-semibold gap-2">
-              <RefreshCw className="w-4 h-4 animate-spin" /> Loading station coordinates...
+            <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm z-20 flex items-center justify-center text-cyan-400 text-xs font-semibold gap-2">
+              <RefreshCw className="w-4 h-4 animate-spin" />
+              <span>Calibrating GIS station coordinates...</span>
             </div>
           )}
 
@@ -280,22 +409,70 @@ export const MapPage: React.FC<MapPageProps> = ({
             center={currentCenter}
             zoom={zoomLevel}
             scrollWheelZoom={true}
-            style={{ width: '100%', height: '100%', background: '#020817' }}
+            style={{ width: '100%', height: '100%', background: '#07111F' }}
           >
             <MapCenterController center={currentCenter} zoom={zoomLevel} />
             <MapClickListener onMapClick={handleMapClick} />
 
             <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
               url={tileUrls[tileLayer]}
             />
 
-            {/* Indian Monitoring Stations */}
+            {/* Simulated Heatmap Diffusion Circles around active stations */}
+            {layerHeatmap &&
+              stations.map((st) => (
+                <Circle
+                  key={`heat-${st.id}`}
+                  center={[st.latitude, st.longitude]}
+                  radius={st.latest_aqi > 250 ? 6000 : 3500}
+                  pathOptions={{
+                    color: getMarkerColor(st.latest_aqi),
+                    fillColor: getMarkerColor(st.latest_aqi),
+                    fillOpacity: st.latest_aqi > 250 ? 0.28 : 0.18,
+                    stroke: false,
+                  }}
+                />
+              ))}
+
+            {/* Traffic Corridors Layer */}
+            {layerTraffic &&
+              trafficCorridors.map((line, idx) => (
+                <Polyline
+                  key={`traffic-${idx}`}
+                  positions={line}
+                  pathOptions={{ color: '#00D9FF', weight: 4, opacity: 0.65, dashArray: '6, 6' }}
+                />
+              ))}
+
+            {/* Industrial Zones Layer */}
+            {layerIndustrial &&
+              industrialZones.map((ind) => (
+                <Circle
+                  key={ind.name}
+                  center={ind.center}
+                  radius={ind.radius}
+                  pathOptions={{ color: '#FF4560', fillColor: '#FF4560', fillOpacity: 0.22, weight: 1.5 }}
+                />
+              ))}
+
+            {/* Green Sanctuaries Layer */}
+            {layerGreen &&
+              greenZones.map((gz) => (
+                <Circle
+                  key={gz.name}
+                  center={gz.center}
+                  radius={gz.radius}
+                  pathOptions={{ color: '#00E6A0', fillColor: '#00E6A0', fillOpacity: 0.25, weight: 1.5 }}
+                />
+              ))}
+
+            {/* Indian Monitoring Stations Markers */}
             {stations.map((st) => (
               <Marker
                 key={st.id}
                 position={[st.latitude, st.longitude]}
-                icon={createCustomMarker(st.latest_aqi, st.category)}
+                icon={createCustomMarker(st.latest_aqi)}
                 eventHandlers={{
                   click: () => {
                     setSelectedStation(st);
@@ -305,16 +482,16 @@ export const MapPage: React.FC<MapPageProps> = ({
                 }}
               >
                 <Popup className="aqi-popup">
-                  <div className="p-2 text-slate-900 min-w-[180px]">
-                    <div className="font-bold text-sm">{st.name}</div>
-                    <div className="text-xs text-slate-500 mb-2">{st.city}</div>
+                  <div className="p-2 text-slate-900 min-w-[190px]">
+                    <div className="font-extrabold text-sm">{st.name}</div>
+                    <div className="text-xs text-slate-600 mb-1">{st.city}</div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-semibold">AQI: {Math.round(st.latest_aqi)}</span>
-                      <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-slate-200">
+                      <span className="text-xs font-bold">AQI: {Math.round(st.latest_aqi)}</span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-200">
                         {st.category}
                       </span>
                     </div>
-                    <div className="text-[11px] text-slate-600 space-y-0.5 border-t pt-1">
+                    <div className="text-[11px] text-slate-700 space-y-0.5 border-t pt-1 font-mono">
                       <div>PM2.5: {st.pm25 || '—'} µg/m³</div>
                       <div>PM10: {st.pm10 || '—'} µg/m³</div>
                       <div>NO2: {st.no2 || '—'} µg/m³</div>
@@ -324,43 +501,50 @@ export const MapPage: React.FC<MapPageProps> = ({
               </Marker>
             ))}
 
-            {/* Custom User Pinned Coordinate Marker */}
+            {/* Pinned Marker */}
             {clickedCoord && (
               <Marker position={[clickedCoord.lat, clickedCoord.lng]} icon={createPinMarker()}>
                 <Popup>
-                  <div className="p-1 text-slate-900 text-xs font-bold">
-                    Pinned Coordinates: {clickedCoord.lat.toFixed(4)}, {clickedCoord.lng.toFixed(4)}
+                  <div className="p-1 text-slate-900 text-xs font-bold font-mono">
+                    {clickedCoord.lat.toFixed(4)}°N, {clickedCoord.lng.toFixed(4)}°E
                   </div>
                 </Popup>
               </Marker>
             )}
           </MapContainer>
 
-          {/* Quick Info Chip */}
-          <div className="absolute bottom-4 left-4 z-[400] px-3 py-1.5 rounded-xl bg-slate-900/85 backdrop-blur border border-slate-700 text-[11px] text-slate-300 font-medium pointer-events-none hidden sm:block">
-            Tip: Click anywhere on the map surface to drop a pin and inspect live atmospheric parameters.
+          {/* Color Legend Overlay */}
+          <div className="absolute bottom-4 left-4 z-[400] p-2.5 rounded-2xl glass-panel text-[10px] text-slate-300 font-medium space-y-1 hidden md:block">
+            <span className="font-mono font-bold text-white block uppercase">AQI Breakpoints</span>
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#00E6A0]" /> 0-50 Good</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#84CC16]" /> 51-100 Mod</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#FF9F43]" /> 101-200 Sens</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#F97316]" /> 201-300 Unhealthy</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#FF4560]" /> 301-400 Very Poor</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#991B1B]" /> 401+ Haz</span>
+            </div>
           </div>
         </div>
 
         {/* Selected Station / Coordinate Drawer */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col justify-between overflow-y-auto">
-          {/* If an established station is selected */}
+        <div className="glass-panel rounded-3xl p-5 shadow-xl flex flex-col justify-between overflow-y-auto">
           {selectedStation && (
             <div className="space-y-4">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-400">
-                  Inspecting Station
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-400">
+                  CAAQMS Station Telemetry
                 </span>
-                <h3 className="text-base font-bold text-white mt-1">{selectedStation.name}</h3>
+                <h3 className="text-base font-extrabold text-white mt-1">{selectedStation.name}</h3>
                 <p className="text-xs text-slate-400">
                   {selectedStation.city} • Code: {selectedStation.code}
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700 flex items-center justify-between">
+              <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
                 <div>
-                  <div className="text-xs text-slate-400">Latest AQI</div>
-                  <div className="text-3xl font-extrabold text-white">
+                  <span className="text-xs text-slate-400 block font-mono">Ambient AQI</span>
+                  <div className="text-3xl font-black text-white">
                     {Math.round(selectedStation.latest_aqi)}
                   </div>
                 </div>
@@ -372,30 +556,30 @@ export const MapPage: React.FC<MapPageProps> = ({
               </div>
 
               <div className="space-y-2 text-xs">
-                <div className="text-slate-400 font-semibold uppercase text-[10px]">
-                  Pollutant Concentrations
-                </div>
+                <span className="text-slate-400 font-mono font-bold uppercase text-[10px] block">
+                  Sensor Telemetry
+                </span>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/60">
-                    <span className="text-slate-400 text-[10px]">PM2.5</span>
-                    <div className="font-bold text-slate-200 text-sm">
+                  <div className="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                    <span className="text-slate-400 text-[10px] font-mono">PM2.5</span>
+                    <div className="font-bold text-white text-sm">
                       {selectedStation.pm25 ?? '—'} µg/m³
                     </div>
                   </div>
-                  <div className="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/60">
-                    <span className="text-slate-400 text-[10px]">PM10</span>
-                    <div className="font-bold text-slate-200 text-sm">
+                  <div className="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                    <span className="text-slate-400 text-[10px] font-mono">PM10</span>
+                    <div className="font-bold text-white text-sm">
                       {selectedStation.pm10 ?? '—'} µg/m³
                     </div>
                   </div>
-                  <div className="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/60">
-                    <span className="text-slate-400 text-[10px]">NO2</span>
-                    <div className="font-bold text-slate-200 text-sm">
+                  <div className="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                    <span className="text-slate-400 text-[10px] font-mono">NO2</span>
+                    <div className="font-bold text-white text-sm">
                       {selectedStation.no2 ?? '—'} µg/m³
                     </div>
                   </div>
-                  <div className="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/60">
-                    <span className="text-slate-400 text-[10px]">Dominant</span>
+                  <div className="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                    <span className="text-slate-400 text-[10px] font-mono">Dominant</span>
                     <div className="font-bold text-cyan-400 text-sm uppercase">
                       {selectedStation.dominant_pollutant}
                     </div>
@@ -403,14 +587,14 @@ export const MapPage: React.FC<MapPageProps> = ({
                 </div>
               </div>
 
-              <div className="text-[11px] text-slate-400 pt-2 border-t border-slate-800">
-                Coordinates: {selectedStation.latitude.toFixed(4)}°N, {selectedStation.longitude.toFixed(4)}°E
+              <div className="text-[11px] text-slate-400 pt-2 border-t border-slate-800 font-mono">
+                GPS: {selectedStation.latitude.toFixed(4)}°N, {selectedStation.longitude.toFixed(4)}°E
               </div>
 
               <div className="space-y-2 pt-2">
                 <button
                   onClick={() => onSelectStationForForecast(selectedStation.id)}
-                  className="w-full py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20 transition-all"
+                  className="w-full btn-cinematic-cyan py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-glow-cyan"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>Run AI Forecast for this Station</span>
@@ -425,7 +609,7 @@ export const MapPage: React.FC<MapPageProps> = ({
                         `${selectedStation.name}, ${selectedStation.city}`
                       )
                     }
-                    className="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 font-semibold text-xs flex items-center justify-center gap-2 transition-all"
+                    className="w-full btn-cinematic-glass py-2.5 rounded-xl text-xs flex items-center justify-center gap-2"
                   >
                     <Compass className="w-3.5 h-3.5 text-cyan-400" />
                     <span>View in 360° Street View</span>
@@ -435,12 +619,11 @@ export const MapPage: React.FC<MapPageProps> = ({
             </div>
           )}
 
-          {/* If a custom pinned coordinate is selected */}
           {clickedCoord && (
             <div className="space-y-4">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-400">
-                  Custom Pinned Location
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-400">
+                  Custom Pinned Coordinate
                 </span>
                 <h3 className="text-base font-bold text-white mt-1">
                   {clickedAtmosphere?.location.city || 'Custom Coordinate'}
@@ -457,10 +640,10 @@ export const MapPage: React.FC<MapPageProps> = ({
                 </div>
               ) : clickedAtmosphere ? (
                 <>
-                  <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700 flex items-center justify-between">
+                  <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
                     <div>
-                      <div className="text-xs text-slate-400">Calculated CPCB AQI</div>
-                      <div className="text-3xl font-extrabold text-white">
+                      <div className="text-xs text-slate-400 font-mono">Calculated AQI</div>
+                      <div className="text-3xl font-black text-white">
                         {clickedAtmosphere.air_quality.aqi}
                       </div>
                     </div>
@@ -472,14 +655,14 @@ export const MapPage: React.FC<MapPageProps> = ({
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="bg-slate-800/50 p-2 rounded-xl border border-slate-700/60">
-                      <span className="text-slate-400 text-[10px]">PM2.5</span>
+                    <div className="bg-slate-900/60 p-2 rounded-xl border border-slate-800">
+                      <span className="text-slate-400 text-[10px] font-mono">PM2.5</span>
                       <div className="font-bold text-slate-200">
                         {clickedAtmosphere.air_quality.pm25 ?? '—'} µg/m³
                       </div>
                     </div>
-                    <div className="bg-slate-800/50 p-2 rounded-xl border border-slate-700/60">
-                      <span className="text-slate-400 text-[10px]">PM10</span>
+                    <div className="bg-slate-900/60 p-2 rounded-xl border border-slate-800">
+                      <span className="text-slate-400 text-[10px] font-mono">PM10</span>
                       <div className="font-bold text-slate-200">
                         {clickedAtmosphere.air_quality.pm10 ?? '—'} µg/m³
                       </div>
@@ -495,7 +678,7 @@ export const MapPage: React.FC<MapPageProps> = ({
                           clickedAtmosphere.location.city
                         )
                       }
-                      className="w-full mt-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20 transition-all"
+                      className="w-full btn-cinematic-cyan py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2"
                     >
                       <Compass className="w-3.5 h-3.5" />
                       <span>Explore Street View for this Pin</span>
@@ -517,3 +700,4 @@ export const MapPage: React.FC<MapPageProps> = ({
     </div>
   );
 };
+export default MapPage;
