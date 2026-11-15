@@ -224,14 +224,14 @@ export const EcoAIAssistant: React.FC<EcoAIAssistantProps> = ({
             playCyberClick();
             setIsOpen(true);
           }}
-          className="fixed bottom-6 right-6 z-40 p-4 rounded-full bg-gradient-to-tr from-cyan-500 via-blue-600 to-purple-600 text-white shadow-glow-cyan hover:scale-105 active:scale-95 transition-all group flex items-center gap-2.5"
+          className="fixed bottom-6 right-6 z-40 p-4 rounded-full bg-gradient-to-tr from-emerald-600 via-emerald-500 to-mint-400 text-forest-950 shadow-glow-emerald hover:scale-105 active:scale-95 transition-all group flex items-center gap-2.5 font-bold"
           aria-label="Open ECO AI Environmental Assistant"
         >
           <div className="relative">
-            <Bot className="w-6 h-6 animate-pulse" />
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-slate-950" />
+            <Bot className="w-6 h-6 animate-pulse text-forest-950 stroke-[2.5]" />
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-pista-300 rounded-full border-2 border-forest-950" />
           </div>
-          <span className="text-xs font-bold uppercase tracking-wider pr-1 hidden sm:inline-block">
+          <span className="text-xs font-black uppercase tracking-wider pr-1 hidden sm:inline-block text-forest-950">
             ECO AI
           </span>
         </button>
@@ -239,12 +239,12 @@ export const EcoAIAssistant: React.FC<EcoAIAssistantProps> = ({
 
       {/* Floating Chat Drawer Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-full max-w-[390px] sm:max-w-[420px] h-[580px] rounded-3xl glass-panel border border-cyan-500/40 shadow-2xl flex flex-col overflow-hidden shadow-glow-cyan animate-in fade-in slide-in-from-bottom-5 duration-200">
+        <div className="fixed bottom-6 right-6 z-50 w-full max-w-[390px] sm:max-w-[420px] h-[580px] rounded-3xl glass-panel bg-forest-950/95 border border-emerald-500/30 shadow-2xl flex flex-col overflow-hidden shadow-glow-emerald backdrop-blur-2xl animate-in fade-in slide-in-from-bottom-5 duration-200">
           {/* Header */}
-          <div className="p-4 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+          <div className="p-4 bg-forest-900/90 border-b border-emerald-900/50 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center shadow-sm">
-                <Bot className="w-5 h-5 text-slate-950 stroke-[2.5]" />
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-mint-400 flex items-center justify-center shadow-md">
+                <Bot className="w-5 h-5 text-forest-950 stroke-[2.5]" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
@@ -253,7 +253,7 @@ export const EcoAIAssistant: React.FC<EcoAIAssistantProps> = ({
                     ONLINE
                   </span>
                 </div>
-                <p className="text-[10px] text-cyan-400 font-mono">
+                <p className="text-[10px] text-mint-400 font-mono">
                   Context: {selectedCity} • AQI {currentAqi}
                 </p>
               </div>
@@ -263,14 +263,14 @@ export const EcoAIAssistant: React.FC<EcoAIAssistantProps> = ({
               <button
                 onClick={() => setMessages([messages[0]])}
                 title="Clear Chat History"
-                className="p-1.5 hover:text-white hover:bg-slate-800 rounded-lg"
+                className="p-1.5 hover:text-white hover:bg-forest-800 rounded-lg transition-colors"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
                 title="Minimize"
-                className="p-1.5 hover:text-white hover:bg-slate-800 rounded-lg"
+                className="p-1.5 hover:text-white hover:bg-forest-800 rounded-lg transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -285,16 +285,16 @@ export const EcoAIAssistant: React.FC<EcoAIAssistantProps> = ({
                 className={`flex gap-2.5 ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {m.sender === 'assistant' && (
-                  <div className="w-6 h-6 rounded-lg bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center shrink-0 mt-0.5">
-                    <Bot className="w-3.5 h-3.5 text-cyan-400" />
+                  <div className="w-6 h-6 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                    <Bot className="w-3.5 h-3.5 text-emerald-400" />
                   </div>
                 )}
 
                 <div
                   className={`max-w-[85%] rounded-2xl p-3 relative group ${
                     m.sender === 'user'
-                      ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-tr-none'
-                      : 'bg-slate-900/90 border border-slate-800 text-slate-200 rounded-tl-none'
+                      ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-tr-none shadow-md'
+                      : 'bg-forest-900/90 border border-emerald-900/60 text-slate-100 rounded-tl-none shadow-sm'
                   }`}
                 >
                   <p className="whitespace-pre-line leading-relaxed font-sans text-xs">
@@ -305,7 +305,7 @@ export const EcoAIAssistant: React.FC<EcoAIAssistantProps> = ({
                     {m.sender === 'assistant' && (
                       <button
                         onClick={() => handleCopy(m.id, m.text)}
-                        className="opacity-0 group-hover:opacity-100 hover:text-cyan-300 p-0.5 transition-opacity"
+                        className="opacity-0 group-hover:opacity-100 hover:text-mint-300 p-0.5 transition-opacity"
                         title="Copy text"
                       >
                         {copiedId === m.id ? (
@@ -319,8 +319,8 @@ export const EcoAIAssistant: React.FC<EcoAIAssistantProps> = ({
                 </div>
 
                 {m.sender === 'user' && (
-                  <div className="w-6 h-6 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0 mt-0.5">
-                    <User className="w-3.5 h-3.5 text-slate-300" />
+                  <div className="w-6 h-6 rounded-lg bg-forest-800 border border-emerald-800 flex items-center justify-center shrink-0 mt-0.5">
+                    <User className="w-3.5 h-3.5 text-mint-300" />
                   </div>
                 )}
               </div>
@@ -328,13 +328,13 @@ export const EcoAIAssistant: React.FC<EcoAIAssistantProps> = ({
 
             {isTyping && (
               <div className="flex gap-2.5 items-center">
-                <div className="w-6 h-6 rounded-lg bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center shrink-0">
-                  <Bot className="w-3.5 h-3.5 text-cyan-400" />
+                <div className="w-6 h-6 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center shrink-0">
+                  <Bot className="w-3.5 h-3.5 text-emerald-400" />
                 </div>
-                <div className="px-3 py-2 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-bounce" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-bounce [animation-delay:0.2s]" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-bounce [animation-delay:0.4s]" />
+                <div className="px-3 py-2 rounded-2xl bg-forest-900/90 border border-emerald-900/60 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-bounce" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-bounce [animation-delay:0.2s]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-bounce [animation-delay:0.4s]" />
                 </div>
               </div>
             )}
@@ -342,12 +342,12 @@ export const EcoAIAssistant: React.FC<EcoAIAssistantProps> = ({
           </div>
 
           {/* Quick Prompts Strip */}
-          <div className="px-3 py-2 bg-slate-950/60 border-t border-slate-800/80 overflow-x-auto flex gap-1.5 no-scrollbar">
+          <div className="px-3 py-2 bg-forest-950/80 border-t border-emerald-900/40 overflow-x-auto flex gap-1.5 no-scrollbar">
             {suggestedQuestions.slice(0, 3).map((sq) => (
               <button
                 key={sq}
                 onClick={() => handleSendMessage(sq)}
-                className="px-2.5 py-1 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-500/40 text-[10px] text-slate-300 whitespace-nowrap hover:text-cyan-300 transition-colors"
+                className="px-2.5 py-1 rounded-xl bg-forest-900/80 border border-emerald-900/50 hover:border-emerald-500/40 text-[10px] text-slate-300 whitespace-nowrap hover:text-mint-300 transition-colors"
               >
                 {sq}
               </button>
@@ -355,19 +355,19 @@ export const EcoAIAssistant: React.FC<EcoAIAssistantProps> = ({
           </div>
 
           {/* Input Box */}
-          <div className="p-3 bg-slate-900/95 border-t border-slate-800 flex items-center gap-2">
+          <div className="p-3 bg-forest-900/95 border-t border-emerald-900/50 flex items-center gap-2">
             <input
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
               placeholder={`Ask ECO AI about ${selectedCity} air quality...`}
-              className="flex-1 bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+              className="flex-1 bg-forest-950/90 border border-emerald-900/60 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400"
             />
             <button
               onClick={() => handleSendMessage()}
               disabled={!inputText.trim()}
-              className="p-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-40 text-slate-950 font-bold transition-all"
+              className="p-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 text-forest-950 font-bold transition-all shadow-md"
             >
               <Send className="w-4 h-4 stroke-[2.5]" />
             </button>

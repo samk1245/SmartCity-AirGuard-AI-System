@@ -23,7 +23,7 @@ const FEATURED_SLIDES: CitySlideItem[] = [
     estAqi: 285,
     category: 'Poor',
     temp: 26,
-    bgGradient: 'from-amber-950/60 via-slate-900 to-rose-950/60',
+    bgGradient: 'from-amber-950/40 via-forest-950 to-rose-950/40',
     accentColor: '#f97316',
   },
   {
@@ -34,8 +34,8 @@ const FEATURED_SLIDES: CitySlideItem[] = [
     estAqi: 118,
     category: 'Moderate',
     temp: 30,
-    bgGradient: 'from-cyan-950/60 via-slate-900 to-blue-950/60',
-    accentColor: '#06b6d4',
+    bgGradient: 'from-emerald-950/50 via-forest-950 to-mint-950/40',
+    accentColor: '#34d399',
   },
   {
     name: 'Bengaluru',
@@ -45,7 +45,7 @@ const FEATURED_SLIDES: CitySlideItem[] = [
     estAqi: 62,
     category: 'Satisfactory',
     temp: 24,
-    bgGradient: 'from-emerald-950/60 via-slate-900 to-teal-950/60',
+    bgGradient: 'from-emerald-950/60 via-forest-900 to-forest-950',
     accentColor: '#10b981',
   },
   {
@@ -56,8 +56,8 @@ const FEATURED_SLIDES: CitySlideItem[] = [
     estAqi: 48,
     category: 'Good',
     temp: 14,
-    bgGradient: 'from-teal-950/60 via-slate-900 to-emerald-950/60',
-    accentColor: '#14b8a6',
+    bgGradient: 'from-forest-900 via-forest-950 to-emerald-950/60',
+    accentColor: '#34d399',
   },
   {
     name: 'Shimla',
@@ -67,8 +67,8 @@ const FEATURED_SLIDES: CitySlideItem[] = [
     estAqi: 32,
     category: 'Good',
     temp: 16,
-    bgGradient: 'from-blue-950/60 via-slate-900 to-cyan-950/60',
-    accentColor: '#38bdf8',
+    bgGradient: 'from-emerald-950/50 via-forest-950 to-forest-900',
+    accentColor: '#6ee7b7',
   },
   {
     name: 'Leh',
@@ -78,8 +78,8 @@ const FEATURED_SLIDES: CitySlideItem[] = [
     estAqi: 20,
     category: 'Good',
     temp: 8,
-    bgGradient: 'from-indigo-950/60 via-slate-900 to-sky-950/60',
-    accentColor: '#818cf8',
+    bgGradient: 'from-forest-950 via-forest-900 to-mint-950/40',
+    accentColor: '#a7f3d0',
   },
   {
     name: 'Jaipur',
@@ -89,7 +89,7 @@ const FEATURED_SLIDES: CitySlideItem[] = [
     estAqi: 172,
     category: 'Moderate',
     temp: 29,
-    bgGradient: 'from-orange-950/60 via-slate-900 to-amber-950/60',
+    bgGradient: 'from-amber-950/40 via-forest-950 to-emerald-950/30',
     accentColor: '#f59e0b',
   },
   {
@@ -100,8 +100,8 @@ const FEATURED_SLIDES: CitySlideItem[] = [
     estAqi: 165,
     category: 'Moderate',
     temp: 28,
-    bgGradient: 'from-purple-950/60 via-slate-900 to-blue-950/60',
-    accentColor: '#a855f7',
+    bgGradient: 'from-forest-950 via-forest-900 to-emerald-950/50',
+    accentColor: '#34d399',
   },
 ];
 
@@ -137,7 +137,7 @@ export const CitySlideShow: React.FC<CitySlideShowProps> = ({
 
   return (
     <div
-      className="relative rounded-3xl overflow-hidden glass-watery-card border border-slate-700/80 p-6 shadow-2xl transition-all"
+      className="relative rounded-3xl overflow-hidden glass-panel border border-emerald-500/25 p-6 shadow-spatial-glass transition-all backdrop-blur-2xl"
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
@@ -147,13 +147,13 @@ export const CitySlideShow: React.FC<CitySlideShowProps> = ({
       />
 
       {/* Floating decorative elements */}
-      <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Slide Navigation Header */}
       <div className="relative z-10 flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-cyan-400" />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          <Sparkles className="w-4 h-4 text-emerald-400" />
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">
             Featured Indian City Intelligence Carousel
           </h3>
         </div>
@@ -162,14 +162,14 @@ export const CitySlideShow: React.FC<CitySlideShowProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={handlePrev}
-            className="w-8 h-8 rounded-full bg-slate-900/80 hover:bg-cyan-500 hover:text-slate-950 text-slate-300 border border-slate-700 hover:border-cyan-400 flex items-center justify-center transition-all shadow-md active:scale-90"
+            className="w-8 h-8 rounded-full bg-forest-950/80 hover:bg-emerald-500 hover:text-forest-950 text-slate-300 border border-emerald-500/30 hover:border-emerald-400 flex items-center justify-center transition-all shadow-md active:scale-90"
             title="Previous City"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={handleNext}
-            className="w-8 h-8 rounded-full bg-slate-900/80 hover:bg-cyan-500 hover:text-slate-950 text-slate-300 border border-slate-700 hover:border-cyan-400 flex items-center justify-center transition-all shadow-md active:scale-90"
+            className="w-8 h-8 rounded-full bg-forest-950/80 hover:bg-emerald-500 hover:text-forest-950 text-slate-300 border border-emerald-500/30 hover:border-emerald-400 flex items-center justify-center transition-all shadow-md active:scale-90"
             title="Next City"
           >
             <ChevronRight className="w-4 h-4" />
@@ -181,16 +181,16 @@ export const CitySlideShow: React.FC<CitySlideShowProps> = ({
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
         <div className="md:col-span-8 space-y-2 animate-slide-right">
           <div className="flex items-center gap-2.5">
-            <span className="px-2.5 py-0.5 rounded-full bg-slate-900/90 text-cyan-400 text-xs font-bold border border-cyan-800">
+            <span className="px-2.5 py-0.5 rounded-full bg-forest-950/90 text-mint-300 text-xs font-bold border border-emerald-500/40 font-mono">
               {currentSlide.state}
             </span>
-            <span className="text-xs text-slate-400 font-medium">{currentSlide.landmark}</span>
+            <span className="text-xs text-slate-300 font-medium">{currentSlide.landmark}</span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2">
             <span>{currentSlide.name}</span>
             {selectedCity === currentSlide.name && (
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-700">
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-600 font-mono">
                 Current Active Scope
               </span>
             )}
@@ -201,29 +201,29 @@ export const CitySlideShow: React.FC<CitySlideShowProps> = ({
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/60 border border-slate-800 text-xs font-medium text-slate-300">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-forest-950/70 border border-emerald-900/40 text-xs font-medium text-slate-300 font-mono">
               <Thermometer className="w-3.5 h-3.5 text-amber-400" />
               <span>{currentSlide.temp}°C Microclimate</span>
             </div>
 
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/60 border border-slate-800 text-xs font-medium text-slate-300">
-              <Wind className="w-3.5 h-3.5 text-cyan-400" />
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-forest-950/70 border border-emerald-900/40 text-xs font-medium text-slate-300 font-mono">
+              <Wind className="w-3.5 h-3.5 text-mint-400" />
               <span>CPCB CAAQMS Grid</span>
             </div>
 
             <button
               onClick={() => onSelectCity(currentSlide.name)}
-              className="btn-liquid-cyan px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5"
+              className="btn-cinematic-emerald px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5"
             >
               <span>Inspect {currentSlide.name} Dashboard</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-slate-950" />
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
         {/* AQI Badge & Score Card */}
-        <div className="md:col-span-4 flex flex-col items-center justify-center p-4 rounded-2xl bg-slate-950/80 border border-slate-800/80 shadow-inner animate-slide-left">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+        <div className="md:col-span-4 flex flex-col items-center justify-center p-4 rounded-2xl bg-forest-950/85 border border-emerald-500/25 shadow-glass backdrop-blur-md">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1 font-mono">
             Baseline Ambient AQI
           </span>
           <div className="text-4xl font-black text-white tracking-tight my-1">
@@ -241,7 +241,7 @@ export const CitySlideShow: React.FC<CitySlideShowProps> = ({
             key={slide.name}
             onClick={() => setCurrentIndex(idx)}
             className={`h-1.5 rounded-full transition-all ${
-              idx === currentIndex ? 'w-6 bg-cyan-400' : 'w-2 bg-slate-700 hover:bg-slate-500'
+              idx === currentIndex ? 'w-6 bg-emerald-400' : 'w-2 bg-emerald-950 hover:bg-emerald-800'
             }`}
             title={`Slide to ${slide.name}`}
           />

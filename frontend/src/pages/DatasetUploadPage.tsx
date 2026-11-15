@@ -81,22 +81,22 @@ export const DatasetUploadPage: React.FC = () => {
               onChange={handleFileChange}
               className="hidden"
             />
-            <span className="inline-block px-5 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-semibold text-xs cursor-pointer border border-slate-600 transition-colors">
+            <span className="inline-block px-5 py-2.5 rounded-xl btn-cinematic-glass text-white font-semibold text-xs cursor-pointer transition-colors">
               Browse CSV Files
             </span>
           </label>
 
           {file && (
-            <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-700 flex items-center justify-between text-xs text-left">
+            <div className="p-3 bg-forest-950/80 rounded-xl border border-emerald-500/30 flex items-center justify-between text-xs text-left shadow-inner">
               <div className="flex items-center gap-2 text-slate-300 truncate">
-                <FileText className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                <FileText className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                 <span className="truncate">{file.name}</span>
-                <span className="text-slate-500">({(file.size / (1024 * 1024)).toFixed(2)} MB)</span>
+                <span className="text-slate-400">({(file.size / (1024 * 1024)).toFixed(2)} MB)</span>
               </div>
               <button
                 onClick={handleUpload}
                 disabled={uploading}
-                className="px-4 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-colors disabled:opacity-50"
+                className="btn-cinematic-emerald px-4 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-colors disabled:opacity-50"
               >
                 {uploading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <FileCheck2 className="w-3.5 h-3.5" />}
                 Ingest Dataset
@@ -150,7 +150,7 @@ export const DatasetUploadPage: React.FC = () => {
           </h3>
           <a
             href="/api/data/export"
-            className="text-xs text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1"
+            className="text-xs text-mint-400 hover:text-mint-300 font-semibold flex items-center gap-1 font-mono"
           >
             <Download className="w-3.5 h-3.5" /> Download Standard Sample Template
           </a>
@@ -158,7 +158,7 @@ export const DatasetUploadPage: React.FC = () => {
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-900 text-slate-400 border-b border-slate-700">
+            <thead className="bg-forest-950/80 text-slate-300 border-b border-emerald-900/40 font-mono">
               <tr>
                 <th className="py-2.5 px-3">Column Name</th>
                 <th className="py-2.5 px-3">Requirement</th>
@@ -166,23 +166,23 @@ export const DatasetUploadPage: React.FC = () => {
                 <th className="py-2.5 px-3">Description</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-700/40 text-slate-300">
+            <tbody className="divide-y divide-emerald-900/30 text-slate-300">
               <tr>
-                <td className="py-2 px-3 font-mono text-cyan-400">timestamp</td>
+                <td className="py-2 px-3 font-mono text-mint-400">timestamp</td>
                 <td className="py-2 px-3 text-rose-400 font-bold">Required</td>
-                <td className="py-2 px-3">ISO 8601 / YYYY-MM-DD HH:MM</td>
+                <td className="py-2 px-3 font-mono">ISO 8601 / YYYY-MM-DD HH:MM</td>
                 <td className="py-2 px-3">Observation timestamp</td>
               </tr>
               <tr>
-                <td className="py-2 px-3 font-mono text-cyan-400">station_code</td>
+                <td className="py-2 px-3 font-mono text-mint-400">station_code</td>
                 <td className="py-2 px-3 text-rose-400 font-bold">Required</td>
-                <td className="py-2 px-3">String (e.g. DEL-AV-01, PRY-CL-01)</td>
+                <td className="py-2 px-3 font-mono">String (e.g. DEL-AV-01, PRY-CL-01)</td>
                 <td className="py-2 px-3">Monitoring station unique identifier</td>
               </tr>
               <tr>
-                <td className="py-2 px-3 font-mono text-cyan-400">pm25</td>
+                <td className="py-2 px-3 font-mono text-mint-400">pm25</td>
                 <td className="py-2 px-3 text-slate-400">Optional</td>
-                <td className="py-2 px-3">µg/m³ (0 - 2000)</td>
+                <td className="py-2 px-3 font-mono">µg/m³ (0 - 2000)</td>
                 <td className="py-2 px-3">Particulate matter &le; 2.5 micrometers</td>
               </tr>
               <tr>

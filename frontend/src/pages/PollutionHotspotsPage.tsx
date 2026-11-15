@@ -269,7 +269,7 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
   return (
     <div className="space-y-6">
       {/* Top Banner & Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl glass-panel border border-rose-500/30 shadow-2xl relative overflow-hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl glass-panel bg-forest-950/70 border border-rose-500/30 shadow-2xl relative overflow-hidden">
         <div className="absolute -top-24 -right-24 w-80 h-80 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-1">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-950/80 border border-rose-500/40 text-rose-300 text-xs font-semibold uppercase tracking-wider">
@@ -290,7 +290,7 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
             loadHotspotData();
           }}
           disabled={loading}
-          className="self-start sm:self-auto px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 flex items-center gap-2 transition-colors"
+          className="self-start sm:self-auto px-4 py-2 rounded-xl bg-forest-900 hover:bg-forest-800 border border-emerald-900/50 text-xs font-semibold text-slate-200 flex items-center gap-2 transition-colors"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           <span>Refresh Radar</span>
@@ -299,14 +299,14 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
 
       {/* Summary Highlights: Top 3 Hotspot Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {hotspots.slice(0, 3).map((h, idx) => (
+        {hotspots.slice(0, 3).map((h) => (
           <div
             key={h.rank}
             onClick={() => setActiveHotspot(h)}
             className={`p-5 rounded-2xl glass-card glass-card-hover border cursor-pointer transition-all ${
               activeHotspot?.rank === h.rank
                 ? 'border-rose-500/60 shadow-glow-red bg-rose-950/20'
-                : 'border-slate-800'
+                : 'border-emerald-900/30 bg-forest-950/70'
             }`}
           >
             <div className="flex items-center justify-between">
@@ -327,7 +327,7 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
               </p>
             </div>
 
-            <div className="mt-4 flex items-baseline justify-between border-t border-slate-800/80 pt-3">
+            <div className="mt-4 flex items-baseline justify-between border-t border-emerald-900/40 pt-3">
               <div>
                 <span className="text-3xl font-black text-rose-400">
                   <AnimatedCounter value={h.aqi} />
@@ -352,9 +352,9 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left: Top 10 Table */}
         <div className="lg:col-span-8 space-y-4">
-          <div className="p-5 rounded-2xl glass-panel border border-slate-800">
+          <div className="p-5 rounded-2xl glass-panel bg-forest-950/70 border border-emerald-900/40">
             {/* Zone Filter Strip */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-emerald-900/40">
               <h2 className="text-sm font-bold text-white flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 text-rose-400" />
                 <span>Top 10 High-Pollution Geospatial Clusters</span>
@@ -371,7 +371,7 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
                     className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap ${
                       selectedZoneFilter === zc
                         ? 'bg-rose-500 text-white'
-                        : 'bg-slate-800 text-slate-400 hover:text-white'
+                        : 'bg-forest-900 text-slate-400 hover:text-white border border-emerald-900/50'
                     }`}
                   >
                     {zc}
@@ -384,7 +384,7 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
             <div className="overflow-x-auto mt-3">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-mono text-[10px]">
+                  <tr className="border-b border-emerald-900/40 text-slate-400 uppercase tracking-wider font-mono text-[10px]">
                     <th className="py-3 px-3">#</th>
                     <th className="py-3 px-3">Location & Cluster</th>
                     <th className="py-3 px-3">Zone Type</th>
@@ -395,12 +395,12 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
                     <th className="py-3 px-3 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60 font-sans">
+                <tbody className="divide-y divide-emerald-900/30 font-sans">
                   {filteredHotspots.map((item) => (
                     <tr
                       key={item.rank}
                       onClick={() => setActiveHotspot(item)}
-                      className={`hover:bg-slate-800/40 cursor-pointer transition-colors ${
+                      className={`hover:bg-forest-900/50 cursor-pointer transition-colors ${
                         activeHotspot?.rank === item.rank ? 'bg-rose-950/20' : ''
                       }`}
                     >
@@ -416,7 +416,7 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
                         </span>
                       </td>
                       <td className="py-3 px-3">
-                        <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px] border border-slate-700">
+                        <span className="px-2 py-0.5 rounded bg-forest-900 text-mint-300 font-mono text-[10px] border border-emerald-900/60">
                           {item.zoneType}
                         </span>
                       </td>
@@ -438,7 +438,7 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
                       </td>
                       <td className="py-3 px-3 text-center">
                         <div className="inline-flex items-center gap-1.5 font-mono text-[11px] text-slate-300">
-                          <div className="w-12 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                          <div className="w-12 h-1.5 bg-forest-900 rounded-full overflow-hidden">
                             <div
                               className="h-full bg-rose-500 rounded-full"
                               style={{ width: `${item.persistenceScore}%` }}
@@ -461,7 +461,7 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
         {/* Right: Selected Hotspot Deep Analysis Card */}
         <div className="lg:col-span-4 space-y-4">
           {activeHotspot && (
-            <div className="p-5 rounded-2xl glass-card border border-rose-500/40 shadow-2xl relative space-y-5">
+            <div className="p-5 rounded-2xl glass-card bg-forest-950/80 border border-rose-500/40 shadow-2xl relative space-y-5">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono font-bold text-rose-400 uppercase tracking-wider">
                   Hotspot Telemetry Analysis
@@ -482,7 +482,7 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
               </div>
 
               {/* Main AQI Display */}
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+              <div className="p-4 rounded-xl bg-forest-900/80 border border-emerald-900/50 flex items-center justify-between">
                 <div>
                   <span className="text-[11px] text-slate-400 block font-mono">Ambient AQI</span>
                   <span className="text-4xl font-black text-rose-400">
@@ -502,7 +502,7 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
 
               {/* Detailed Metrics */}
               <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-slate-900/50 border border-slate-800">
+                <div className="p-3 rounded-xl bg-forest-900/60 border border-emerald-900/40">
                   <span className="text-slate-400 block text-[10px] font-mono">PM2.5 Concentration</span>
                   <span className="text-base font-bold text-white">
                     {activeHotspot.pm25} µg/m³
@@ -512,7 +512,7 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
                   </span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-900/50 border border-slate-800">
+                <div className="p-3 rounded-xl bg-forest-900/60 border border-emerald-900/40">
                   <span className="text-slate-400 block text-[10px] font-mono">PM10 Concentration</span>
                   <span className="text-base font-bold text-white">
                     {activeHotspot.pm10} µg/m³
@@ -549,7 +549,7 @@ export const PollutionHotspotsPage: React.FC<PollutionHotspotsPageProps> = ({
                     playCyberClick();
                     onSelectCity(activeHotspot.city);
                   }}
-                  className="w-full btn-cinematic-cyan py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2"
+                  className="w-full btn-cinematic-emerald py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2"
                 >
                   <Activity className="w-4 h-4" />
                   <span>Inspect {activeHotspot.city} Live Dashboard</span>

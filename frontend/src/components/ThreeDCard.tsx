@@ -3,7 +3,7 @@ import React, { useRef, useState, useCallback } from 'react';
 interface ThreeDCardProps {
   children: React.ReactNode;
   className?: string;
-  glowColor?: 'cyan' | 'emerald' | 'amber' | 'rose' | 'purple';
+  glowColor?: 'cyan' | 'emerald' | 'amber' | 'rose' | 'purple' | 'mint' | 'pista';
   tiltStrength?: number;
   depth?: number;
 }
@@ -11,9 +11,9 @@ interface ThreeDCardProps {
 export const ThreeDCard: React.FC<ThreeDCardProps> = ({
   children,
   className = '',
-  glowColor = 'cyan',
-  tiltStrength = 15,
-  depth = 30,
+  glowColor = 'emerald',
+  tiltStrength = 12,
+  depth = 24,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [rotateX, setRotateX] = useState<number>(0);
@@ -25,12 +25,14 @@ export const ThreeDCard: React.FC<ThreeDCardProps> = ({
   });
 
   const glowStyles = {
-    cyan: 'hover:shadow-[0_15px_35px_rgba(6,182,212,0.25)] hover:border-cyan-500/50',
-    emerald: 'hover:shadow-[0_15px_35px_rgba(16,185,129,0.25)] hover:border-emerald-500/50',
-    amber: 'hover:shadow-[0_15px_35px_rgba(245,158,11,0.25)] hover:border-amber-500/50',
-    rose: 'hover:shadow-[0_15px_35px_rgba(244,63,94,0.25)] hover:border-rose-500/50',
-    purple: 'hover:shadow-[0_15px_35px_rgba(168,85,247,0.25)] hover:border-purple-500/50',
-  }[glowColor];
+    emerald: 'hover:shadow-[0_22px_50px_rgba(16,185,129,0.35)] hover:border-emerald-400/60 border-emerald-500/20',
+    mint: 'hover:shadow-[0_22px_50px_rgba(110,231,183,0.35)] hover:border-mint-400/60 border-mint-500/20',
+    pista: 'hover:shadow-[0_22px_50px_rgba(187,247,208,0.3)] hover:border-pista-300/60 border-pista-400/20',
+    cyan: 'hover:shadow-[0_22px_50px_rgba(52,211,153,0.35)] hover:border-emerald-400/60 border-emerald-500/20',
+    amber: 'hover:shadow-[0_22px_50px_rgba(245,158,11,0.35)] hover:border-amber-400/60 border-amber-500/20',
+    rose: 'hover:shadow-[0_22px_50px_rgba(244,63,94,0.35)] hover:border-rose-400/60 border-rose-500/20',
+    purple: 'hover:shadow-[0_22px_50px_rgba(110,231,183,0.35)] hover:border-mint-400/60 border-mint-500/20',
+  }[glowColor] || 'hover:shadow-[0_22px_50px_rgba(16,185,129,0.35)] hover:border-emerald-400/60 border-emerald-500/20';
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -42,17 +44,17 @@ export const ThreeDCard: React.FC<ThreeDCardProps> = ({
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
 
-      // Calculate rotation (-tiltStrength to +tiltStrength)
+      // Smooth subtle tilt
       const rotX = ((y - centerY) / centerY) * -tiltStrength;
       const rotY = ((x - centerX) / centerX) * tiltStrength;
 
       setRotateX(rotX);
       setRotateY(rotY);
 
-      // Glare reflection percentage
+      // Apple Vision Pro style specular reflection position
       const glareX = (x / rect.width) * 100;
       const glareY = (y / rect.height) * 100;
-      setGlarePos({ x: glareX, y: glareY, opacity: 0.18 });
+      setGlarePos({ x: glareX, y: glareY, opacity: 0.22 });
     },
     [tiltStrength]
   );
@@ -82,11 +84,11 @@ export const ThreeDCard: React.FC<ThreeDCardProps> = ({
           className="pointer-events-none absolute inset-0 transition-opacity duration-300 z-30"
           style={{
             opacity: glarePos.opacity,
-            background: `radial-gradient(circle at ${glarePos.x}% ${glarePos.y}%, rgba(255,255,255,0.3) 0%, transparent 60%)`,
+            background: `radial-gradient(circle at ${glarePos.x}% ${glarePos.y}%, rgba(187,247,208,0.32) 0%, rgba(52,211,153,0.12) 40%, transparent 70%)`,
           }}
         />
 
-        {/* Inner Content with 3D Depth displacement */}
+        {/* Spatial 3D Depth displacement */}
         <div
           className="w-full h-full"
           style={{

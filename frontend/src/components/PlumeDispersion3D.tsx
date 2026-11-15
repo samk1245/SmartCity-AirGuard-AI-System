@@ -365,7 +365,7 @@ export const PlumeDispersion3D: React.FC<PlumeDispersion3DProps> = ({
   };
 
   return (
-    <div className={`relative flex flex-col rounded-2xl bg-slate-950 border border-slate-800 overflow-hidden shadow-2xl ${className}`}>
+    <div className={`relative flex flex-col rounded-3xl bg-forest-950 border border-emerald-500/25 overflow-hidden shadow-spatial-glass ${className}`}>
       {/* 3D WebGL Canvas Viewport */}
       <div
         ref={mountRef}
@@ -375,20 +375,20 @@ export const PlumeDispersion3D: React.FC<PlumeDispersion3DProps> = ({
 
       {/* Floating 3D HUD Header */}
       <div className="absolute top-4 left-4 z-20 pointer-events-none">
-        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900/90 border border-slate-800 backdrop-blur-md shadow-lg pointer-events-auto">
-          <Wind className="w-4 h-4 text-cyan-400" />
+        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-forest-950/85 border border-emerald-500/30 backdrop-blur-xl shadow-glass pointer-events-auto font-mono">
+          <Wind className="w-4 h-4 text-emerald-400" />
           <span className="text-xs font-bold text-white tracking-wide">
             Gaussian Plume Atmospheric Dispersion Model
           </span>
-          <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">
-            3D WebGL
+          <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-forest-900 text-mint-300 border border-emerald-500/30">
+            3D WebGL Physics
           </span>
         </div>
       </div>
 
       {/* Floating Calculation Telemetry HUD */}
-      <div className="absolute top-4 right-4 z-20 flex flex-col gap-2 pointer-events-none">
-        <div className="p-3.5 rounded-xl bg-slate-900/95 border border-slate-800 backdrop-blur-md shadow-xl pointer-events-auto space-y-1.5 min-w-[200px]">
+      <div className="absolute top-4 right-4 z-20 flex flex-col gap-2 pointer-events-none font-mono">
+        <div className="p-3.5 rounded-xl bg-forest-950/90 border border-emerald-500/25 backdrop-blur-xl shadow-glass pointer-events-auto space-y-1.5 min-w-[200px]">
           <div className="flex items-center justify-between text-xs">
             <span className="text-slate-400">Peak Ground Level (Cmax):</span>
             <span className="font-mono font-bold text-rose-400">{calculatedCmax} µg/m³</span>
@@ -399,13 +399,13 @@ export const PlumeDispersion3D: React.FC<PlumeDispersion3DProps> = ({
           </div>
           <div className="flex items-center justify-between text-xs">
             <span className="text-slate-400">Pasquill Stability:</span>
-            <span className="font-bold text-cyan-400">Class {stability}</span>
+            <span className="font-bold text-mint-300">Class {stability}</span>
           </div>
         </div>
 
         <button
           onClick={handleResetCamera}
-          className="self-end p-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white transition pointer-events-auto shadow-md"
+          className="self-end p-2 rounded-xl bg-forest-950/85 hover:bg-forest-900 border border-emerald-500/30 text-slate-300 hover:text-white transition pointer-events-auto shadow-md"
           title="Reset Camera View"
         >
           <RotateCcw className="w-4 h-4" />
@@ -413,11 +413,11 @@ export const PlumeDispersion3D: React.FC<PlumeDispersion3DProps> = ({
       </div>
 
       {/* Interactive Dispersion Controls Toolbar */}
-      <div className="z-20 p-4 bg-slate-900/95 border-t border-slate-800 backdrop-blur-md grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+      <div className="z-20 p-4 bg-forest-950/90 border-t border-emerald-900/40 backdrop-blur-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-mono">
         {/* Emission Rate Slider */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <span className="text-slate-400 font-semibold flex items-center gap-1.5">
+            <span className="text-slate-300 font-semibold flex items-center gap-1.5">
               <Flame className="w-3.5 h-3.5 text-amber-400" /> Emission Rate (Q)
             </span>
             <span className="font-mono font-bold text-white">{emissionRate} g/s</span>
@@ -429,15 +429,15 @@ export const PlumeDispersion3D: React.FC<PlumeDispersion3DProps> = ({
             step={5}
             value={emissionRate}
             onChange={(e) => setEmissionRate(Number(e.target.value))}
-            className="w-full accent-amber-400 h-1.5 bg-slate-950 rounded cursor-pointer"
+            className="w-full accent-amber-400 h-1.5 bg-forest-900 rounded cursor-pointer"
           />
         </div>
 
         {/* Stack Height Slider */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <span className="text-slate-400 font-semibold flex items-center gap-1.5">
-              <Layers className="w-3.5 h-3.5 text-cyan-400" /> Stack Height (H)
+            <span className="text-slate-300 font-semibold flex items-center gap-1.5">
+              <Layers className="w-3.5 h-3.5 text-mint-400" /> Stack Height (H)
             </span>
             <span className="font-mono font-bold text-white">{stackHeight} m</span>
           </div>
@@ -448,14 +448,14 @@ export const PlumeDispersion3D: React.FC<PlumeDispersion3DProps> = ({
             step={5}
             value={stackHeight}
             onChange={(e) => setStackHeight(Number(e.target.value))}
-            className="w-full accent-cyan-400 h-1.5 bg-slate-950 rounded cursor-pointer"
+            className="w-full accent-mint-400 h-1.5 bg-forest-900 rounded cursor-pointer"
           />
         </div>
 
         {/* Wind Speed Slider */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <span className="text-slate-400 font-semibold flex items-center gap-1.5">
+            <span className="text-slate-300 font-semibold flex items-center gap-1.5">
               <Wind className="w-3.5 h-3.5 text-emerald-400" /> Wind Velocity (u)
             </span>
             <span className="font-mono font-bold text-white">{windSpeed} m/s</span>
@@ -467,27 +467,27 @@ export const PlumeDispersion3D: React.FC<PlumeDispersion3DProps> = ({
             step={0.5}
             value={windSpeed}
             onChange={(e) => setWindSpeed(Number(e.target.value))}
-            className="w-full accent-emerald-400 h-1.5 bg-slate-950 rounded cursor-pointer"
+            className="w-full accent-emerald-400 h-1.5 bg-forest-900 rounded cursor-pointer"
           />
         </div>
 
         {/* Pasquill Stability Class Selector */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <span className="text-slate-400 font-semibold flex items-center gap-1.5">
-              <Activity className="w-3.5 h-3.5 text-purple-400" /> Stability Class
+            <span className="text-slate-300 font-semibold flex items-center gap-1.5">
+              <Activity className="w-3.5 h-3.5 text-emerald-400" /> Stability Class
             </span>
-            <span className="font-bold text-purple-400">Class {stability}</span>
+            <span className="font-bold text-mint-300">Class {stability}</span>
           </div>
           <div className="grid grid-cols-6 gap-1">
             {(['A', 'B', 'C', 'D', 'E', 'F'] as StabilityClass[]).map((cls) => (
               <button
                 key={cls}
                 onClick={() => setStability(cls)}
-                className={`py-1 rounded font-bold transition text-center ${
+                className={`py-1 rounded-lg font-bold transition text-center ${
                   stability === cls
-                    ? 'bg-purple-500 text-white shadow'
-                    : 'bg-slate-800 text-slate-400 hover:text-white'
+                    ? 'bg-emerald-500 text-forest-950 shadow-glow-emerald font-extrabold'
+                    : 'bg-forest-900/80 text-slate-300 hover:text-white border border-emerald-900/40'
                 }`}
                 title={`Class ${cls}`}
               >

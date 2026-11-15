@@ -230,7 +230,7 @@ export const AtmosphericFlowfield3D: React.FC<AtmosphericFlowfield3DProps> = ({
 
   return (
     <div
-      className={`relative rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl select-none ${className}`}
+      className={`relative rounded-3xl overflow-hidden bg-forest-950 border border-emerald-500/25 shadow-spatial-glass select-none ${className}`}
       style={{ height }}
     >
       {/* 3D Canvas */}
@@ -245,20 +245,20 @@ export const AtmosphericFlowfield3D: React.FC<AtmosphericFlowfield3DProps> = ({
 
       {/* Floating HUD Header */}
       <div className="absolute top-4 left-4 z-10 flex flex-wrap items-center gap-2 pointer-events-auto">
-        <div className="px-3.5 py-1.5 rounded-xl bg-slate-900/90 backdrop-blur border border-cyan-500/30 text-xs font-bold text-white shadow-xl flex items-center gap-2">
-          <Wind className="w-4 h-4 text-cyan-400 animate-pulse" />
+        <div className="px-3.5 py-1.5 rounded-xl bg-forest-950/85 backdrop-blur-xl border border-emerald-500/30 text-xs font-bold text-white shadow-xl flex items-center gap-2 font-mono">
+          <Wind className="w-4 h-4 text-emerald-400 animate-pulse" />
           <span>3D Particulate Flowfield</span>
-          <span className="text-[10px] text-cyan-300 font-mono px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-800">
+          <span className="text-[10px] text-mint-300 font-mono px-1.5 py-0.5 rounded bg-forest-900 border border-emerald-500/30">
             {particleCount} Particulates
           </span>
         </div>
 
         <button
           onClick={() => setIsRotating((prev) => !prev)}
-          className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+          className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all font-mono ${
             isRotating
-              ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
-              : 'bg-slate-900/80 text-slate-400 border-slate-700'
+              ? 'bg-emerald-500/25 text-mint-300 border-emerald-400/40 shadow-glow-emerald'
+              : 'bg-forest-950/80 text-slate-400 border-emerald-900/40'
           }`}
         >
           {isRotating ? 'Orbit: Active' : 'Orbit: Paused'}
@@ -266,17 +266,17 @@ export const AtmosphericFlowfield3D: React.FC<AtmosphericFlowfield3DProps> = ({
       </div>
 
       {/* Live Atmospheric Parameters Badge */}
-      <div className="absolute top-4 right-4 z-10 flex items-center gap-3 bg-slate-900/90 backdrop-blur border border-slate-800 px-3.5 py-1.5 rounded-xl text-xs text-slate-300 shadow-xl pointer-events-none hidden sm:flex">
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-3 bg-forest-950/85 backdrop-blur-xl border border-emerald-500/25 px-3.5 py-1.5 rounded-xl text-xs text-slate-300 shadow-glass pointer-events-none hidden sm:flex font-mono">
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-cyan-400" />
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
           <span className="font-semibold text-white">{windSpeed} km/h</span>
           <span className="text-slate-400 text-[10px]">Speed</span>
         </div>
-        <div className="flex items-center gap-1.5 border-l border-slate-800 pl-3">
+        <div className="flex items-center gap-1.5 border-l border-emerald-900/50 pl-3">
           <span className="font-semibold text-white">{windDirection}°</span>
           <span className="text-slate-400 text-[10px]">Vector</span>
         </div>
-        <div className="flex items-center gap-1.5 border-l border-slate-800 pl-3">
+        <div className="flex items-center gap-1.5 border-l border-emerald-900/50 pl-3">
           <span className="font-semibold text-white">{temperature}°C</span>
           <span className="text-slate-400 text-[10px]">Thermal</span>
         </div>
@@ -284,12 +284,12 @@ export const AtmosphericFlowfield3D: React.FC<AtmosphericFlowfield3DProps> = ({
 
       {/* Bottom Controls Bar */}
       <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-wrap items-center justify-between gap-3 pointer-events-auto">
-        <div className="flex items-center gap-2 bg-slate-900/90 backdrop-blur p-1 rounded-xl border border-slate-800 text-xs">
+        <div className="flex items-center gap-2 bg-forest-950/85 backdrop-blur-xl p-1 rounded-xl border border-emerald-500/25 text-xs font-mono">
           <button
             onClick={() => setViewMode('streamlines')}
             className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
               viewMode === 'streamlines'
-                ? 'bg-cyan-500 text-slate-950 shadow-md font-bold'
+                ? 'bg-emerald-500 text-forest-950 shadow-md font-bold'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -299,7 +299,7 @@ export const AtmosphericFlowfield3D: React.FC<AtmosphericFlowfield3DProps> = ({
             onClick={() => setViewMode('aerosols')}
             className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
               viewMode === 'aerosols'
-                ? 'bg-cyan-500 text-slate-950 shadow-md font-bold'
+                ? 'bg-emerald-500 text-forest-950 shadow-md font-bold'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -307,7 +307,7 @@ export const AtmosphericFlowfield3D: React.FC<AtmosphericFlowfield3DProps> = ({
           </button>
         </div>
 
-        <div className="flex items-center gap-2 bg-slate-900/90 backdrop-blur p-1 rounded-xl border border-slate-800 text-xs">
+        <div className="flex items-center gap-2 bg-forest-950/85 backdrop-blur-xl p-1 rounded-xl border border-emerald-500/25 text-xs font-mono">
           <span className="text-[11px] text-slate-400 px-2 font-medium">Density:</span>
           {(['low', 'medium', 'dense'] as const).map((density) => (
             <button
@@ -315,7 +315,7 @@ export const AtmosphericFlowfield3D: React.FC<AtmosphericFlowfield3DProps> = ({
               onClick={() => setParticleDensity(density)}
               className={`px-2 py-0.5 rounded capitalize font-medium transition-all ${
                 particleDensity === density
-                  ? 'bg-slate-700 text-white font-bold'
+                  ? 'bg-emerald-900/80 text-mint-300 border border-emerald-500/40 font-bold'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >

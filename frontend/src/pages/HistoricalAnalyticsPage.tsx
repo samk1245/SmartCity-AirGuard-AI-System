@@ -209,14 +209,14 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
           {/* Statistical Breakdown & Correlations */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Summary Statistics Table */}
-            <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl">
+            <div className="glass-panel border border-emerald-500/20 rounded-2xl p-6 shadow-glass">
               <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
-                <Layers className="w-4 h-4 text-cyan-400" />
+                <Layers className="w-4 h-4 text-emerald-400" />
                 Descriptive Statistical Distribution
               </h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs text-left">
-                  <thead className="bg-slate-900/60 text-slate-400 border-b border-slate-700">
+                  <thead className="bg-forest-950/80 text-slate-300 border-b border-emerald-900/40 font-mono">
                     <tr>
                       <th className="py-2.5 px-3">Variable</th>
                       <th className="py-2.5 px-3">Mean</th>
@@ -226,11 +226,11 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
                       <th className="py-2.5 px-3">Std Dev</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-700/40">
+                  <tbody className="divide-y divide-emerald-900/30">
                     {Object.entries(analytics.summary_statistics).map(([param, stats]) => (
-                      <tr key={param} className="hover:bg-slate-700/20">
+                      <tr key={param} className="hover:bg-emerald-900/20 transition-colors">
                         <td className="py-2.5 px-3 font-semibold text-white uppercase">{param}</td>
-                        <td className="py-2.5 px-3 text-cyan-400 font-mono">{stats.mean}</td>
+                        <td className="py-2.5 px-3 text-mint-300 font-mono">{stats.mean}</td>
                         <td className="py-2.5 px-3 text-slate-300 font-mono">{stats.median}</td>
                         <td className="py-2.5 px-3 text-emerald-400 font-mono">{stats.min}</td>
                         <td className="py-2.5 px-3 text-rose-400 font-mono">{stats.max}</td>
@@ -243,7 +243,7 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
             </div>
 
             {/* Pollutant Correlation Heatmap */}
-            <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl">
+            <div className="glass-panel border border-emerald-500/20 rounded-2xl p-6 shadow-glass">
               <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
                 <Flame className="w-4 h-4 text-rose-400" />
                 Pollutant & Meteorological Correlation Matrix

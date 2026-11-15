@@ -297,17 +297,17 @@ export const FluidAtmosphericWave: React.FC<FluidAtmosphericWaveProps> = ({
       <canvas ref={canvasRef} className="w-full h-full cursor-pointer" />
 
       {/* Floating Watery HUD Header */}
-      <div className="absolute top-4 left-4 z-10 flex flex-wrap items-center gap-2 pointer-events-auto">
-        <div className="px-3.5 py-1.5 rounded-xl bg-slate-900/90 backdrop-blur border border-cyan-500/30 text-xs font-bold text-white shadow-xl flex items-center gap-2">
-          <Droplets className="w-4 h-4 text-cyan-400 animate-bounce" />
+      <div className="absolute top-4 left-4 z-10 flex flex-wrap items-center gap-2 pointer-events-auto font-mono">
+        <div className="px-3.5 py-1.5 rounded-xl bg-forest-950/85 backdrop-blur-xl border border-emerald-500/30 text-xs font-bold text-white shadow-xl flex items-center gap-2">
+          <Droplets className="w-4 h-4 text-emerald-400 animate-bounce" />
           <span>Watery Atmospheric Fluid Wave</span>
-          <span className="text-[10px] text-cyan-300 font-mono px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-800">
+          <span className="text-[10px] text-mint-300 font-mono px-2 py-0.5 rounded-full bg-forest-900 border border-emerald-500/30">
             Harmonic Streamlines
           </span>
         </div>
 
         {purifierActive && (
-          <div className="px-3 py-1.5 rounded-xl bg-emerald-950/90 border border-emerald-500/50 text-xs font-bold text-emerald-300 shadow-xl flex items-center gap-1.5 animate-pulse">
+          <div className="px-3 py-1.5 rounded-xl bg-emerald-950/90 border border-emerald-500/50 text-xs font-bold text-mint-300 shadow-xl flex items-center gap-1.5 animate-pulse">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>Eco-Shield Active: -78% Smog</span>
           </div>
@@ -315,15 +315,15 @@ export const FluidAtmosphericWave: React.FC<FluidAtmosphericWaveProps> = ({
       </div>
 
       {/* Real-time Atmospheric Telemetry Overlay */}
-      <div className="absolute top-4 right-4 z-10 bg-slate-900/90 backdrop-blur border border-slate-800 p-3 rounded-2xl shadow-2xl pointer-events-none flex items-center gap-3">
+      <div className="absolute top-4 right-4 z-10 bg-forest-950/85 backdrop-blur-xl border border-emerald-500/25 p-3 rounded-2xl shadow-glass pointer-events-none flex items-center gap-3 font-mono">
         <div className="text-right">
           <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Fluid State</div>
           <div className="text-base font-black text-white">{palette.status}</div>
-          <div className="text-[11px] font-bold text-cyan-400">AQI: {effectiveAqi}</div>
+          <div className="text-[11px] font-bold text-mint-400">AQI: {effectiveAqi}</div>
         </div>
-        <div className="border-l border-slate-800 pl-3 space-y-0.5 text-xs">
+        <div className="border-l border-emerald-900/50 pl-3 space-y-0.5 text-xs">
           <div className="text-slate-300 font-semibold flex items-center gap-1">
-            <Wind className="w-3 h-3 text-cyan-400" /> {windSpeed} km/h
+            <Wind className="w-3 h-3 text-mint-400" /> {windSpeed} km/h
           </div>
           <div className="text-slate-400 text-[10px]">{temperature}°C Ambient</div>
         </div>
@@ -331,7 +331,7 @@ export const FluidAtmosphericWave: React.FC<FluidAtmosphericWaveProps> = ({
 
       {/* Bottom Interactive Controls */}
       {showControls && (
-        <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-wrap items-center justify-between gap-3 pointer-events-auto bg-slate-950/80 backdrop-blur-md p-2.5 rounded-2xl border border-slate-800/80 text-xs">
+        <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-wrap items-center justify-between gap-3 pointer-events-auto bg-forest-950/85 backdrop-blur-xl p-2.5 rounded-2xl border border-emerald-500/25 text-xs font-mono">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="text-slate-400 text-[11px] font-medium">Flow Speed:</span>
@@ -342,9 +342,9 @@ export const FluidAtmosphericWave: React.FC<FluidAtmosphericWaveProps> = ({
                 step="0.1"
                 value={waveSpeed}
                 onChange={(e) => setWaveSpeed(parseFloat(e.target.value))}
-                className="w-20 accent-cyan-400 h-1.5 rounded bg-slate-700 cursor-pointer"
+                className="w-20 accent-emerald-400 h-1.5 rounded bg-forest-900 cursor-pointer"
               />
-              <span className="text-cyan-400 font-mono text-[11px] font-bold">{waveSpeed.toFixed(1)}x</span>
+              <span className="text-mint-400 font-mono text-[11px] font-bold">{waveSpeed.toFixed(1)}x</span>
             </div>
 
             <div className="hidden sm:flex items-center gap-2">
@@ -356,9 +356,9 @@ export const FluidAtmosphericWave: React.FC<FluidAtmosphericWaveProps> = ({
                 step="1"
                 value={waveDensity}
                 onChange={(e) => setWaveDensity(parseInt(e.target.value))}
-                className="w-16 accent-teal-400 h-1.5 rounded bg-slate-700 cursor-pointer"
+                className="w-16 accent-mint-400 h-1.5 rounded bg-forest-900 cursor-pointer"
               />
-              <span className="text-teal-400 font-mono text-[11px] font-bold">{waveDensity}</span>
+              <span className="text-mint-400 font-mono text-[11px] font-bold">{waveDensity}</span>
             </div>
           </div>
 
@@ -367,14 +367,14 @@ export const FluidAtmosphericWave: React.FC<FluidAtmosphericWaveProps> = ({
               onClick={() => setInteractiveRipples(!interactiveRipples)}
               className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition-all ${
                 interactiveRipples
-                  ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
-                  : 'bg-slate-900 text-slate-400 border-slate-700'
+                  ? 'bg-emerald-500/25 text-mint-300 border-emerald-400/40 shadow-glow-emerald'
+                  : 'bg-forest-900/80 text-slate-400 border-emerald-900/40'
               }`}
             >
               {interactiveRipples ? 'Water Ripples: ON' : 'Ripples: OFF'}
             </button>
 
-            <span className="text-[10px] text-slate-400 hidden md:inline">
+            <span className="text-[10px] text-slate-400 hidden md:inline font-sans">
               Click anywhere on water to generate fluid ripples
             </span>
           </div>

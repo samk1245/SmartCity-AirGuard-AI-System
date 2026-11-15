@@ -196,7 +196,7 @@ export const EnvironmentalMetricGrid: React.FC<EnvironmentalMetricGridProps> = (
       value: temp,
       unit: '°C',
       status: temp > 35 ? 'High Thermal' : 'Comfortable',
-      statusColor: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/30',
+      statusColor: 'text-mint-400 bg-emerald-500/10 border-emerald-500/30',
       trend: 'neutral',
       delta: 'Diurnal normal',
       benchmark: 'Surface Air Temp',
@@ -211,7 +211,7 @@ export const EnvironmentalMetricGrid: React.FC<EnvironmentalMetricGridProps> = (
       value: humidity,
       unit: '%',
       status: humidity > 70 ? 'Moisture Trapping' : 'Moderate',
-      statusColor: 'text-sky-400 bg-sky-500/10 border-sky-500/30',
+      statusColor: 'text-teal-400 bg-teal-500/10 border-teal-500/30',
       trend: humidity > 70 ? 'up' : 'down',
       delta: humidity > 70 ? 'Smog retention risk' : 'Clear evaporation',
       benchmark: 'Optimal: 40-60%',
@@ -241,7 +241,7 @@ export const EnvironmentalMetricGrid: React.FC<EnvironmentalMetricGridProps> = (
       value: pressure,
       unit: 'hPa',
       status: 'High Pressure Ridge',
-      statusColor: 'text-purple-400 bg-purple-500/10 border-purple-500/30',
+      statusColor: 'text-pista-300 bg-forest-900/60 border-emerald-500/30',
       trend: 'neutral',
       delta: 'Boundary layer stable',
       benchmark: 'Sea-level: 1013.25 hPa',
@@ -254,9 +254,9 @@ export const EnvironmentalMetricGrid: React.FC<EnvironmentalMetricGridProps> = (
   return (
     <div className="space-y-4">
       {/* Telemetry Header with Timestamp and Verification Tag */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl glass-panel border border-cyan-500/20">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl glass-panel border border-emerald-500/20 shadow-glass">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+          <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
             <Radio className="w-5 h-5 animate-pulse" />
           </div>
           <div>
@@ -264,20 +264,20 @@ export const EnvironmentalMetricGrid: React.FC<EnvironmentalMetricGridProps> = (
               <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
                 Live Environmental Telemetry Grid
               </h2>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-mint-300 border border-emerald-500/40 flex items-center gap-1 font-mono">
                 <CheckCircle2 className="w-3 h-3" />
                 Verified CAAQMS
               </span>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-300">
               11 Continuous Atmospheric Parameters • Continuous Ambient Air Quality Monitoring Systems
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 self-end sm:self-auto text-xs text-slate-400 font-mono">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/60 border border-slate-700/60">
-            <Clock className="w-3.5 h-3.5 text-cyan-400" />
+        <div className="flex items-center gap-3 self-end sm:self-auto text-xs text-slate-300 font-mono">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-forest-950/80 border border-emerald-500/20">
+            <Clock className="w-3.5 h-3.5 text-emerald-400" />
             <span>Telemetry Ping: <strong className="text-white">{lastUpdated}</strong></span>
           </div>
         </div>
@@ -290,11 +290,11 @@ export const EnvironmentalMetricGrid: React.FC<EnvironmentalMetricGridProps> = (
           return (
             <div
               key={m.id}
-              className="glass-card glass-card-hover p-4 rounded-2xl border border-slate-800/80 flex flex-col justify-between relative overflow-hidden group"
+              className="glass-card glass-card-hover p-4 rounded-2xl border border-emerald-500/20 hover:border-emerald-400/40 flex flex-col justify-between relative overflow-hidden group shadow-glass"
             >
               {/* Subtle accent line on top */}
               <div
-                className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500/40 via-blue-500/30 to-purple-500/40 opacity-50 group-hover:opacity-100 transition-opacity"
+                className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-500/40 via-mint-400/30 to-forest-500/40 opacity-50 group-hover:opacity-100 transition-opacity"
               />
 
               {/* Metric Title & Icon */}
@@ -307,7 +307,7 @@ export const EnvironmentalMetricGrid: React.FC<EnvironmentalMetricGridProps> = (
                     {m.name}
                   </h3>
                 </div>
-                <div className="p-2 rounded-xl bg-slate-800/60 border border-slate-700/50 text-slate-300 group-hover:text-cyan-400 group-hover:border-cyan-500/40 transition-colors">
+                <div className="p-2 rounded-xl bg-forest-950/80 border border-emerald-500/25 text-slate-300 group-hover:text-mint-300 group-hover:border-emerald-400/50 transition-colors">
                   <Icon className="w-4 h-4" />
                 </div>
               </div>
@@ -317,13 +317,13 @@ export const EnvironmentalMetricGrid: React.FC<EnvironmentalMetricGridProps> = (
                 <span className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                   <AnimatedCounter value={m.value} decimals={m.id === 'co' || m.id === 'pm25' || m.id === 'temp' ? 1 : 0} />
                 </span>
-                <span className="text-xs font-mono font-semibold text-slate-400">
+                <span className="text-xs font-mono font-semibold text-mint-300/80">
                   {m.unit}
                 </span>
               </div>
 
               {/* Status Badge + Trend Arrow */}
-              <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-800/60">
+              <div className="flex items-center justify-between gap-2 pt-1 border-t border-emerald-500/15">
                 <span className={`px-2 py-0.5 rounded-lg text-[10px] font-bold border ${m.statusColor}`}>
                   {m.status}
                 </span>
@@ -341,9 +341,9 @@ export const EnvironmentalMetricGrid: React.FC<EnvironmentalMetricGridProps> = (
               </div>
 
               {/* Mini visual indicator progress bar */}
-              <div className="mt-2.5 w-full bg-slate-800/80 rounded-full h-1 overflow-hidden">
+              <div className="mt-2.5 w-full bg-forest-950/90 rounded-full h-1 overflow-hidden border border-emerald-500/10">
                 <div
-                  className="h-full bg-gradient-to-r from-cyan-500 to-electric-blue rounded-full transition-all duration-1000 ease-out"
+                  className="h-full bg-gradient-to-r from-emerald-500 to-mint-400 rounded-full transition-all duration-1000 ease-out"
                   style={{ width: `${Math.min(100, Math.max(5, m.progressPercent))}%` }}
                 />
               </div>

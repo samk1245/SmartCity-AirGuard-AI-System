@@ -81,43 +81,44 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
   return (
     <div className="space-y-6">
       {/* Banner */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950/40 border border-slate-800 shadow-xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-forest-950 via-forest-900 to-emerald-950/40 border border-emerald-900/40 shadow-glow-emerald/10 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
-            <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-1">
-              <Navigation className="w-4 h-4" />
+            <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-1">
+              <Navigation className="w-4 h-4 text-emerald-400" />
               Inter-City Route Environmental Intelligence
             </div>
             <h1 className="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
               Travel Air Guard — Trip Exposure Planner
             </h1>
-            <p className="text-sm text-slate-400 mt-1 max-w-2xl">
+            <p className="text-sm text-forest-200 mt-1 max-w-2xl">
               Calculate respiratory exposure deltas between departure and destination cities across India.
               Receive optimal diurnal transit windows, transport cabin filtration ratings, and packing essentials.
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-xs px-3 py-1.5 rounded-xl bg-cyan-950 border border-cyan-800 text-cyan-300 font-semibold">
+          <div className="flex items-center gap-2 relative z-10">
+            <span className="text-xs px-3 py-1.5 rounded-xl bg-forest-900/90 border border-emerald-500/30 text-emerald-300 font-semibold shadow-glow-emerald/20">
               48+ Indian Cities Unified
             </span>
           </div>
         </div>
 
         {/* Route Selector Card */}
-        <div className="mt-6 pt-5 border-t border-slate-800/80 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+        <div className="mt-6 pt-5 border-t border-emerald-900/40 grid grid-cols-1 md:grid-cols-12 gap-4 items-center relative z-10">
           {/* Origin Selector */}
           <div className="md:col-span-5 space-y-1.5">
-            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-              <Plane className="w-3.5 h-3.5 text-cyan-400" /> Origin / Departure City
+            <label className="text-xs font-bold text-emerald-300/80 uppercase tracking-wider flex items-center gap-1.5">
+              <Plane className="w-3.5 h-3.5 text-emerald-400" /> Origin / Departure City
             </label>
             <select
               value={originCity}
               onChange={(e) => setOriginCity(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-semibold text-sm focus:outline-none focus:border-cyan-500 transition"
+              className="w-full px-4 py-2.5 rounded-xl bg-forest-950 border border-emerald-900/60 text-white font-semibold text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/40 transition"
             >
               {cityNames.map((c) => (
-                <option key={c} value={c}>{c}</option>
+                <option key={c} value={c} className="bg-forest-950 text-white">{c}</option>
               ))}
             </select>
           </div>
@@ -126,7 +127,7 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
           <div className="md:col-span-2 flex justify-center pt-4 md:pt-0">
             <button
               onClick={handleSwapCities}
-              className="p-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 transition shadow-md hover:scale-105 active:scale-95"
+              className="p-3 rounded-xl bg-forest-900 hover:bg-forest-800 text-emerald-400 border border-emerald-700/50 transition shadow-md hover:scale-105 active:scale-95 hover:shadow-glow-emerald/20"
               title="Swap Origin and Destination"
             >
               <ArrowRight className="w-4 h-4 rotate-90 md:rotate-0" />
@@ -135,16 +136,16 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
 
           {/* Destination Selector */}
           <div className="md:col-span-5 space-y-1.5">
-            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-              <Navigation className="w-3.5 h-3.5 text-rose-400" /> Destination City
+            <label className="text-xs font-bold text-emerald-300/80 uppercase tracking-wider flex items-center gap-1.5">
+              <Navigation className="w-3.5 h-3.5 text-mint-400" /> Destination City
             </label>
             <select
               value={destinationCity}
               onChange={(e) => setDestinationCity(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-semibold text-sm focus:outline-none focus:border-rose-500 transition"
+              className="w-full px-4 py-2.5 rounded-xl bg-forest-950 border border-emerald-900/60 text-white font-semibold text-sm focus:outline-none focus:border-mint-400 focus:ring-1 focus:ring-mint-400/40 transition"
             >
               {cityNames.map((c) => (
-                <option key={c} value={c}>{c}</option>
+                <option key={c} value={c} className="bg-forest-950 text-white">{c}</option>
               ))}
             </select>
           </div>
@@ -158,9 +159,9 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
           <div className="lg:col-span-8 space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Origin City Card */}
-              <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-                <div className="flex items-center justify-between text-xs text-slate-400">
-                  <span className="uppercase font-bold tracking-wider">Departure Point</span>
+              <div className="p-5 rounded-2xl bg-forest-950/80 border border-emerald-900/40 hover:border-emerald-500/30 transition shadow-lg space-y-3">
+                <div className="flex items-center justify-between text-xs text-forest-300">
+                  <span className="uppercase font-bold tracking-wider text-emerald-400">Departure Point</span>
                   <span>{analysisData.origin.state}</span>
                 </div>
                 <h3 className="text-xl font-black text-white">{analysisData.origin.city}</h3>
@@ -172,27 +173,27 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
                   >
                     AQI {analysisData.origin.aqi}
                   </span>
-                  <span className="text-xs font-semibold text-slate-400">
+                  <span className="text-xs font-semibold text-forest-300">
                     ({analysisData.origin.category})
                   </span>
                 </div>
 
-                <div className="pt-2 border-t border-slate-800 grid grid-cols-2 gap-2 text-xs">
+                <div className="pt-2 border-t border-emerald-900/40 grid grid-cols-2 gap-2 text-xs">
                   <div>
-                    <span className="text-slate-500 block text-[10px] uppercase font-bold">PM2.5</span>
-                    <span className="text-slate-200 font-bold">{analysisData.origin.pm25} µg/m³</span>
+                    <span className="text-forest-400 block text-[10px] uppercase font-bold">PM2.5</span>
+                    <span className="text-emerald-100 font-bold">{analysisData.origin.pm25} µg/m³</span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[10px] uppercase font-bold">PM10</span>
-                    <span className="text-slate-200 font-bold">{analysisData.origin.pm10} µg/m³</span>
+                    <span className="text-forest-400 block text-[10px] uppercase font-bold">PM10</span>
+                    <span className="text-emerald-100 font-bold">{analysisData.origin.pm10} µg/m³</span>
                   </div>
                 </div>
               </div>
 
               {/* Destination City Card */}
-              <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-                <div className="flex items-center justify-between text-xs text-slate-400">
-                  <span className="uppercase font-bold tracking-wider text-rose-400">Arrival Destination</span>
+              <div className="p-5 rounded-2xl bg-forest-950/80 border border-emerald-900/40 hover:border-emerald-500/30 transition shadow-lg space-y-3">
+                <div className="flex items-center justify-between text-xs text-forest-300">
+                  <span className="uppercase font-bold tracking-wider text-mint-400">Arrival Destination</span>
                   <span>{analysisData.destination.state}</span>
                 </div>
                 <h3 className="text-xl font-black text-white">{analysisData.destination.city}</h3>
@@ -204,28 +205,28 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
                   >
                     AQI {analysisData.destination.aqi}
                   </span>
-                  <span className="text-xs font-semibold text-slate-400">
+                  <span className="text-xs font-semibold text-forest-300">
                     ({analysisData.destination.category})
                   </span>
                 </div>
 
-                <div className="pt-2 border-t border-slate-800 grid grid-cols-2 gap-2 text-xs">
+                <div className="pt-2 border-t border-emerald-900/40 grid grid-cols-2 gap-2 text-xs">
                   <div>
-                    <span className="text-slate-500 block text-[10px] uppercase font-bold">PM2.5</span>
-                    <span className="text-slate-200 font-bold">{analysisData.destination.pm25} µg/m³</span>
+                    <span className="text-forest-400 block text-[10px] uppercase font-bold">PM2.5</span>
+                    <span className="text-emerald-100 font-bold">{analysisData.destination.pm25} µg/m³</span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[10px] uppercase font-bold">PM10</span>
-                    <span className="text-slate-200 font-bold">{analysisData.destination.pm10} µg/m³</span>
+                    <span className="text-forest-400 block text-[10px] uppercase font-bold">PM10</span>
+                    <span className="text-emerald-100 font-bold">{analysisData.destination.pm10} µg/m³</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Exposure Delta Verdict */}
-            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+            <div className="p-5 rounded-2xl bg-forest-950/80 border border-emerald-900/40 shadow-lg space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <span className="text-xs font-bold uppercase tracking-wider text-forest-300">
                   Calculated Environmental Exposure Shift
                 </span>
                 <span
@@ -244,47 +245,47 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
                 <span className="text-2xl font-black text-white">
                   {analysisData.exposure_delta_percent > 0 ? `+${analysisData.exposure_delta_percent}%` : `${analysisData.exposure_delta_percent}%`}
                 </span>
-                <span className="text-xs text-slate-300">
+                <span className="text-xs text-forest-200">
                   {analysisData.summary_statement}
                 </span>
               </div>
 
               {/* Timing Advisories */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-3 border-t border-slate-800">
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800/80">
-                  <span className="text-[11px] font-bold text-emerald-400 uppercase flex items-center gap-1.5 mb-1">
-                    <Clock className="w-3.5 h-3.5" /> Optimal Travel Arrival Window
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-3 border-t border-emerald-900/40">
+                <div className="p-3 rounded-xl bg-forest-900/60 border border-emerald-900/50">
+                  <span className="text-[11px] font-bold text-mint-400 uppercase flex items-center gap-1.5 mb-1">
+                    <Clock className="w-3.5 h-3.5 text-mint-400" /> Optimal Travel Arrival Window
                   </span>
-                  <p className="text-xs text-slate-300">{analysisData.optimal_arrival_window}</p>
+                  <p className="text-xs text-forest-200">{analysisData.optimal_arrival_window}</p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800/80">
-                  <span className="text-[11px] font-bold text-rose-400 uppercase flex items-center gap-1.5 mb-1">
-                    <AlertTriangle className="w-3.5 h-3.5" /> Peak Smog Trapping Hours
+                <div className="p-3 rounded-xl bg-forest-900/60 border border-emerald-900/50">
+                  <span className="text-[11px] font-bold text-amber-400 uppercase flex items-center gap-1.5 mb-1">
+                    <AlertTriangle className="w-3.5 h-3.5 text-amber-400" /> Peak Smog Trapping Hours
                   </span>
-                  <p className="text-xs text-slate-300">{analysisData.suboptimal_arrival_window}</p>
+                  <p className="text-xs text-forest-200">{analysisData.suboptimal_arrival_window}</p>
                 </div>
               </div>
             </div>
 
             {/* Transit Mode Cabin Air Filtration Ratings */}
-            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider text-cyan-400">
+            <div className="p-5 rounded-2xl bg-forest-950/80 border border-emerald-900/40 shadow-lg space-y-3">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-emerald-400">
                 Transit Mode Cabin Air Filtration Comparison
               </h3>
 
               <div className="space-y-2.5 pt-1">
                 {analysisData.transit_modes.map((tm: any, i: number) => (
-                  <div key={i} className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
-                    <div className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-cyan-400">
+                  <div key={i} className="p-3.5 rounded-xl bg-forest-900/60 border border-emerald-900/50 flex items-start gap-3">
+                    <div className="p-2 rounded-lg bg-forest-950 border border-emerald-900/60 text-emerald-400">
                       {tm.icon === 'plane' && <Plane className="w-4 h-4" />}
                       {tm.icon === 'train' && <Train className="w-4 h-4" />}
                       {tm.icon === 'car' && <Car className="w-4 h-4" />}
                     </div>
                     <div className="space-y-0.5 flex-1">
                       <div className="text-xs font-bold text-white">{tm.mode}</div>
-                      <p className="text-[11px] text-slate-400">{tm.cabin_air_note}</p>
-                      <div className="text-[11px] font-semibold text-cyan-400 pt-0.5">
+                      <p className="text-[11px] text-forest-300">{tm.cabin_air_note}</p>
+                      <div className="text-[11px] font-semibold text-emerald-400 pt-0.5">
                         Advisory: {tm.advisory}
                       </div>
                     </div>
@@ -296,12 +297,12 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
 
           {/* Right Column: Luggage Checklist & Tips */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+            <div className="p-5 rounded-2xl bg-forest-950/80 border border-emerald-900/40 shadow-lg space-y-3">
               <div className="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase">
                 <Luggage className="w-4 h-4" /> Travel Packing Checklist
               </div>
               <h3 className="text-base font-bold text-white">Health Protection Gear</h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-forest-300">
                 Recommended items for your destination based on current {analysisData.destination.city} air quality.
               </p>
 
@@ -309,15 +310,15 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
                 {analysisData.packing_checklist.map((item: any, i: number) => (
                   <div
                     key={i}
-                    className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs"
+                    className="p-3 rounded-xl bg-forest-900/60 border border-emerald-900/50 flex items-center justify-between text-xs"
                   >
-                    <span className="text-slate-200 font-medium">{item.item}</span>
+                    <span className="text-forest-100 font-medium">{item.item}</span>
                     {item.essential ? (
                       <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/30">
                         ESSENTIAL
                       </span>
                     ) : (
-                      <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
+                      <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-forest-950 text-forest-400 border border-emerald-900/40">
                         OPTIONAL
                       </span>
                     )}
@@ -327,12 +328,12 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
             </div>
 
             {/* Travel Advisory Disclaimer */}
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 text-xs text-slate-400 space-y-2">
-              <div className="flex items-center gap-1.5 font-bold text-slate-300">
-                <Info className="w-4 h-4 text-cyan-400" />
+            <div className="p-4 rounded-xl bg-forest-950 border border-emerald-900/40 text-xs text-forest-300 space-y-2">
+              <div className="flex items-center gap-1.5 font-bold text-emerald-300">
+                <Info className="w-4 h-4 text-emerald-400" />
                 Travel Health Advice
               </div>
-              <p className="text-[11px] text-slate-400 leading-relaxed">
+              <p className="text-[11px] text-forest-400 leading-relaxed">
                 Individuals with asthma, cardiac concerns, or expectant mothers traveling to high-pollution zones should consult their physician and carry emergency rescue medications in their carry-on luggage.
               </p>
             </div>

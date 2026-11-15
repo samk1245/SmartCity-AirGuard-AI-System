@@ -140,16 +140,16 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       />
 
       {/* Overview Radar Speedometer + Quick Command Launchpad */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 glass-panel border border-cyan-500/30 rounded-3xl p-6 lg:p-8 shadow-2xl relative overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 glass-panel border border-emerald-500/25 rounded-3xl p-6 lg:p-8 shadow-2xl relative overflow-hidden">
         {/* Glow backdrop decorative orbs */}
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-mint-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Left Side: Overview & Description */}
         <div className="lg:col-span-7 flex flex-col justify-between space-y-6 z-10">
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-wider font-mono">
-              <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
+            <div className="flex items-center gap-2 text-mint-400 text-xs font-bold uppercase tracking-wider font-mono">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
               <span>Real-Time Atmospheric Intelligence Core</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
@@ -162,7 +162,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
-            <div className="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/80">
+            <div className="p-3.5 rounded-2xl bg-forest-950/70 border border-emerald-900/40 backdrop-blur-md">
               <span className="text-[10px] text-slate-400 uppercase font-mono font-bold tracking-wider">
                 Reporting Nodes
               </span>
@@ -172,17 +172,17 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               <span className="text-[11px] text-emerald-400 font-medium">100% Online</span>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/80">
+            <div className="p-3.5 rounded-2xl bg-forest-950/70 border border-emerald-900/40 backdrop-blur-md">
               <span className="text-[10px] text-slate-400 uppercase font-mono font-bold tracking-wider">
                 Dominant Stressor
               </span>
-              <div className="text-xl font-black text-cyan-400 mt-0.5 uppercase font-mono">
+              <div className="text-xl font-black text-mint-400 mt-0.5 uppercase font-mono">
                 PM2.5 / PM10
               </div>
               <span className="text-[11px] text-slate-400">Micro-particulates</span>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/80 col-span-2 sm:col-span-1">
+            <div className="p-3.5 rounded-2xl bg-forest-950/70 border border-emerald-900/40 backdrop-blur-md col-span-2 sm:col-span-1">
               <span className="text-[10px] text-slate-400 uppercase font-mono font-bold tracking-wider">
                 Risk Classification
               </span>
@@ -200,7 +200,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 playCyberClick();
                 onNavigate('map');
               }}
-              className="btn-cinematic-cyan px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5"
+              className="btn-cinematic-emerald px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5"
             >
               <MapPin className="w-3.5 h-3.5" />
               <span>3D City Map</span>
@@ -222,9 +222,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 playCyberClick();
                 onNavigate('comparison');
               }}
-              className="btn-cinematic-glass px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5"
+              className="btn-cinematic-glass px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 hover:text-mint-300"
             >
-              <ArrowRightLeft className="w-3.5 h-3.5 text-cyan-400" />
+              <ArrowRightLeft className="w-3.5 h-3.5 text-mint-400" />
               <span>City Comparison</span>
             </button>
 
@@ -233,9 +233,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 playCyberClick();
                 onNavigate('assistant');
               }}
-              className="btn-cinematic-glass px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 hover:text-purple-300"
+              className="btn-cinematic-glass px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 hover:text-emerald-300"
             >
-              <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
               <span>ECO AI Copilot</span>
             </button>
 
@@ -263,13 +263,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           </div>
 
           <div className="text-[11px] text-slate-400 flex items-center gap-2 font-mono">
-            <Clock className="w-3.5 h-3.5 text-cyan-400" />
+            <Clock className="w-3.5 h-3.5 text-mint-400" />
             <span>Synced: {new Date(summary.last_updated).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</span>
           </div>
         </div>
 
         {/* Right Side: Speedometer Radial Gauge */}
-        <div className="lg:col-span-5 flex flex-col items-center justify-center p-4 bg-slate-950/60 rounded-2xl border border-slate-800/80 z-10">
+        <div className="lg:col-span-5 flex flex-col items-center justify-center p-4 bg-forest-950/70 rounded-2xl border border-emerald-900/40 backdrop-blur-md z-10">
           <div className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 mb-2">
             Air Quality Speedometer
           </div>
@@ -343,8 +343,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           </div>
         </ThreeDCard>
 
-        <ThreeDCard glowColor="cyan" tiltStrength={10} depth={20}>
-          <div className="glass-card p-5 rounded-2xl border border-slate-800 h-full flex flex-col justify-between">
+        <ThreeDCard glowColor="emerald" tiltStrength={10} depth={20}>
+          <div className="glass-card p-5 rounded-2xl border border-emerald-900/40 h-full flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-3">
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
@@ -362,15 +362,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 Quantile Uncertainty Active
               </div>
             </div>
-            <div className="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+            <div className="mt-3 pt-3 border-t border-emerald-900/40 flex items-center justify-between text-xs">
               <span className="text-slate-400">Confidence</span>
-              <span className="text-cyan-400 font-mono font-bold">10th - 90th Pct</span>
+              <span className="text-mint-400 font-mono font-bold">10th - 90th Pct</span>
             </div>
           </div>
         </ThreeDCard>
 
         <ThreeDCard glowColor={summary.active_alerts_count > 0 ? 'amber' : 'emerald'} tiltStrength={10} depth={20}>
-          <div className="glass-card p-5 rounded-2xl border border-slate-800 h-full flex flex-col justify-between">
+          <div className="glass-card p-5 rounded-2xl border border-emerald-900/40 h-full flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-3">
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
@@ -388,11 +388,11 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 {summary.active_alerts_count > 0 ? 'Requires Operator Review' : 'All Clear / Safe'}
               </div>
             </div>
-            <div className="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+            <div className="mt-3 pt-3 border-t border-emerald-900/40 flex items-center justify-between text-xs">
               <span className="text-slate-400">Status</span>
               <button
                 onClick={() => onNavigate('alerts')}
-                className="text-cyan-400 font-bold hover:underline"
+                className="text-mint-400 font-bold hover:underline"
               >
                 View Feed &rarr;
               </button>
@@ -409,7 +409,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             <div>
               <h2 className="text-lg font-black text-white tracking-tight flex items-center gap-2">
                 3D Atmospheric Particulate Dispersion Flowfield
-                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800">
+                <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-forest-900/80 text-mint-300 border border-emerald-800/60 shadow-sm">
                   WebGL Physics Simulation
                 </span>
               </h2>
@@ -420,7 +420,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           </div>
           <button
             onClick={() => onNavigate('scenario')}
-            className="text-xs font-bold text-purple-400 hover:text-purple-300 flex items-center gap-1.5 transition-colors hidden sm:flex"
+            className="text-xs font-bold text-mint-400 hover:text-mint-300 flex items-center gap-1.5 transition-colors hidden sm:flex"
           >
             Launch "What-If" Policy Studio &rarr;
           </button>
@@ -440,7 +440,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Radio className="w-5 h-5 text-cyan-400" />
+              <Radio className="w-5 h-5 text-emerald-400" />
               <span>Urban Monitoring Stations ({summary.readings.length})</span>
             </h2>
             <p className="text-xs text-slate-400">
@@ -449,7 +449,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           </div>
           <button
             onClick={() => onNavigate('live')}
-            className="text-xs font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 transition-colors self-start sm:self-auto"
+            className="text-xs font-bold text-mint-400 hover:text-mint-300 flex items-center gap-1.5 transition-colors self-start sm:self-auto"
           >
             Detailed Metrics Table <ArrowRight className="w-3.5 h-3.5" />
           </button>
@@ -459,7 +459,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           {summary.readings.slice(0, 9).map((reading) => (
             <div
               key={reading.station_id}
-              className="glass-card glass-card-hover p-4 rounded-2xl border border-slate-800 flex flex-col justify-between"
+              className="glass-card glass-card-hover p-4 rounded-2xl border border-emerald-900/30 flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-start justify-between gap-2 mb-2">
@@ -472,7 +472,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                   <AQIBadge category={reading.aqi_category} aqi={reading.aqi} size="sm" />
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 my-3 text-[11px] bg-slate-950/60 p-2.5 rounded-xl border border-slate-800 font-mono">
+                <div className="grid grid-cols-3 gap-2 my-3 text-[11px] bg-forest-950/70 p-2.5 rounded-xl border border-emerald-900/40 font-mono">
                   <div>
                     <div className="text-slate-400">PM2.5</div>
                     <div className="font-bold text-slate-200">
@@ -494,26 +494,26 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-2.5 border-t border-slate-800 text-xs">
+              <div className="flex items-center justify-between pt-2.5 border-t border-emerald-900/40 text-xs">
                 <div className="flex items-center gap-3 text-slate-400 text-[11px] font-mono">
                   {reading.temperature && (
                     <span className="flex items-center gap-1">
-                      <Thermometer className="w-3 h-3 text-cyan-400" />
+                      <Thermometer className="w-3 h-3 text-mint-400" />
                       {reading.temperature}°C
                     </span>
                   )}
                   {reading.humidity && (
                     <span className="flex items-center gap-1">
-                      <Droplets className="w-3 h-3 text-cyan-400" />
+                      <Droplets className="w-3 h-3 text-mint-400" />
                       {reading.humidity}%
                     </span>
                   )}
                 </div>
                 <button
                   onClick={() => onSelectStationForForecast(reading.station_id)}
-                  className="text-[11px] font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
+                  className="text-[11px] font-bold text-mint-400 hover:text-mint-300 flex items-center gap-1"
                 >
-                  <Sparkles className="w-3 h-3 text-cyan-400" /> Forecast
+                  <Sparkles className="w-3 h-3 text-mint-400" /> Forecast
                 </button>
               </div>
             </div>

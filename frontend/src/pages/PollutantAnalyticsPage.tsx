@@ -188,25 +188,26 @@ export const PollutantAnalyticsPage: React.FC<PollutantAnalyticsPageProps> = ({
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950/50 border border-slate-800 shadow-xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-500/25 shadow-2xl relative overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-80 h-80 bg-mint-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
-            <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-mint-400 text-xs font-bold uppercase tracking-wider mb-1 font-mono">
               <Activity className="w-4 h-4" />
               CPCB Standardized Environmental Telemetry
             </div>
             <h1 className="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
               Pollutant Analytics & Chemical Speciation
             </h1>
-            <p className="text-sm text-slate-400 mt-1 max-w-2xl">
+            <p className="text-sm text-slate-300 mt-1 max-w-2xl">
               Micro-pollutant concentration breakdown for {selectedCity === 'All' ? 'National Urban Grid' : selectedCity}.
               Benchmarked against statutory Central Pollution Control Board (CPCB) NAQI 24-Hour Permissible Limits.
             </p>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 font-medium">
-              City Context: <strong className="text-cyan-400">{selectedCity}</strong>
+            <span className="text-xs px-3.5 py-1.5 rounded-xl bg-forest-900 border border-emerald-900/50 text-slate-300 font-mono">
+              City Context: <strong className="text-mint-400">{selectedCity}</strong>
             </span>
           </div>
         </div>
@@ -223,25 +224,25 @@ export const PollutantAnalyticsPage: React.FC<PollutantAnalyticsPageProps> = ({
             <button
               key={spec.id}
               onClick={() => setActivePollutantId(spec.id)}
-              className={`p-3.5 rounded-xl text-left transition-all border ${
+              className={`p-3.5 rounded-2xl text-left transition-all border ${
                 isSelected
-                  ? 'bg-cyan-500/15 border-cyan-500 text-white shadow-lg shadow-cyan-950/50'
-                  : 'bg-slate-900/90 border-slate-800 text-slate-300 hover:bg-slate-800/60'
+                  ? 'bg-emerald-500/20 border-emerald-400 text-white shadow-glow-emerald'
+                  : 'bg-forest-900/70 border-emerald-900/40 text-slate-300 hover:bg-forest-900/90 hover:border-emerald-700/60'
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-base font-black text-cyan-400">{spec.chemicalFormula}</span>
+                <span className="text-base font-black text-mint-400 font-mono">{spec.chemicalFormula}</span>
                 {isExceeded && (
                   <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-400 border border-rose-500/40">
                     EXCEEDED
                   </span>
                 )}
               </div>
-              <div className="mt-1 text-lg font-black text-white">
+              <div className="mt-1 text-lg font-black text-white font-mono">
                 {val !== null ? `${val}` : 'N/A'}{' '}
                 <span className="text-[10px] font-normal text-slate-400">{spec.unit}</span>
               </div>
-              <div className="mt-1 text-[11px] text-slate-400 truncate">
+              <div className="mt-1 text-[11px] text-slate-400 truncate font-mono">
                 Std: {spec.cpcbStandard24h} {spec.unit}
               </div>
             </button>
@@ -253,10 +254,10 @@ export const PollutantAnalyticsPage: React.FC<PollutantAnalyticsPageProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Focused Pollutant Detail */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-5">
-            <div className="flex items-start justify-between border-b border-slate-800 pb-4">
+          <div className="p-6 rounded-3xl glass-card bg-forest-950/70 border border-emerald-900/40 space-y-5">
+            <div className="flex items-start justify-between border-b border-emerald-900/40 pb-4">
               <div>
-                <div className="text-xs font-semibold text-cyan-400 uppercase tracking-wider">
+                <div className="text-xs font-semibold text-mint-400 uppercase tracking-wider font-mono">
                   Chemical Analysis
                 </div>
                 <h2 className="text-2xl font-black text-white mt-0.5">
@@ -267,7 +268,7 @@ export const PollutantAnalyticsPage: React.FC<PollutantAnalyticsPageProps> = ({
                 </p>
               </div>
 
-              <div className="text-right flex-shrink-0 pl-4">
+              <div className="text-right flex-shrink-0 pl-4 font-mono">
                 <span className="text-xs text-slate-400 block font-medium">Ambient Level</span>
                 <span className="text-3xl font-black text-white">
                   {activeValue !== null ? activeValue : 'N/A'}
@@ -282,7 +283,7 @@ export const PollutantAnalyticsPage: React.FC<PollutantAnalyticsPageProps> = ({
                 <span className="text-slate-400">
                   Compliance vs CPCB Statutory Limit ({activeSpec.cpcbStandard24h} {activeSpec.unit})
                 </span>
-                <span className={`font-bold ${
+                <span className={`font-bold font-mono ${
                   activeValue !== null && activeValue > activeSpec.cpcbStandard24h
                     ? 'text-rose-400'
                     : 'text-emerald-400'
@@ -293,7 +294,7 @@ export const PollutantAnalyticsPage: React.FC<PollutantAnalyticsPageProps> = ({
                 </span>
               </div>
 
-              <div className="w-full h-3 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
+              <div className="w-full h-3 bg-forest-950 rounded-full overflow-hidden p-0.5 border border-emerald-900/50">
                 <div
                   className={`h-full rounded-full transition-all duration-700 ${
                     activeValue !== null && activeValue > activeSpec.cpcbStandard24h
@@ -308,7 +309,7 @@ export const PollutantAnalyticsPage: React.FC<PollutantAnalyticsPageProps> = ({
                 />
               </div>
 
-              <div className="flex justify-between text-[11px] text-slate-400 mt-1.5 font-medium">
+              <div className="flex justify-between text-[11px] text-slate-400 mt-1.5 font-medium font-mono">
                 <span>0 {activeSpec.unit} (Clean)</span>
                 <span className="text-amber-400">CPCB Ceiling: {activeSpec.cpcbStandard24h} {activeSpec.unit}</span>
                 <span className="text-slate-400">WHO Guideline: {activeSpec.whoStandard24h} {activeSpec.unit}</span>
@@ -317,7 +318,7 @@ export const PollutantAnalyticsPage: React.FC<PollutantAnalyticsPageProps> = ({
 
             {/* Sources and Health Impacts */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-              <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div className="p-4 rounded-2xl bg-forest-900/70 border border-emerald-900/40">
                 <div className="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase mb-2">
                   <Flame className="w-4 h-4" /> Primary Emission Origins
                 </div>
@@ -331,7 +332,7 @@ export const PollutantAnalyticsPage: React.FC<PollutantAnalyticsPageProps> = ({
                 </ul>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div className="p-4 rounded-2xl bg-forest-900/70 border border-emerald-900/40">
                 <div className="flex items-center gap-2 text-rose-400 font-bold text-xs uppercase mb-2">
                   <ShieldAlert className="w-4 h-4" /> Pathological Health Risks
                 </div>
@@ -351,10 +352,10 @@ export const PollutantAnalyticsPage: React.FC<PollutantAnalyticsPageProps> = ({
         {/* Right Column: Comparative Charts & Radar Speciation */}
         <div className="lg:col-span-5 space-y-4">
           {/* Statutory Ratio Bar Chart */}
-          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800">
+          <div className="p-5 rounded-3xl glass-card bg-forest-950/70 border border-emerald-900/40">
             <h3 className="text-sm font-bold text-white mb-1 flex items-center justify-between">
               <span>National Standard Load (% of CPCB Limit)</span>
-              <span className="text-xs font-normal text-slate-400">100% = Threshold</span>
+              <span className="text-xs font-normal text-slate-400 font-mono">100% = Threshold</span>
             </h3>
             <p className="text-xs text-slate-400 mb-4">
               Bars above 100% exceed statutory safe ambient concentrations.
@@ -363,13 +364,13 @@ export const PollutantAnalyticsPage: React.FC<PollutantAnalyticsPageProps> = ({
             <div className="h-56 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#0a2417" vertical={false} />
                   <XAxis dataKey="name" stroke="#64748b" fontSize={11} />
                   <YAxis stroke="#64748b" fontSize={11} domain={[0, 'auto']} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: '#0f172a',
-                      borderColor: '#334155',
+                      backgroundColor: '#04120b',
+                      borderColor: '#10B981',
                       borderRadius: '0.75rem',
                       color: '#f8fafc',
                       fontSize: '12px'
@@ -390,7 +391,7 @@ export const PollutantAnalyticsPage: React.FC<PollutantAnalyticsPageProps> = ({
           </div>
 
           {/* Multi-Pollutant Radar Footprint */}
-          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800">
+          <div className="p-5 rounded-3xl glass-card bg-forest-950/70 border border-emerald-900/40">
             <h3 className="text-sm font-bold text-white mb-1">
               Multi-Pollutant Atmospheric Fingerprint
             </h3>
@@ -401,14 +402,14 @@ export const PollutantAnalyticsPage: React.FC<PollutantAnalyticsPageProps> = ({
             <div className="h-52 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart data={radarData} outerRadius="75%">
-                  <PolarGrid stroke="#334155" />
+                  <PolarGrid stroke="#164831" />
                   <PolarAngleAxis dataKey="pollutant" stroke="#94a3b8" fontSize={11} />
-                  <PolarRadiusAxis stroke="#475569" angle={30} domain={[0, 100]} />
+                  <PolarRadiusAxis stroke="#0a2417" angle={30} domain={[0, 100]} />
                   <Radar
                     name="Current Concentration"
                     dataKey="concentrationPct"
-                    stroke="#06b6d4"
-                    fill="#06b6d4"
+                    stroke="#10B981"
+                    fill="#10B981"
                     fillOpacity={0.35}
                   />
                 </RadarChart>

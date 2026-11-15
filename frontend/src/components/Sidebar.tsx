@@ -9,7 +9,6 @@ import {
   Sparkles,
   MapPin,
   AlertTriangle,
-  UploadCloud,
   Cpu,
   Settings,
   Info,
@@ -82,42 +81,42 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
-  // Group 1: Core Intelligence Platform (Section 15 requirements)
+  // Group 1: Core Intelligence Platform
   const corePlatformItems: SidebarMenuItem[] = [
     { id: 'dashboard', label: 'Overview Dashboard', icon: LayoutDashboard },
-    { id: 'live', label: 'Live Station Quality', icon: Activity, badge: 'LIVE', badgeColor: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' },
-    { id: 'forecast', label: 'AI Predictions', icon: Sparkles, badge: 'ML', badgeColor: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' },
+    { id: 'live', label: 'Live Station Quality', icon: Activity, badge: 'LIVE', badgeColor: 'bg-emerald-500/25 text-mint-300 border border-emerald-400/40' },
+    { id: 'forecast', label: 'AI Predictions', icon: Sparkles, badge: 'ML', badgeColor: 'bg-mint-500/20 text-pista-300 border border-mint-400/40' },
     { id: 'map', label: '3D City & GIS Map', icon: MapPin },
-    { id: 'hotspots', label: 'Pollution Hotspots', icon: Flame, badge: 'NEW', badgeColor: 'bg-rose-500/20 text-rose-300 border border-rose-500/40' },
+    { id: 'hotspots', label: 'Pollution Hotspots', icon: Flame, badge: 'HOT', badgeColor: 'bg-rose-500/25 text-rose-300 border border-rose-500/40' },
     { id: 'comparison', label: 'City Comparison', icon: ArrowRightLeft },
     { id: 'analytics', label: 'Environmental Analytics', icon: FileText },
-    { id: 'assistant', label: 'ECO AI Assistant', icon: Bot, badge: 'AI', badgeColor: 'bg-purple-500/20 text-purple-300 border border-purple-500/40' },
+    { id: 'assistant', label: 'ECO AI Assistant', icon: Bot, badge: 'AI', badgeColor: 'bg-emerald-500/25 text-mint-300 border border-emerald-500/40' },
     {
       id: 'alerts',
       label: 'Alerts & Notifications',
       icon: AlertTriangle,
       badge: unreadAlertsCount > 0 ? unreadAlertsCount.toString() : undefined,
-      badgeColor: 'bg-rose-500 text-white',
+      badgeColor: 'bg-rose-500 text-white shadow-glow-red',
     },
     { id: 'reports', label: 'Reports & Export', icon: FileSpreadsheet },
-    { id: 'admin', label: 'Smart City Admin', icon: Lock, badge: 'RBAC', badgeColor: 'bg-amber-500/20 text-amber-300 border border-amber-500/40' },
+    { id: 'admin', label: 'Smart City Admin', icon: Lock, badge: 'RBAC', badgeColor: 'bg-amber-500/25 text-amber-300 border border-amber-500/40' },
   ];
 
   // Group 2: Advanced Digital Twins & Interactive Physics
   const immersiveTwinItems: SidebarMenuItem[] = [
-    { id: 'ecoshield', label: 'Eco-Shield & Fluid Wave', icon: Droplets, badge: 'FLUID', badgeColor: 'bg-teal-500/20 text-teal-300 border border-teal-500/40' },
-    { id: 'earth3d', label: '3D Earth & Atmosphere', icon: Globe, badge: '3D', badgeColor: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' },
-    { id: 'plume', label: '3D Plume Dispersion', icon: Wind, badge: 'PHYSICS', badgeColor: 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' },
-    { id: 'streetview', label: '360° Street View', icon: Compass, badge: '360°', badgeColor: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' },
-    { id: 'scenario', label: '"What-If" Policy Studio', icon: Sliders, badge: 'SIM', badgeColor: 'bg-purple-500/20 text-purple-300 border border-purple-500/40' },
-    { id: 'travel', label: 'Travel Air Guard', icon: Plane, badge: 'TRIP', badgeColor: 'bg-sky-500/20 text-sky-300 border border-sky-500/40' },
-    { id: 'scoreboard', label: 'India AQI Scoreboard', icon: Trophy, badge: 'RANK', badgeColor: 'bg-amber-500/20 text-amber-300 border border-amber-500/40' },
-    { id: 'explorer', label: 'City & State Directory', icon: Building2, badge: '36 States', badgeColor: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' },
+    { id: 'ecoshield', label: 'Eco-Shield & Fluid Wave', icon: Droplets, badge: 'FLUID', badgeColor: 'bg-emerald-500/25 text-mint-300 border border-emerald-400/40' },
+    { id: 'earth3d', label: '3D Earth & Atmosphere', icon: Globe, badge: '3D', badgeColor: 'bg-mint-500/20 text-pista-200 border border-mint-400/40' },
+    { id: 'plume', label: '3D Plume Dispersion', icon: Wind, badge: 'PHYSICS', badgeColor: 'bg-teal-500/25 text-teal-200 border border-teal-400/40' },
+    { id: 'streetview', label: '360° Street View', icon: Compass, badge: '360°', badgeColor: 'bg-emerald-500/25 text-mint-300 border border-emerald-400/40' },
+    { id: 'scenario', label: '"What-If" Policy Studio', icon: Sliders, badge: 'SIM', badgeColor: 'bg-mint-500/20 text-pista-300 border border-mint-400/40' },
+    { id: 'travel', label: 'Travel Air Guard', icon: Plane, badge: 'TRIP', badgeColor: 'bg-emerald-500/25 text-mint-200 border border-emerald-400/40' },
+    { id: 'scoreboard', label: 'India AQI Scoreboard', icon: Trophy, badge: 'RANK', badgeColor: 'bg-amber-500/25 text-amber-300 border border-amber-400/40' },
+    { id: 'explorer', label: 'City & State Directory', icon: Building2, badge: '36 States', badgeColor: 'bg-mint-500/20 text-pista-300 border border-mint-400/40' },
   ];
 
   // Group 3: Analytics & System Tools
   const toolItems: SidebarMenuItem[] = [
-    { id: 'nearby', label: 'Nearby Station Radar', icon: Radio, badge: 'GPS', badgeColor: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' },
+    { id: 'nearby', label: 'Nearby Station Radar', icon: Radio, badge: 'GPS', badgeColor: 'bg-emerald-500/25 text-mint-300 border border-emerald-400/40' },
     { id: 'pollutants', label: 'Pollutant Deep Dive', icon: Layers },
     { id: 'health', label: 'Health & Activity Planner', icon: Heart },
     { id: 'historical', label: 'Historical Analytics', icon: LineChart },
@@ -139,16 +138,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onTabChange(item.id);
             }}
             title={collapsed ? item.label : undefined}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all group ${
+            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 group relative ${
               isActive
-                ? 'bg-gradient-to-r from-cyan-500/20 via-blue-500/15 to-transparent text-cyan-300 border-l-4 border-cyan-400 font-bold shadow-sm'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                ? 'bg-gradient-to-r from-emerald-500/25 via-emerald-500/10 to-transparent text-mint-300 border-l-[3px] border-emerald-400 font-bold shadow-glow-emerald backdrop-blur-md'
+                : 'text-slate-300 hover:text-white hover:bg-forest-900/60 hover:translate-x-0.5'
             }`}
           >
             <div className="flex items-center gap-3 truncate">
               <Icon
-                className={`w-4 h-4 shrink-0 transition-transform group-hover:scale-110 ${
-                  isActive ? 'text-cyan-400' : 'text-slate-400'
+                className={`w-4 h-4 shrink-0 transition-transform duration-200 group-hover:scale-110 ${
+                  isActive ? 'text-emerald-400' : 'text-slate-400 group-hover:text-mint-300'
                 }`}
               />
               {!collapsed && <span className="truncate">{item.label}</span>}
@@ -157,7 +156,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {!collapsed && item.badge && (
               <span
                 className={`px-1.5 py-0.5 rounded-full text-[9px] font-mono font-bold shrink-0 ${
-                  item.badgeColor || 'bg-slate-800 text-slate-300'
+                  item.badgeColor || 'bg-forest-900 text-slate-300 border border-emerald-500/20'
                 }`}
               >
                 {item.badge}
@@ -171,15 +170,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <aside
-      className={`relative z-20 shrink-0 border-r border-slate-800/80 bg-slate-900/95 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between ${
+      className={`relative z-20 shrink-0 border-r border-emerald-500/20 glass-panel backdrop-blur-2xl transition-all duration-300 flex flex-col justify-between ${
         collapsed ? 'w-16' : 'w-64'
       }`}
     >
       {/* Top Section with collapse button */}
-      <div className="p-3 border-b border-slate-800/80 flex items-center justify-between">
+      <div className="p-3 border-b border-emerald-500/20 flex items-center justify-between">
         {!collapsed && (
-          <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-cyan-400 px-2">
-            Command Center
+          <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-mint-400 px-2 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+            <span>Command Center</span>
           </span>
         )}
         <button
@@ -187,7 +187,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             playCyberClick();
             setCollapsed(!collapsed);
           }}
-          className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors mx-auto"
+          className="p-1.5 rounded-lg bg-forest-950/80 border border-emerald-500/20 text-slate-300 hover:text-white hover:border-emerald-400/50 transition-colors mx-auto"
           title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
         >
           {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
@@ -228,11 +228,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Bottom Version Strip */}
-      <div className="p-3 border-t border-slate-800/80 bg-slate-950/60">
+      <div className="p-3 border-t border-emerald-500/20 bg-forest-950/80">
         {!collapsed ? (
-          <div className="text-[10px] text-slate-400 flex items-center justify-between font-mono">
+          <div className="text-[10px] text-slate-300 flex items-center justify-between font-mono">
             <span>AirGuard AI v2.5</span>
-            <span className="text-cyan-400 font-bold">111 CAAQMS</span>
+            <span className="text-mint-400 font-bold">111 CAAQMS</span>
           </div>
         ) : (
           <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping mx-auto" />
@@ -241,4 +241,5 @@ export const Sidebar: React.FC<SidebarProps> = ({
     </aside>
   );
 };
+
 export default Sidebar;

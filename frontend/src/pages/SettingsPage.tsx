@@ -37,16 +37,16 @@ export const SettingsPage: React.FC = () => {
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* Alert Thresholds Card */}
-        <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl space-y-4">
+        <div className="glass-panel border border-emerald-500/25 rounded-2xl p-6 shadow-glass space-y-4">
           <h3 className="text-base font-bold text-white flex items-center gap-2">
-            <Bell className="w-4 h-4 text-rose-400" />
+            <Bell className="w-4 h-4 text-emerald-400" />
             Air Quality Alert Thresholds (CPCB NAQI)
           </h3>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-300">
             Define triggers for automated public-health warnings and administrative alerts.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
             <div>
               <label className="block text-slate-300 font-semibold mb-1">
                 Advisory Warning (AQI)
@@ -55,7 +55,7 @@ export const SettingsPage: React.FC = () => {
                 type="number"
                 value={warningThreshold}
                 onChange={(e) => setWarningThreshold(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-cyan-500 font-mono"
+                className="w-full px-3 py-2 bg-forest-950/80 border border-emerald-500/25 rounded-xl text-white focus:outline-none focus:border-emerald-400 font-mono"
               />
               <span className="text-[10px] text-slate-400 mt-1 block">Default: 200 (Poor)</span>
             </div>
@@ -68,7 +68,7 @@ export const SettingsPage: React.FC = () => {
                 type="number"
                 value={dangerThreshold}
                 onChange={(e) => setDangerThreshold(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-cyan-500 font-mono"
+                className="w-full px-3 py-2 bg-forest-950/80 border border-emerald-500/25 rounded-xl text-white focus:outline-none focus:border-emerald-400 font-mono"
               />
               <span className="text-[10px] text-slate-400 mt-1 block">Default: 300 (Very Poor)</span>
             </div>
@@ -81,13 +81,13 @@ export const SettingsPage: React.FC = () => {
                 type="number"
                 value={criticalThreshold}
                 onChange={(e) => setCriticalThreshold(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-cyan-500 font-mono"
+                className="w-full px-3 py-2 bg-forest-950/80 border border-emerald-500/25 rounded-xl text-white focus:outline-none focus:border-emerald-400 font-mono"
               />
               <span className="text-[10px] text-slate-400 mt-1 block">Default: 400 (Severe)</span>
             </div>
           </div>
 
-          <div className="pt-2 text-xs">
+          <div className="pt-2 text-xs font-mono">
             <label className="block text-slate-300 font-semibold mb-1">
               Alert Suppression Cooldown Window (Hours)
             </label>
@@ -95,7 +95,7 @@ export const SettingsPage: React.FC = () => {
               type="number"
               value={cooldownHours}
               onChange={(e) => setCooldownHours(e.target.value)}
-              className="w-48 px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-cyan-500 font-mono"
+              className="w-48 px-3 py-2 bg-forest-950/80 border border-emerald-500/25 rounded-xl text-white focus:outline-none focus:border-emerald-400 font-mono"
             />
             <span className="text-[10px] text-slate-400 mt-1 block">
               Prevents duplicate notification spam within this interval.
@@ -104,12 +104,12 @@ export const SettingsPage: React.FC = () => {
         </div>
 
         {/* External API Keys Card */}
-        <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl space-y-4">
+        <div className="glass-panel border border-emerald-500/25 rounded-2xl p-6 shadow-glass space-y-4">
           <h3 className="text-base font-bold text-white flex items-center gap-2">
-            <Key className="w-4 h-4 text-cyan-400" />
+            <Key className="w-4 h-4 text-emerald-400" />
             External Data Integration Keys (Optional)
           </h3>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-300">
             SmartCity AirGuard operates offline with bundled realistic monitoring station datasets. You can optionally connect live external APIs.
           </p>
 
@@ -123,7 +123,7 @@ export const SettingsPage: React.FC = () => {
                 placeholder="Leave blank for local sample mode"
                 value={openaqKey}
                 onChange={(e) => setOpenaqKey(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-cyan-500 font-mono"
+                className="w-full px-3 py-2 bg-forest-950/80 border border-emerald-500/25 rounded-xl text-white focus:outline-none focus:border-emerald-400 font-mono"
               />
             </div>
 
@@ -136,20 +136,20 @@ export const SettingsPage: React.FC = () => {
                 placeholder="Leave blank for local sample mode"
                 value={weatherKey}
                 onChange={(e) => setWeatherKey(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-cyan-500 font-mono"
+                className="w-full px-3 py-2 bg-forest-950/80 border border-emerald-500/25 rounded-xl text-white focus:outline-none focus:border-emerald-400 font-mono"
               />
             </div>
           </div>
         </div>
 
         {/* Database & Retention */}
-        <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl space-y-3 text-xs">
+        <div className="glass-panel border border-emerald-500/25 rounded-2xl p-6 shadow-glass space-y-3 text-xs">
           <h3 className="text-base font-bold text-white flex items-center gap-2">
             <Database className="w-4 h-4 text-amber-400" />
             Storage & Database Engine
           </h3>
           <p className="text-slate-300">
-            Active Storage: <span className="font-mono text-cyan-400">SQLite (local development)</span>
+            Active Storage: <span className="font-mono text-mint-300">SQLite (local development)</span>
           </p>
           <p className="text-slate-400">
             Observations are indexed on composite <span className="font-mono text-slate-300">(station_id, timestamp)</span> for rapid time-slice queries. For high-throughput production, configure PostgreSQL via <span className="font-mono text-slate-300">DATABASE_URL</span> in <span className="font-mono text-slate-300">.env</span>.
@@ -158,7 +158,7 @@ export const SettingsPage: React.FC = () => {
 
         <button
           type="submit"
-          className="px-6 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/20 transition-all"
+          className="btn-cinematic-emerald px-6 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 shadow-glow-emerald cursor-pointer"
         >
           <Save className="w-4 h-4" /> Save Configuration
         </button>

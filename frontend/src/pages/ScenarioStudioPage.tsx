@@ -154,17 +154,17 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="p-2.5 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-400">
+            <div className="p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shadow-glow-emerald/10">
               <Sliders className="w-6 h-6" />
             </div>
             <div>
               <h1 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
                 "What-If" Urban Pollution Scenario Studio
-                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-800">
+                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-forest-900 text-emerald-300 border border-emerald-500/30 shadow-glow-emerald/20">
                   Policy Digital Twin
                 </span>
               </h1>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-forest-200">
                 Simulate urban policy interventions, vehicle curbs, and green buffers to forecast clean air outcomes in real time.
               </p>
             </div>
@@ -173,10 +173,10 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
 
         {/* Preset Selector */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1">
-          <span className="text-xs text-slate-400 font-semibold whitespace-nowrap">Presets:</span>
+          <span className="text-xs text-forest-300 font-semibold whitespace-nowrap">Presets:</span>
           <button
             onClick={() => applyPreset('odd-even')}
-            className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-medium text-slate-300 whitespace-nowrap transition-all"
+            className="px-3 py-1.5 rounded-xl bg-forest-900 hover:bg-forest-800 border border-emerald-900/50 text-xs font-medium text-emerald-200 whitespace-nowrap transition-all hover:border-emerald-500/30"
           >
             Odd-Even Traffic
           </button>
@@ -188,13 +188,13 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
           </button>
           <button
             onClick={() => applyPreset('green-city-2030')}
-            className="px-3 py-1.5 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/60 border border-emerald-800/80 text-xs font-semibold text-emerald-300 whitespace-nowrap transition-all"
+            className="px-3 py-1.5 rounded-xl bg-emerald-950/70 hover:bg-emerald-900/70 border border-emerald-600/60 text-xs font-semibold text-emerald-300 whitespace-nowrap transition-all shadow-glow-emerald/20"
           >
             Green City 2030
           </button>
           <button
             onClick={resetDefaults}
-            className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white border border-slate-700"
+            className="p-1.5 rounded-xl bg-forest-900 hover:bg-forest-800 text-forest-300 hover:text-white border border-emerald-900/50"
             title="Reset to Defaults"
           >
             <RotateCcw className="w-4 h-4" />
@@ -207,15 +207,15 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
         {/* Left Column: Interactive Policy Sliders */}
         <div className="lg:col-span-7 space-y-4">
           {/* Baseline Setting Card */}
-          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-3">
+          <div className="p-5 rounded-2xl bg-forest-950/80 border border-emerald-900/40 shadow-xl space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">Baseline Condition</span>
+                <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Baseline Condition</span>
                 <h3 className="text-base font-bold text-white mt-0.5">Initial Ambient AQI Level</h3>
               </div>
               <div className="text-right">
                 <span className="text-2xl font-black text-white">{baseAqi}</span>
-                <span className="text-xs text-slate-400 block">{simulationResults.baseCategory}</span>
+                <span className="text-xs text-forest-300 block">{simulationResults.baseCategory}</span>
               </div>
             </div>
             <input
@@ -225,18 +225,18 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
               step={5}
               value={baseAqi}
               onChange={(e) => setBaseAqi(Number(e.target.value))}
-              className="w-full accent-cyan-400 bg-slate-800 h-2 rounded-lg cursor-pointer"
+              className="w-full accent-emerald-400 bg-forest-900 h-2 rounded-lg cursor-pointer"
             />
           </div>
 
           {/* Intervention Sliders Container */}
-          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-5">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-                <Sliders className="w-4 h-4 text-purple-400" />
+          <div className="p-5 rounded-2xl bg-forest-950/80 border border-emerald-900/40 shadow-xl space-y-5">
+            <div className="flex items-center justify-between pb-2 border-b border-emerald-900/40">
+              <span className="text-xs font-bold uppercase tracking-wider text-forest-100 flex items-center gap-2">
+                <Sliders className="w-4 h-4 text-emerald-400" />
                 <span>Intervention Levers</span>
               </span>
-              <span className="text-xs text-slate-500">Live Scikit-learn Modeling</span>
+              <span className="text-xs text-forest-400">Live Scikit-learn Modeling</span>
             </div>
 
             {/* 1. Traffic Restriction */}
@@ -246,7 +246,7 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
                   <ThreeDIcon name="car" size="sm" />
                   <div>
                     <span className="font-bold text-white block">Vehicular Traffic Reduction & EV Transition</span>
-                    <span className="text-[11px] text-slate-400">Odd-even rationing, zero-emission transit zones</span>
+                    <span className="text-[11px] text-forest-300">Odd-even rationing, zero-emission transit zones</span>
                   </div>
                 </div>
                 <span className="font-extrabold text-sm text-emerald-400 font-mono">-{trafficReduction}%</span>
@@ -258,7 +258,7 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
                 step={5}
                 value={trafficReduction}
                 onChange={(e) => setTrafficReduction(Number(e.target.value))}
-                className="w-full accent-emerald-400 bg-slate-800 h-2 rounded-lg cursor-pointer"
+                className="w-full accent-emerald-400 bg-forest-900 h-2 rounded-lg cursor-pointer"
               />
             </div>
 
@@ -269,10 +269,10 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
                   <ThreeDIcon name="factory" size="sm" />
                   <div>
                     <span className="font-bold text-white block">Industrial Stack & Brick Kiln Emission Curbs</span>
-                    <span className="text-[11px] text-slate-400">Desulfurization scrubbers, shift to PNG/electric</span>
+                    <span className="text-[11px] text-forest-300">Desulfurization scrubbers, shift to PNG/electric</span>
                   </div>
                 </div>
-                <span className="font-extrabold text-sm text-cyan-400 font-mono">-{industrialCurbs}%</span>
+                <span className="font-extrabold text-sm text-mint-400 font-mono">-{industrialCurbs}%</span>
               </div>
               <input
                 type="range"
@@ -281,7 +281,7 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
                 step={5}
                 value={industrialCurbs}
                 onChange={(e) => setIndustrialCurbs(Number(e.target.value))}
-                className="w-full accent-cyan-400 bg-slate-800 h-2 rounded-lg cursor-pointer"
+                className="w-full accent-mint-400 bg-forest-900 h-2 rounded-lg cursor-pointer"
               />
             </div>
 
@@ -292,7 +292,7 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
                   <ThreeDIcon name="alert" size="sm" />
                   <div>
                     <span className="font-bold text-white block">Construction Dust Suppression & Anti-Smog Guns</span>
-                    <span className="text-[11px] text-slate-400">Mist cannons, enclosure nets, mechanized sweeping</span>
+                    <span className="text-[11px] text-forest-300">Mist cannons, enclosure nets, mechanized sweeping</span>
                   </div>
                 </div>
                 <span className="font-extrabold text-sm text-amber-400 font-mono">-{constructionDustControl}%</span>
@@ -304,7 +304,7 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
                 step={5}
                 value={constructionDustControl}
                 onChange={(e) => setConstructionDustControl(Number(e.target.value))}
-                className="w-full accent-amber-400 bg-slate-800 h-2 rounded-lg cursor-pointer"
+                className="w-full accent-amber-400 bg-forest-900 h-2 rounded-lg cursor-pointer"
               />
             </div>
 
@@ -315,10 +315,10 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
                   <ThreeDIcon name="tree" size="sm" />
                   <div>
                     <span className="font-bold text-white block">Urban Forest & Green Barrier Expansion</span>
-                    <span className="text-[11px] text-slate-400">Particulate capture via biological foliage filtering</span>
+                    <span className="text-[11px] text-forest-300">Particulate capture via biological foliage filtering</span>
                   </div>
                 </div>
-                <span className="font-extrabold text-sm text-lime-400 font-mono">+{urbanGreenery}%</span>
+                <span className="font-extrabold text-sm text-emerald-300 font-mono">+{urbanGreenery}%</span>
               </div>
               <input
                 type="range"
@@ -327,21 +327,21 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
                 step={5}
                 value={urbanGreenery}
                 onChange={(e) => setUrbanGreenery(Number(e.target.value))}
-                className="w-full accent-lime-400 bg-slate-800 h-2 rounded-lg cursor-pointer"
+                className="w-full accent-emerald-300 bg-forest-900 h-2 rounded-lg cursor-pointer"
               />
             </div>
 
             {/* 5. Meteorological Wind Factor */}
-            <div className="space-y-2 pt-2 border-t border-slate-800">
+            <div className="space-y-2 pt-2 border-t border-emerald-900/40">
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <ThreeDIcon name="wind" size="sm" />
                   <div>
                     <span className="font-bold text-white block">Meteorological Wind Covariate</span>
-                    <span className="text-[11px] text-slate-400">Higher wind promotes atmospheric boundary layer mixing</span>
+                    <span className="text-[11px] text-forest-300">Higher wind promotes atmospheric boundary layer mixing</span>
                   </div>
                 </div>
-                <span className="font-extrabold text-sm text-blue-400 font-mono">{simulatedWindSpeed} km/h</span>
+                <span className="font-extrabold text-sm text-mint-300 font-mono">{simulatedWindSpeed} km/h</span>
               </div>
               <input
                 type="range"
@@ -350,7 +350,7 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
                 step={1}
                 value={simulatedWindSpeed}
                 onChange={(e) => setSimulatedWindSpeed(Number(e.target.value))}
-                className="w-full accent-blue-400 bg-slate-800 h-2 rounded-lg cursor-pointer"
+                className="w-full accent-mint-300 bg-forest-900 h-2 rounded-lg cursor-pointer"
               />
             </div>
           </div>
@@ -359,66 +359,66 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
         {/* Right Column: 3D Holographic Outcome & Impact Metrics */}
         <div className="lg:col-span-5 space-y-4">
           {/* Side-by-Side Comparison 3D Card */}
-          <ThreeDCard glowColor="purple" tiltStrength={10} depth={20} className="w-full">
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-purple-950/20 to-slate-900 border border-purple-500/30 shadow-2xl space-y-5">
+          <ThreeDCard glowColor="emerald" tiltStrength={10} depth={20} className="w-full">
+            <div className="p-6 rounded-2xl bg-gradient-to-br from-forest-950 via-forest-900 to-emerald-950/40 border border-emerald-500/30 shadow-glow-emerald/20 space-y-5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-purple-400 animate-pulse" />
+                <span className="text-xs font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse" />
                   <span>Simulated Outcome</span>
                 </span>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800 font-mono font-bold">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-forest-900 text-emerald-300 border border-emerald-500/40 font-mono font-bold shadow-glow-emerald/20">
                   {simulationResults.percentReduction > 0 ? `-${simulationResults.percentReduction}% AQI Drop` : 'No Change'}
                 </span>
               </div>
 
               {/* Side-by-side AQI display */}
               <div className="grid grid-cols-2 gap-4 text-center">
-                <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <span className="text-[11px] text-slate-400 block font-semibold">BASELINE AQI</span>
+                <div className="p-4 rounded-xl bg-forest-900/60 border border-emerald-900/50">
+                  <span className="text-[11px] text-forest-300 block font-semibold">BASELINE AQI</span>
                   <div className="text-3xl font-black text-slate-300 mt-1">{baseAqi}</div>
                   <span className="text-xs text-rose-400 font-bold block mt-1">{simulationResults.baseCategory}</span>
                 </div>
 
-                <div className="p-4 rounded-xl bg-gradient-to-b from-purple-950/40 to-slate-950/80 border border-purple-500/50 shadow-lg">
-                  <span className="text-[11px] text-purple-300 block font-bold">PROJECTED AQI</span>
+                <div className="p-4 rounded-xl bg-gradient-to-b from-emerald-950/50 to-forest-950/90 border border-emerald-500/40 shadow-glow-emerald/10">
+                  <span className="text-[11px] text-emerald-300 block font-bold">PROJECTED AQI</span>
                   <div className="text-4xl font-black text-white mt-1">{simulationResults.simAqi}</div>
-                  <span className="text-xs text-emerald-400 font-extrabold block mt-1">
+                  <span className="text-xs text-mint-400 font-extrabold block mt-1">
                     {simulationResults.simCategory}
                   </span>
                 </div>
               </div>
 
               {/* Impact Key Indicators */}
-              <div className="grid grid-cols-3 gap-2.5 pt-2 border-t border-purple-900/40 text-center">
-                <div className="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800">
+              <div className="grid grid-cols-3 gap-2.5 pt-2 border-t border-emerald-900/40 text-center">
+                <div className="p-2.5 rounded-xl bg-forest-900/60 border border-emerald-900/50">
                   <HeartPulse className="w-4 h-4 text-rose-400 mx-auto mb-1" />
                   <div className="text-lg font-black text-emerald-400">-{simulationResults.hospitalAdmissionsDrop}%</div>
-                  <span className="text-[9px] text-slate-400 block">ER Admissions</span>
+                  <span className="text-[9px] text-forest-300 block">ER Admissions</span>
                 </div>
 
-                <div className="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <TrendingDown className="w-4 h-4 text-cyan-400 mx-auto mb-1" />
-                  <div className="text-lg font-black text-cyan-300">-{simulationResults.deltaAqi}</div>
-                  <span className="text-[9px] text-slate-400 block">AQI Points</span>
+                <div className="p-2.5 rounded-xl bg-forest-900/60 border border-emerald-900/50">
+                  <TrendingDown className="w-4 h-4 text-mint-400 mx-auto mb-1" />
+                  <div className="text-lg font-black text-mint-300">-{simulationResults.deltaAqi}</div>
+                  <span className="text-[9px] text-forest-300 block">AQI Points</span>
                 </div>
 
-                <div className="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800">
+                <div className="p-2.5 rounded-xl bg-forest-900/60 border border-emerald-900/50">
                   <Award className="w-4 h-4 text-amber-400 mx-auto mb-1" />
                   <div className="text-lg font-black text-amber-300">+{simulationResults.estimatedCleanDays}</div>
-                  <span className="text-[9px] text-slate-400 block">Clean Days/Mo</span>
+                  <span className="text-[9px] text-forest-300 block">Clean Days/Mo</span>
                 </div>
               </div>
             </div>
           </ThreeDCard>
 
           {/* AI Policy Assessment Brief */}
-          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-3">
-            <div className="flex items-center gap-2 text-xs font-bold text-cyan-400 uppercase tracking-wider">
-              <Zap className="w-4 h-4 text-cyan-400" />
+          <div className="p-5 rounded-2xl bg-forest-950/80 border border-emerald-900/40 shadow-xl space-y-3">
+            <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider">
+              <Zap className="w-4 h-4 text-emerald-400" />
               <span>AI Policy Recommendations</span>
             </div>
 
-            <p className="text-xs text-slate-200 leading-relaxed font-medium">
+            <p className="text-xs text-forest-100 leading-relaxed font-medium">
               {simulationResults.deltaAqi > 80
                 ? `The selected policy bundle achieves a dramatic ${simulationResults.percentReduction}% drop in ambient pollution, shifting ${selectedCity} from ${simulationResults.baseCategory} to ${simulationResults.simCategory}. Immediate implementation of industrial scrubbers paired with mechanized dust suppression yields the highest cost-to-benefit ratio.`
                 : simulationResults.deltaAqi > 40
@@ -426,8 +426,8 @@ export const ScenarioStudioPage: React.FC<ScenarioStudioPageProps> = ({
                 : 'Current interventions are insufficient to counter winter boundary-layer stagnation. Consider triggering emergency industrial curbs or temporary heavy-vehicle bans.'}
             </p>
 
-            <div className="space-y-1.5 pt-2 border-t border-slate-800 text-[11px] text-slate-400">
-              <div className="flex items-center gap-2 text-slate-300 font-semibold">
+            <div className="space-y-1.5 pt-2 border-t border-emerald-900/40 text-[11px] text-forest-300">
+              <div className="flex items-center gap-2 text-emerald-300 font-semibold">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Statutory Compliance: CPCB NAQI Standard Section 16(2)(b)</span>
               </div>

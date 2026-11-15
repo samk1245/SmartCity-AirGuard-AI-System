@@ -107,17 +107,17 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
       case 'Warning':
         return 'text-amber-400 bg-amber-500/15 border-amber-500/40';
       default:
-        return 'text-cyan-400 bg-cyan-500/15 border-cyan-500/40';
+        return 'text-mint-400 bg-emerald-500/15 border-emerald-500/40';
     }
   };
 
   return (
     <div
-      className="absolute right-0 top-14 w-80 sm:w-96 rounded-3xl glass-panel border border-cyan-500/40 shadow-2xl z-50 overflow-hidden shadow-glow-cyan animate-in fade-in duration-200"
+      className="absolute right-0 top-14 w-80 sm:w-96 rounded-3xl glass-panel bg-forest-950/95 border border-emerald-500/30 shadow-2xl z-50 overflow-hidden shadow-glow-emerald backdrop-blur-2xl animate-in fade-in duration-200"
       onClick={(e) => e.stopPropagation()}
     >
       {/* Header */}
-      <div className="p-4 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+      <div className="p-4 bg-forest-900/90 border-b border-emerald-900/50 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Bell className="w-4 h-4 text-rose-400" />
           <h3 className="text-xs font-bold text-white uppercase tracking-wider">
@@ -134,14 +134,14 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
           {unreadCount > 0 && (
             <button
               onClick={handleMarkAllRead}
-              className="text-[10px] text-cyan-400 hover:text-cyan-300 font-semibold"
+              className="text-[10px] text-mint-400 hover:text-mint-300 font-semibold transition-colors"
             >
               Mark all read
             </button>
           )}
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white p-1 rounded-lg"
+            className="text-slate-400 hover:text-white p-1 rounded-lg transition-colors"
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -152,7 +152,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
       <div className="max-h-[380px] overflow-y-auto p-3 space-y-2.5">
         {loading ? (
           <div className="py-8 text-center text-xs text-slate-400 flex items-center justify-center gap-2">
-            <RefreshCw className="w-3.5 h-3.5 animate-spin text-cyan-400" />
+            <RefreshCw className="w-3.5 h-3.5 animate-spin text-mint-400" />
             <span>Syncing CPCB alert stream...</span>
           </div>
         ) : alerts.length === 0 ? (
@@ -166,8 +166,8 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
               key={a.id}
               className={`p-3 rounded-2xl border transition-all ${
                 a.is_acknowledged
-                  ? 'bg-slate-900/40 border-slate-800/60 opacity-60'
-                  : 'bg-slate-900/90 border-slate-700/80 shadow-md'
+                  ? 'bg-forest-950/40 border-emerald-900/30 opacity-60'
+                  : 'bg-forest-900/90 border-emerald-900/60 shadow-md'
               }`}
             >
               <div className="flex items-start justify-between gap-2">
@@ -187,7 +187,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                 {!a.is_acknowledged ? (
                   <button
                     onClick={() => handleAcknowledge(a.id)}
-                    className="text-[10px] text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-semibold"
+                    className="text-[10px] text-mint-400 hover:text-mint-300 flex items-center gap-1 font-semibold transition-colors"
                     title="Mark as acknowledged"
                   >
                     <Check className="w-3 h-3" />
@@ -202,10 +202,10 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                 {a.message}
               </p>
 
-              <div className="mt-2 pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+              <div className="mt-2 pt-1.5 border-t border-emerald-900/40 flex items-center justify-between text-[10px] text-slate-400 font-mono">
                 <span>{a.station_name}</span>
                 <span className="flex items-center gap-1">
-                  <Clock className="w-3 h-3 text-cyan-400" />
+                  <Clock className="w-3 h-3 text-mint-400" />
                   {new Date(a.triggered_at).toLocaleTimeString([], {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -218,14 +218,14 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
       </div>
 
       {/* Footer */}
-      <div className="p-3 bg-slate-900/95 border-t border-slate-800 text-center">
+      <div className="p-3 bg-forest-900/95 border-t border-emerald-900/50 text-center">
         <button
           onClick={() => {
             playCyberClick();
             onNavigateToAlerts();
             onClose();
           }}
-          className="text-xs text-cyan-400 hover:text-cyan-300 font-bold flex items-center justify-center gap-1.5 w-full"
+          className="text-xs text-mint-400 hover:text-mint-300 font-bold flex items-center justify-center gap-1.5 w-full transition-colors"
         >
           <span>View Full Health Advisory & Alert Center</span>
           <ExternalLink className="w-3 h-3" />

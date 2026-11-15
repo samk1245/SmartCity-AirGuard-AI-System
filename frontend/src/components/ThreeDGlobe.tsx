@@ -75,7 +75,7 @@ export const ThreeDGlobe: React.FC<ThreeDGlobeProps> = ({
 
     // 1. Scene
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x030712, 0.12);
+    scene.fog = new THREE.FogExp2(0x020906, 0.12);
 
     // 2. Camera
     const camera = new THREE.PerspectiveCamera(45, width / heightPx, 0.1, 1000);
@@ -88,14 +88,14 @@ export const ThreeDGlobe: React.FC<ThreeDGlobeProps> = ({
     container.replaceChildren(renderer.domElement);
 
     // 4. Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    const ambientLight = new THREE.AmbientLight(0xd1fae5, 0.85);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0x38bdf8, 1.8);
+    const dirLight1 = new THREE.DirectionalLight(0x10b981, 1.8);
     dirLight1.position.set(5, 3, 5);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x818cf8, 1.2);
+    const dirLight2 = new THREE.DirectionalLight(0x34d399, 1.2);
     dirLight2.position.set(-5, -3, -5);
     scene.add(dirLight2);
 
@@ -126,10 +126,10 @@ export const ThreeDGlobe: React.FC<ThreeDGlobeProps> = ({
     const sphereRadius = 1.0;
     const sphereGeo = new THREE.SphereGeometry(sphereRadius, 64, 64);
     const sphereMat = new THREE.MeshPhongMaterial({
-      color: 0x050d1a,
-      emissive: 0x020817,
-      shininess: 30,
-      specular: 0x0284c7,
+      color: 0x03140d,
+      emissive: 0x020906,
+      shininess: 35,
+      specular: 0x10b981,
     });
     const earthMesh = new THREE.Mesh(sphereGeo, sphereMat);
     globeGroup.add(earthMesh);
@@ -137,9 +137,9 @@ export const ThreeDGlobe: React.FC<ThreeDGlobeProps> = ({
     // 6b. Subtle Atmosphere Glow Shell
     const glowGeo = new THREE.SphereGeometry(sphereRadius * 1.025, 48, 48);
     const glowMat = new THREE.MeshBasicMaterial({
-      color: 0x06b6d4,
+      color: 0x34d399,
       transparent: true,
-      opacity: 0.12,
+      opacity: 0.16,
       wireframe: true,
     });
     const glowMesh = new THREE.Mesh(glowGeo, glowMat);
@@ -420,7 +420,7 @@ export const ThreeDGlobe: React.FC<ThreeDGlobeProps> = ({
 
   return (
     <div
-      className={`relative select-none overflow-hidden rounded-2xl bg-slate-950 border border-slate-800 ${className}`}
+      className={`relative select-none overflow-hidden rounded-2xl bg-forest-950 border border-emerald-500/25 shadow-spatial-glass ${className}`}
       style={{ height }}
     >
       {/* 3D WebGL Canvas Container */}
@@ -437,20 +437,20 @@ export const ThreeDGlobe: React.FC<ThreeDGlobeProps> = ({
 
       {/* Floating HUD Controls */}
       <div className="absolute top-4 left-4 z-10 flex flex-wrap items-center gap-2 pointer-events-auto">
-        <div className="px-3 py-1.5 rounded-xl bg-slate-900/85 backdrop-blur border border-slate-700/80 text-xs font-semibold text-slate-200 shadow-xl flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+        <div className="px-3 py-1.5 rounded-xl bg-forest-950/85 backdrop-blur-xl border border-emerald-500/30 text-xs font-semibold text-white shadow-xl flex items-center gap-2 font-mono">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
           <span>Interactive 3D Earth</span>
-          <span className="text-[10px] text-cyan-300 font-mono px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800">
+          <span className="text-[10px] text-mint-300 font-mono px-1.5 py-0.5 rounded bg-forest-900 border border-emerald-500/30">
             WebGL 60FPS
           </span>
         </div>
 
         <button
           onClick={() => setIsAutoRotating((prev) => !prev)}
-          className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors shadow-lg ${
+          className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors shadow-lg font-mono ${
             isAutoRotating
-              ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40 hover:bg-cyan-500/30'
-              : 'bg-slate-900/80 text-slate-400 border-slate-700 hover:text-slate-200'
+              ? 'bg-emerald-500/25 text-mint-300 border-emerald-400/50 shadow-glow-emerald'
+              : 'bg-forest-950/80 text-slate-400 border-emerald-900/40 hover:text-slate-200'
           }`}
         >
           {isAutoRotating ? 'Auto-Orbit: ON' : 'Auto-Orbit: PAUSED'}
@@ -458,8 +458,8 @@ export const ThreeDGlobe: React.FC<ThreeDGlobeProps> = ({
       </div>
 
       {/* AQI Color Legend */}
-      <div className="absolute bottom-4 left-4 z-10 p-3 rounded-xl bg-slate-900/90 backdrop-blur border border-slate-800 shadow-2xl text-[11px] space-y-1.5 hidden sm:block pointer-events-none">
-        <div className="font-bold text-slate-300 uppercase tracking-wider text-[10px] pb-1 border-b border-slate-800">
+      <div className="absolute bottom-4 left-4 z-10 p-3 rounded-xl bg-forest-950/85 backdrop-blur-xl border border-emerald-500/25 shadow-2xl text-[11px] space-y-1.5 hidden sm:block pointer-events-none font-mono">
+        <div className="font-bold text-slate-300 uppercase tracking-wider text-[10px] pb-1 border-b border-emerald-900/50">
           CPCB NAQI Index
         </div>
         <div className="flex items-center gap-2 text-emerald-400 font-medium">
@@ -494,16 +494,16 @@ export const ThreeDGlobe: React.FC<ThreeDGlobeProps> = ({
           className="fixed z-50 pointer-events-none transform -translate-x-1/2 -translate-y-full mb-3"
           style={{ left: mousePos.x, top: mousePos.y - 12 }}
         >
-          <div className="p-3.5 rounded-xl bg-slate-900/95 backdrop-blur-md border border-cyan-500/40 shadow-2xl shadow-cyan-950/80 text-white min-w-44 text-xs animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-1.5 mb-2">
-              <span className="font-bold text-sm text-cyan-300">{hoveredPoint.name}</span>
+          <div className="p-3.5 rounded-xl bg-forest-950/95 backdrop-blur-xl border border-emerald-500/40 shadow-2xl shadow-emerald-950/80 text-white min-w-44 text-xs animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between gap-2 border-b border-emerald-900/50 pb-1.5 mb-2">
+              <span className="font-bold text-sm text-mint-300">{hoveredPoint.name}</span>
               <span className="text-[10px] text-slate-400 font-semibold">{hoveredPoint.country}</span>
             </div>
-            <div className="flex items-center justify-between gap-3 mb-1">
+            <div className="flex items-center justify-between gap-3 mb-1 font-mono">
               <span className="text-slate-400">CPCB AQI:</span>
               <span className="font-extrabold text-sm text-white">{hoveredPoint.aqi}</span>
             </div>
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center justify-between gap-3 font-mono">
               <span className="text-slate-400">Category:</span>
               <span
                 className="font-bold px-1.5 py-0.5 rounded text-[10px]"
@@ -515,7 +515,7 @@ export const ThreeDGlobe: React.FC<ThreeDGlobeProps> = ({
                 {hoveredPoint.category}
               </span>
             </div>
-            <div className="mt-2 text-[10px] text-cyan-400/80 italic text-center">
+            <div className="mt-2 text-[10px] text-mint-400/90 italic text-center font-sans">
               Click marker to inspect location & street view
             </div>
           </div>
@@ -523,7 +523,7 @@ export const ThreeDGlobe: React.FC<ThreeDGlobeProps> = ({
       )}
 
       {/* Navigation hint */}
-      <div className="absolute bottom-4 right-4 z-10 px-3 py-1.5 rounded-xl bg-slate-900/80 backdrop-blur border border-slate-800 text-[11px] text-slate-400 font-medium hidden md:block pointer-events-none">
+      <div className="absolute bottom-4 right-4 z-10 px-3 py-1.5 rounded-xl bg-forest-950/85 backdrop-blur-xl border border-emerald-500/20 text-[11px] text-slate-300 font-medium hidden md:block pointer-events-none font-mono">
         Drag to rotate | Scroll to zoom | Click marker to inspect
       </div>
     </div>

@@ -135,11 +135,11 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
   return (
     <div className="space-y-6">
       {/* Top Banner & Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl glass-panel border border-cyan-500/30 shadow-2xl relative overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-500/25 shadow-2xl relative overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-80 h-80 bg-mint-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-1">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-semibold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900/90 border border-emerald-500/40 text-mint-300 text-xs font-semibold uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5 text-mint-400" />
             <span>AI Pollution Prediction Engine • 10th-90th Quantile Uncertainty</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
@@ -153,7 +153,7 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
         {/* Controls */}
         <div className="flex flex-wrap items-center gap-3 relative z-10">
           {/* Station selector */}
-          <div className="glass-panel px-3 py-1.5 rounded-xl text-xs text-white">
+          <div className="glass-panel bg-forest-900/80 border border-emerald-900/50 px-3 py-1.5 rounded-xl text-xs text-white">
             <select
               value={selectedStationId}
               onChange={(e) => {
@@ -163,7 +163,7 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
               className="bg-transparent text-white focus:outline-none cursor-pointer font-medium"
             >
               {allStations.map((st) => (
-                <option key={st.id} value={st.id} className="bg-slate-900">
+                <option key={st.id} value={st.id} className="bg-forest-950 text-white">
                   {st.name} ({st.city_name})
                 </option>
               ))}
@@ -171,7 +171,7 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
           </div>
 
           {/* Horizon Selection: 24h, 3 Days, 7 Days */}
-          <div className="flex bg-slate-900 border border-slate-700/80 rounded-xl p-1 text-xs">
+          <div className="flex bg-forest-950/90 border border-emerald-900/50 rounded-xl p-1 text-xs">
             {[
               { label: '24 Hours', hours: 24 },
               { label: '3 Days (72h)', hours: 72 },
@@ -185,7 +185,7 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
                 }}
                 className={`px-3 py-1 rounded-lg font-medium transition-all ${
                   horizonHours === btn.hours
-                    ? 'bg-cyan-500 text-slate-950 font-bold shadow-glow-cyan'
+                    ? 'bg-emerald-500 text-forest-950 font-bold shadow-glow-emerald'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -200,7 +200,7 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
               loadForecast();
             }}
             disabled={loading}
-            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-cyan-400 disabled:opacity-50 transition-colors"
+            className="p-2 rounded-xl bg-forest-900 hover:bg-forest-800 border border-emerald-900/50 text-mint-400 disabled:opacity-50 transition-colors"
             title="Re-run ML Forecast"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -222,7 +222,7 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
           {/* Key Metric Highlights Strip */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Current Baseline */}
-            <div className="p-5 rounded-2xl glass-card border border-slate-800 flex items-center justify-between">
+            <div className="p-5 rounded-2xl glass-card bg-forest-950/70 border border-emerald-900/30 flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Current Observation</span>
                 <div className="text-3xl font-black text-white mt-1">
@@ -234,7 +234,7 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
             </div>
 
             {/* Projected Peak */}
-            <div className="p-5 rounded-2xl glass-card border border-slate-800 flex items-center justify-between">
+            <div className="p-5 rounded-2xl glass-card bg-forest-950/70 border border-emerald-900/30 flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">
                   Projected Peak (+{maxPredicted?.horizon_hours}h)
@@ -256,7 +256,7 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
             </div>
 
             {/* Risk-Level Prediction */}
-            <div className="p-5 rounded-2xl glass-card border border-slate-800 flex flex-col justify-between">
+            <div className="p-5 rounded-2xl glass-card bg-forest-950/70 border border-emerald-900/30 flex flex-col justify-between">
               <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Risk Level Assessment</span>
               <div className="my-1">
                 <span className={`px-2.5 py-1 rounded-xl text-xs font-bold border inline-block ${riskColor}`}>
@@ -269,31 +269,31 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
             </div>
 
             {/* Model Provenance */}
-            <div className="p-5 rounded-2xl glass-card border border-slate-800 flex flex-col justify-between">
+            <div className="p-5 rounded-2xl glass-card bg-forest-950/70 border border-emerald-900/30 flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Model Registry</span>
-                <span className="text-[10px] font-mono text-emerald-400">R²: 0.941</span>
+                <span className="text-[10px] font-mono text-emerald-400 font-bold">R²: 0.941</span>
               </div>
               <div className="text-sm font-bold text-white mt-1 flex items-center gap-1.5">
-                <Cpu className="w-4 h-4 text-cyan-400" />
+                <Cpu className="w-4 h-4 text-mint-400" />
                 <span>{forecast.model_version || 'HistGradientBoosting'}</span>
               </div>
-              <span className="text-[10px] text-slate-400 border-t border-slate-800 pt-1">
+              <span className="text-[10px] text-slate-400 border-t border-emerald-900/40 pt-1">
                 MAE: {forecast.model_mae || '11.2'} AQI • Quantiles 10-90%
               </span>
             </div>
           </div>
 
           {/* Main Trajectory Chart */}
-          <div className="p-6 rounded-3xl glass-panel border border-slate-800 shadow-2xl space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div className="p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-900/30 shadow-2xl space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-emerald-900/40 pb-3">
               <div>
                 <h2 className="text-base font-bold text-white flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5 text-cyan-400" />
+                  <TrendingUp className="w-5 h-5 text-mint-400" />
                   <span>Predicted AQI & Particulate Trajectory with 10th–90th Quantile Interval</span>
                 </h2>
                 <p className="text-xs text-slate-400">
-                  Cyan curve represents median regressor expectation; shaded band captures 80% confidence interval under varying wind conditions.
+                  Emerald curve represents median regressor expectation; shaded band captures 80% confidence interval under varying wind conditions.
                 </p>
               </div>
             </div>
@@ -303,17 +303,17 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
                 <ComposedChart data={chartData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
                   <defs>
                     <linearGradient id="forecastEnvelope" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#00D9FF" stopOpacity={0.25} />
-                      <stop offset="95%" stopColor="#3478F6" stopOpacity={0.02} />
+                      <stop offset="5%" stopColor="#10B981" stopOpacity={0.28} />
+                      <stop offset="95%" stopColor="#059669" stopOpacity={0.03} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#0a2417" />
                   <XAxis dataKey="time" stroke="#94a3b8" fontSize={11} />
                   <YAxis stroke="#94a3b8" fontSize={11} domain={['dataMin - 10', 'dataMax + 20']} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: '#07111F',
-                      borderColor: '#3478F6',
+                      backgroundColor: '#04120b',
+                      borderColor: '#10B981',
                       borderRadius: '12px',
                       color: '#fff',
                       fontSize: '12px',
@@ -324,7 +324,7 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
                     type="monotone"
                     dataKey="upper"
                     name="90th Pct Upper Bound"
-                    stroke="#3478F6"
+                    stroke="#34D399"
                     strokeDasharray="4 4"
                     fill="url(#forecastEnvelope)"
                   />
@@ -332,15 +332,15 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
                     type="monotone"
                     dataKey="predicted_aqi"
                     name="Projected AQI (Median)"
-                    stroke="#00D9FF"
+                    stroke="#10B981"
                     strokeWidth={3}
-                    dot={{ r: 3, fill: '#00D9FF' }}
+                    dot={{ r: 3, fill: '#10B981' }}
                   />
                   <Line
                     type="monotone"
                     dataKey="lower"
                     name="10th Pct Lower Bound"
-                    stroke="#3478F6"
+                    stroke="#34D399"
                     strokeDasharray="4 4"
                     dot={false}
                   />
@@ -358,8 +358,8 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
           </div>
 
           {/* AI Diagnostic Explanation: "Why is pollution expected to increase?" */}
-          <div className="p-6 rounded-3xl glass-card border border-amber-500/30 space-y-4">
-            <div className="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <div className="p-6 rounded-3xl glass-card bg-forest-950/70 border border-emerald-900/30 space-y-4">
+            <div className="flex items-center gap-3 border-b border-emerald-900/40 pb-3">
               <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center">
                 <Sparkles className="w-5 h-5" />
               </div>
@@ -374,7 +374,7 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-              <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+              <div className="p-4 rounded-2xl bg-forest-900/60 border border-emerald-900/40 space-y-2">
                 <div className="flex items-center gap-2 text-amber-400 font-bold font-mono">
                   <Wind className="w-4 h-4" />
                   <span>Atmospheric Inversion Lid</span>
@@ -384,7 +384,7 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+              <div className="p-4 rounded-2xl bg-forest-900/60 border border-emerald-900/40 space-y-2">
                 <div className="flex items-center gap-2 text-rose-400 font-bold font-mono">
                   <Flame className="w-4 h-4" />
                   <span>Diurnal Traffic Surges</span>
@@ -394,8 +394,8 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
-                <div className="flex items-center gap-2 text-cyan-400 font-bold font-mono">
+              <div className="p-4 rounded-2xl bg-forest-900/60 border border-emerald-900/40 space-y-2">
+                <div className="flex items-center gap-2 text-mint-400 font-bold font-mono">
                   <Compass className="w-4 h-4" />
                   <span>Low Surface Wind Stagnation</span>
                 </div>
@@ -404,8 +404,8 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
-                <div className="flex items-center gap-2 text-purple-400 font-bold font-mono">
+              <div className="p-4 rounded-2xl bg-forest-900/60 border border-emerald-900/40 space-y-2">
+                <div className="flex items-center gap-2 text-pista-400 font-bold font-mono">
                   <Layers className="w-4 h-4" />
                   <span>Regional Biomass & Industrial Flues</span>
                 </div>
@@ -417,9 +417,9 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
           </div>
 
           {/* Hourly Forecast Step-Through Tiles */}
-          <div className="p-6 rounded-3xl glass-panel border border-slate-800 space-y-4">
+          <div className="p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-900/30 space-y-4">
             <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <Clock className="w-4 h-4 text-cyan-400" />
+              <Clock className="w-4 h-4 text-mint-400" />
               <span>Hourly Sequential Forecast Progression</span>
             </h3>
 
@@ -427,9 +427,9 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
               {forecast.forecasts.slice(0, 12).map((pt) => (
                 <div
                   key={pt.horizon_hours}
-                  className="p-3.5 rounded-2xl glass-card border border-slate-800 text-center flex flex-col justify-between"
+                  className="p-3.5 rounded-2xl glass-card bg-forest-900/70 border border-emerald-900/40 text-center flex flex-col justify-between"
                 >
-                  <span className="text-[11px] font-mono font-bold text-cyan-400">
+                  <span className="text-[11px] font-mono font-bold text-mint-400">
                     +{pt.horizon_hours}h
                   </span>
                   <div className="my-2">
@@ -438,7 +438,7 @@ export const ForecastPage: React.FC<ForecastPageProps> = ({
                     </span>
                   </div>
                   <AQIBadge category={pt.predicted_category} size="sm" showNumber={false} />
-                  <div className="text-[10px] text-slate-400 mt-2 pt-2 border-t border-slate-800 font-mono">
+                  <div className="text-[10px] text-slate-400 mt-2 pt-2 border-t border-emerald-900/40 font-mono">
                     PM2.5: ~{pt.predicted_pm25} µg
                   </div>
                 </div>

@@ -171,17 +171,17 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-400">
+            <div className="p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shadow-glow-emerald/10">
               <Globe className="w-6 h-6" />
             </div>
             <div>
               <h1 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
                 3D Interactive Earth & Atmosphere
-                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800">
+                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-forest-900 text-emerald-300 border border-emerald-500/30 shadow-glow-emerald/20">
                   Global Telemetry
                 </span>
               </h1>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-forest-200">
                 Explore real-time planetary air quality, CPCB standard compliance, and micro-climate patterns in 3D WebGL.
               </p>
             </div>
@@ -191,34 +191,34 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
         {/* Search & Location Bar */}
         <div className="flex items-center gap-3 relative">
           <div className="relative w-64 md:w-80">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-forest-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchQuery}
               onChange={handleSearchChange}
               placeholder="Search worldwide city or coordinate..."
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+              className="w-full bg-forest-950 border border-emerald-900/60 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-forest-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/40"
             />
             {isSearching && (
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-cyan-400 animate-pulse">
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-emerald-400 animate-pulse">
                 ...
               </span>
             )}
 
             {/* Autocomplete Dropdown */}
             {searchResults.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-1.5 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-50 overflow-hidden divide-y divide-slate-800">
+              <div className="absolute top-full left-0 right-0 mt-1.5 bg-forest-950 border border-emerald-900/60 rounded-xl shadow-2xl z-50 overflow-hidden divide-y divide-forest-900">
                 {searchResults.map((res) => (
                   <button
                     key={res.id}
                     onClick={() => handleSelectSearchResult(res)}
-                    className="w-full text-left px-3.5 py-2.5 text-xs hover:bg-slate-800/80 transition-colors flex items-center justify-between"
+                    className="w-full text-left px-3.5 py-2.5 text-xs hover:bg-forest-900/80 transition-colors flex items-center justify-between"
                   >
                     <div>
                       <span className="font-semibold text-white">{res.name}</span>
-                      {res.admin1 && <span className="text-slate-400">, {res.admin1}</span>}
+                      {res.admin1 && <span className="text-forest-400">, {res.admin1}</span>}
                     </div>
-                    <span className="text-[10px] text-cyan-400 font-mono">{res.country}</span>
+                    <span className="text-[10px] text-emerald-400 font-mono">{res.country}</span>
                   </button>
                 ))}
               </div>
@@ -228,10 +228,10 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
           {/* Use My Location Button */}
           <button
             onClick={handleUseMyLocation}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-300 text-xs font-semibold transition-all shadow-md active:scale-95 whitespace-nowrap"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-forest-900 hover:bg-forest-800 border border-emerald-500/30 text-emerald-300 text-xs font-semibold transition-all shadow-md active:scale-95 whitespace-nowrap shadow-glow-emerald/10"
             title="Locate via GPS"
           >
-            <Crosshair className="w-4 h-4 text-cyan-400" />
+            <Crosshair className="w-4 h-4 text-emerald-400" />
             <span className="hidden sm:inline">My GPS Location</span>
           </button>
         </div>
@@ -249,14 +249,14 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
         {/* 3D WebGL Canvas Area */}
         <div className="lg:col-span-8 flex flex-col gap-4">
           {/* Mode Switcher Banner */}
-          <div className="flex items-center justify-between bg-slate-900/90 border border-slate-800 p-2 rounded-2xl">
+          <div className="flex items-center justify-between bg-forest-950/80 border border-emerald-900/40 p-2 rounded-2xl shadow-lg">
             <div className="flex items-center gap-1.5">
               <button
                 onClick={() => setViewMode('globe')}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
                   viewMode === 'globe'
-                    ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/30'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-forest-950 shadow-glow-emerald/20'
+                    : 'text-forest-300 hover:text-white'
                 }`}
               >
                 <Globe className="w-3.5 h-3.5" />
@@ -267,8 +267,8 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
                 onClick={() => setViewMode('city')}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
                   viewMode === 'city'
-                    ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/30'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-forest-950 shadow-glow-emerald/20'
+                    : 'text-forest-300 hover:text-white'
                 }`}
               >
                 <Building2 className="w-3.5 h-3.5" />
@@ -276,7 +276,7 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
               </button>
             </div>
 
-            <span className="text-[11px] text-slate-400 pr-2 hidden sm:inline">
+            <span className="text-[11px] text-forest-400 pr-2 hidden sm:inline">
               {viewMode === 'globe' ? 'Planetary telemetric radar' : `${selectedPoint?.name || 'City'} extruded canopy`}
             </span>
           </div>
@@ -302,16 +302,16 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
           )}
 
           {/* Quick Megacity Shortcuts */}
-          <div className="flex flex-wrap items-center gap-2 bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-xs">
-            <span className="text-slate-400 font-medium mr-1">Quick Teleport:</span>
+          <div className="flex flex-wrap items-center gap-2 bg-forest-950/80 p-3 rounded-xl border border-emerald-900/40 text-xs shadow-lg">
+            <span className="text-forest-300 font-medium mr-1">Quick Teleport:</span>
             {globePoints.slice(0, 8).map((pt) => (
               <button
                 key={pt.name}
                 onClick={() => handleSelectCity(pt)}
                 className={`px-2.5 py-1 rounded-lg border transition-all font-medium ${
                   selectedPoint?.name === pt.name
-                    ? 'bg-cyan-500 text-slate-950 font-bold border-cyan-400 shadow-md shadow-cyan-500/30'
-                    : 'bg-slate-800/60 hover:bg-slate-800 border-slate-700 text-slate-300'
+                    ? 'bg-emerald-500 text-forest-950 font-bold border-emerald-400 shadow-glow-emerald/20'
+                    : 'bg-forest-900 hover:bg-forest-800 border-emerald-900/50 text-forest-200'
                 }`}
               >
                 {pt.name}
@@ -323,16 +323,16 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
         {/* Location Telemetry & AI Inspection Panel */}
         <div className="lg:col-span-4 space-y-4">
           {/* Target Location Card */}
-          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4">
+          <div className="p-5 rounded-2xl bg-forest-950/80 border border-emerald-900/40 shadow-xl space-y-4">
             <div className="flex items-start justify-between">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400">
                   Target Coordinate
                 </span>
                 <h3 className="text-xl font-black text-white mt-0.5">
                   {selectedPoint?.name || 'Select Location'}
                 </h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-forest-300">
                   {selectedPoint ? `${selectedPoint.latitude.toFixed(4)}° N, ${selectedPoint.longitude.toFixed(4)}° E` : 'Worldwide'}
                 </p>
               </div>
@@ -347,7 +347,7 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
                 >
                   <div className="text-[10px] font-bold uppercase text-slate-300">CPCB AQI</div>
                   <div className="text-2xl font-black text-white">{liveData.air_quality.aqi}</div>
-                  <div className="text-[10px] font-semibold text-cyan-300">
+                  <div className="text-[10px] font-semibold text-mint-300">
                     {liveData.air_quality.category}
                   </div>
                 </div>
@@ -355,55 +355,55 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
             </div>
 
             {loadingAtmosphere && (
-              <div className="py-8 text-center text-xs text-slate-400 animate-pulse flex items-center justify-center gap-2">
-                <Wind className="w-4 h-4 text-cyan-400 animate-spin" />
+              <div className="py-8 text-center text-xs text-forest-300 animate-pulse flex items-center justify-center gap-2">
+                <Wind className="w-4 h-4 text-emerald-400 animate-spin" />
                 <span>Receiving atmospheric telemetry...</span>
               </div>
             )}
 
             {/* Pollutants Breakdown */}
             {liveData && !loadingAtmosphere && (
-              <div className="grid grid-cols-3 gap-2.5 pt-2 border-t border-slate-800 text-xs">
-                <div className="p-2.5 rounded-xl bg-slate-800/60 border border-slate-700/60">
-                  <div className="text-[10px] text-slate-400 font-semibold">PM2.5</div>
+              <div className="grid grid-cols-3 gap-2.5 pt-2 border-t border-emerald-900/40 text-xs">
+                <div className="p-2.5 rounded-xl bg-forest-900/60 border border-emerald-900/50">
+                  <div className="text-[10px] text-forest-400 font-semibold">PM2.5</div>
                   <div className="text-sm font-bold text-white mt-0.5">
                     {liveData.air_quality.pm25 ?? '--'}
-                    <span className="text-[9px] text-slate-400 font-normal"> µg/m³</span>
+                    <span className="text-[9px] text-forest-400 font-normal"> µg/m³</span>
                   </div>
                 </div>
-                <div className="p-2.5 rounded-xl bg-slate-800/60 border border-slate-700/60">
-                  <div className="text-[10px] text-slate-400 font-semibold">PM10</div>
+                <div className="p-2.5 rounded-xl bg-forest-900/60 border border-emerald-900/50">
+                  <div className="text-[10px] text-forest-400 font-semibold">PM10</div>
                   <div className="text-sm font-bold text-white mt-0.5">
                     {liveData.air_quality.pm10 ?? '--'}
-                    <span className="text-[9px] text-slate-400 font-normal"> µg/m³</span>
+                    <span className="text-[9px] text-forest-400 font-normal"> µg/m³</span>
                   </div>
                 </div>
-                <div className="p-2.5 rounded-xl bg-slate-800/60 border border-slate-700/60">
-                  <div className="text-[10px] text-slate-400 font-semibold">NO2</div>
+                <div className="p-2.5 rounded-xl bg-forest-900/60 border border-emerald-900/50">
+                  <div className="text-[10px] text-forest-400 font-semibold">NO2</div>
                   <div className="text-sm font-bold text-white mt-0.5">
                     {liveData.air_quality.no2 ?? '--'}
-                    <span className="text-[9px] text-slate-400 font-normal"> µg/m³</span>
+                    <span className="text-[9px] text-forest-400 font-normal"> µg/m³</span>
                   </div>
                 </div>
-                <div className="p-2.5 rounded-xl bg-slate-800/60 border border-slate-700/60">
-                  <div className="text-[10px] text-slate-400 font-semibold">SO2</div>
+                <div className="p-2.5 rounded-xl bg-forest-900/60 border border-emerald-900/50">
+                  <div className="text-[10px] text-forest-400 font-semibold">SO2</div>
                   <div className="text-sm font-bold text-white mt-0.5">
                     {liveData.air_quality.so2 ?? '--'}
-                    <span className="text-[9px] text-slate-400 font-normal"> µg/m³</span>
+                    <span className="text-[9px] text-forest-400 font-normal"> µg/m³</span>
                   </div>
                 </div>
-                <div className="p-2.5 rounded-xl bg-slate-800/60 border border-slate-700/60">
-                  <div className="text-[10px] text-slate-400 font-semibold">CO</div>
+                <div className="p-2.5 rounded-xl bg-forest-900/60 border border-emerald-900/50">
+                  <div className="text-[10px] text-forest-400 font-semibold">CO</div>
                   <div className="text-sm font-bold text-white mt-0.5">
                     {liveData.air_quality.co ?? '--'}
-                    <span className="text-[9px] text-slate-400 font-normal"> mg/m³</span>
+                    <span className="text-[9px] text-forest-400 font-normal"> mg/m³</span>
                   </div>
                 </div>
-                <div className="p-2.5 rounded-xl bg-slate-800/60 border border-slate-700/60">
-                  <div className="text-[10px] text-slate-400 font-semibold">O3 (Ozone)</div>
+                <div className="p-2.5 rounded-xl bg-forest-900/60 border border-emerald-900/50">
+                  <div className="text-[10px] text-forest-400 font-semibold">O3 (Ozone)</div>
                   <div className="text-sm font-bold text-white mt-0.5">
                     {liveData.air_quality.o3 ?? '--'}
-                    <span className="text-[9px] text-slate-400 font-normal"> µg/m³</span>
+                    <span className="text-[9px] text-forest-400 font-normal"> µg/m³</span>
                   </div>
                 </div>
               </div>
@@ -411,16 +411,16 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
 
             {/* Weather Covariates */}
             {liveData && !loadingAtmosphere && (
-              <div className="grid grid-cols-3 gap-2.5 pt-2 border-t border-slate-800 text-xs">
-                <div className="flex items-center gap-2 text-slate-300">
+              <div className="grid grid-cols-3 gap-2.5 pt-2 border-t border-emerald-900/40 text-xs">
+                <div className="flex items-center gap-2 text-forest-200">
                   <Thermometer className="w-3.5 h-3.5 text-amber-400" />
                   <span>{liveData.weather.temperature}°C</span>
                 </div>
-                <div className="flex items-center gap-2 text-slate-300">
-                  <Droplets className="w-3.5 h-3.5 text-blue-400" />
+                <div className="flex items-center gap-2 text-forest-200">
+                  <Droplets className="w-3.5 h-3.5 text-mint-400" />
                   <span>{liveData.weather.humidity}% Hum</span>
                 </div>
-                <div className="flex items-center gap-2 text-slate-300">
+                <div className="flex items-center gap-2 text-forest-200">
                   <Wind className="w-3.5 h-3.5 text-emerald-400" />
                   <span>{liveData.weather.wind_speed} km/h</span>
                 </div>
@@ -439,7 +439,7 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
                         selectedPoint.name
                       )
                     }
-                    className="flex-1 py-2 px-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-lg shadow-cyan-500/20"
+                    className="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-mint-400 text-forest-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-glow-emerald/20"
                   >
                     <Compass className="w-3.5 h-3.5" />
                     <span>Explore Street View</span>
@@ -448,9 +448,9 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
                 {onNavigateToMap && (
                   <button
                     onClick={() => onNavigateToMap(selectedPoint.latitude, selectedPoint.longitude)}
-                    className="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold text-xs flex items-center gap-1.5 transition-all"
+                    className="py-2 px-3 rounded-xl bg-forest-900 hover:bg-forest-800 text-forest-200 border border-emerald-900/50 font-semibold text-xs flex items-center gap-1.5 transition-all"
                   >
-                    <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+                    <MapPin className="w-3.5 h-3.5 text-emerald-400" />
                     <span>2D GIS Map</span>
                   </button>
                 )}
@@ -460,26 +460,26 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
 
           {/* AI Environmental Intelligence Brief */}
           {aiInsights && (
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-cyan-950/30 border border-cyan-500/30 shadow-xl space-y-3">
+            <div className="p-5 rounded-2xl bg-gradient-to-br from-forest-950 via-forest-900 to-emerald-950/40 border border-emerald-500/30 shadow-glow-emerald/10 space-y-3">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs font-bold text-cyan-400 uppercase tracking-wider">
-                  <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
+                <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider">
+                  <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse" />
                   <span>AI Atmospheric Advisor</span>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-forest-900 text-emerald-300 border border-emerald-500/30 font-mono shadow-glow-emerald/20">
                   Spike Risk: {aiInsights.spike_risk}
                 </span>
               </div>
 
-              <p className="text-xs text-slate-200 leading-relaxed font-medium">
+              <p className="text-xs text-forest-100 leading-relaxed font-medium">
                 {aiInsights.executive_summary}
               </p>
 
-              <div className="space-y-1.5 pt-2 border-t border-cyan-900/40 text-[11px] text-slate-300">
-                <div className="font-semibold text-cyan-300">Public Health Directives:</div>
+              <div className="space-y-1.5 pt-2 border-t border-emerald-900/40 text-[11px] text-forest-200">
+                <div className="font-semibold text-emerald-300">Public Health Directives:</div>
                 {aiInsights.citizen_precautions.slice(0, 3).map((prec, idx) => (
                   <div key={idx} className="flex items-start gap-2">
-                    <span className="text-cyan-400 font-bold">•</span>
+                    <span className="text-emerald-400 font-bold">•</span>
                     <span>{prec}</span>
                   </div>
                 ))}
@@ -489,37 +489,38 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
 
           {/* 24-Hour Forecast Curve */}
           {liveData?.forecast_24h && liveData.forecast_24h.length > 0 && (
-            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-3">
+            <div className="p-5 rounded-2xl bg-forest-950/80 border border-emerald-900/40 shadow-xl space-y-3">
               <div className="flex items-center justify-between text-xs">
                 <span className="font-bold text-white">24-Hour Forecast Trajectory</span>
-                <span className="text-[10px] text-slate-400 font-mono">Hourly CPCB</span>
+                <span className="text-[10px] text-forest-400 font-mono">Hourly CPCB</span>
               </div>
               <div className="h-28 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={liveData.forecast_24h}>
                     <defs>
                       <linearGradient id="colorAqi3d" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.8} />
-                        <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
+                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                       </linearGradient>
                     </defs>
                     <XAxis
                       dataKey="time"
                       tickFormatter={(t) => (t ? t.slice(11, 16) : '')}
-                      stroke="#475569"
-                      tick={{ fontSize: 9, fill: '#94a3b8' }}
+                      stroke="#065f46"
+                      tick={{ fontSize: 9, fill: '#6ee7b7' }}
                     />
                     <YAxis
-                      stroke="#475569"
-                      tick={{ fontSize: 9, fill: '#94a3b8' }}
+                      stroke="#065f46"
+                      tick={{ fontSize: 9, fill: '#6ee7b7' }}
                       domain={['auto', 'auto']}
                     />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: '#0f172a',
-                        border: '1px solid #334155',
+                        backgroundColor: '#04120b',
+                        border: '1px solid rgba(16, 185, 129, 0.4)',
                         borderRadius: '8px',
                         fontSize: '11px',
+                        color: '#ecfdf5',
                       }}
                       labelFormatter={(label) => `Time: ${label}`}
                     />
@@ -527,7 +528,7 @@ export const Earth3DPage: React.FC<Earth3DPageProps> = ({
                       type="monotone"
                       dataKey="predicted_aqi"
                       name="AQI"
-                      stroke="#06b6d4"
+                      stroke="#34d399"
                       strokeWidth={2}
                       fillOpacity={1}
                       fill="url(#colorAqi3d)"

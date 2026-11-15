@@ -112,14 +112,14 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     : allItems.slice(0, 10);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-forest-950/85 backdrop-blur-md animate-in fade-in duration-200">
       <div
-        className="w-full max-w-2xl rounded-2xl glass-panel border border-cyan-500/30 shadow-2xl overflow-hidden shadow-glow-cyan"
+        className="w-full max-w-2xl rounded-2xl glass-panel bg-forest-950/95 border border-emerald-500/30 shadow-2xl overflow-hidden shadow-glow-emerald"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Input Bar */}
-        <div className="flex items-center px-4 py-3.5 border-b border-slate-700/60 bg-slate-900/90 gap-3">
-          <Search className="w-5 h-5 text-cyan-400" />
+        <div className="flex items-center px-4 py-3.5 border-b border-emerald-900/60 bg-forest-900/90 gap-3">
+          <Search className="w-5 h-5 text-mint-400" />
           <input
             ref={inputRef}
             type="text"
@@ -136,7 +136,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
               <X className="w-4 h-4" />
             </button>
           )}
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-forest-900 text-mint-300 border border-emerald-800/60">
             ESC
           </span>
         </div>
@@ -157,18 +157,18 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
                     playCyberClick();
                     item.action();
                   }}
-                  className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-cyan-500/10 hover:border-cyan-500/30 border border-transparent transition-all group text-left"
+                  className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-emerald-500/10 hover:border-emerald-500/30 border border-transparent transition-all group text-left"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-300 group-hover:text-cyan-400 group-hover:border-cyan-500/40">
+                    <div className="p-2 rounded-lg bg-forest-900/80 border border-emerald-900/60 text-slate-300 group-hover:text-mint-300 group-hover:border-emerald-500/40 transition-colors">
                       <Icon className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold text-white group-hover:text-cyan-300">
+                        <span className="text-sm font-semibold text-white group-hover:text-mint-300 transition-colors">
                           {item.title}
                         </span>
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-forest-900 text-mint-300 border border-emerald-800/50">
                           {item.category}
                         </span>
                       </div>
@@ -177,7 +177,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
                       </p>
                     </div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-slate-600 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
+                  <ArrowRight className="w-4 h-4 text-emerald-800 group-hover:text-mint-400 group-hover:translate-x-1 transition-all" />
                 </button>
               );
             })
@@ -185,9 +185,9 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
         </div>
 
         {/* Footer info */}
-        <div className="px-4 py-2.5 bg-slate-900/60 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+        <div className="px-4 py-2.5 bg-forest-900/70 border-t border-emerald-900/50 flex items-center justify-between text-[11px] text-slate-400">
           <span>Quick teleportation across 48 Indian Smart Cities & 111 CAAQMS Towers</span>
-          <span className="font-mono text-cyan-400">AirGuard AI 2.0 Command Center</span>
+          <span className="font-mono text-mint-400">AirGuard AI 2.0 Command Center</span>
         </div>
       </div>
     </div>

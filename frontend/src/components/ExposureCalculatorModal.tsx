@@ -89,26 +89,26 @@ export const ExposureCalculatorModal: React.FC<ExposureCalculatorModalProps> = (
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in">
-      <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-700/80 rounded-3xl shadow-2xl overflow-hidden divide-y divide-slate-800">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-950/80 backdrop-blur-xl animate-in fade-in">
+      <div className="relative w-full max-w-2xl glass-panel border border-emerald-500/30 rounded-3xl shadow-spatial-glass overflow-hidden divide-y divide-emerald-900/40">
         {/* Header */}
-        <div className="p-6 flex items-center justify-between bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900">
+        <div className="p-6 flex items-center justify-between bg-gradient-to-r from-forest-950 via-forest-900 to-forest-950">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-400">
+            <div className="p-2.5 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-400 shadow-glow-red">
               <HeartPulse className="w-6 h-6 animate-pulse" />
             </div>
             <div>
               <h2 className="text-xl font-black text-white flex items-center gap-2">
                 Personal Respiratory Exposure Calculator
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-300">
                 Calculates microgram particulate inhalation dosage for {cityName} (PM2.5: {currentPm25 || 85} µg/m³)
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+            className="p-2 rounded-xl bg-forest-900/80 hover:bg-forest-800 text-slate-400 hover:text-white border border-emerald-500/20 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -120,9 +120,9 @@ export const ExposureCalculatorModal: React.FC<ExposureCalculatorModalProps> = (
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs font-semibold">
               <span className="text-slate-300 flex items-center gap-1.5">
-                <Clock className="w-4 h-4 text-cyan-400" /> Commute / Exposure Duration
+                <Clock className="w-4 h-4 text-emerald-400" /> Commute / Exposure Duration
               </span>
-              <span className="text-cyan-400 font-mono text-sm font-bold">{commuteMinutes} Minutes</span>
+              <span className="text-mint-300 font-mono text-sm font-bold">{commuteMinutes} Minutes</span>
             </div>
             <input
               type="range"
@@ -131,13 +131,13 @@ export const ExposureCalculatorModal: React.FC<ExposureCalculatorModalProps> = (
               step={5}
               value={commuteMinutes}
               onChange={(e) => setCommuteMinutes(Number(e.target.value))}
-              className="w-full accent-cyan-400 bg-slate-800 h-2 rounded-lg cursor-pointer"
+              className="w-full accent-emerald-400 bg-forest-900 h-2 rounded-lg cursor-pointer"
             />
           </div>
 
           {/* Commute Mode Selection */}
           <div className="space-y-2.5">
-            <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+            <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block font-mono">
               Travel & Commuting Mode
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -147,8 +147,8 @@ export const ExposureCalculatorModal: React.FC<ExposureCalculatorModalProps> = (
                   onClick={() => setCommuteMode(m.id as any)}
                   className={`p-3 rounded-2xl border text-left transition-all ${
                     commuteMode === m.id
-                      ? 'bg-cyan-500/15 border-cyan-500/50 shadow-md shadow-cyan-950 text-white'
-                      : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200'
+                      ? 'bg-emerald-500/20 border-emerald-500/60 shadow-glow-emerald text-white'
+                      : 'bg-forest-950/70 border-emerald-900/40 text-slate-400 hover:text-slate-200'
                   }`}
                 >
                   <div className="font-bold text-xs text-white mb-0.5">{m.name}</div>
@@ -160,7 +160,7 @@ export const ExposureCalculatorModal: React.FC<ExposureCalculatorModalProps> = (
 
           {/* Mask Protection */}
           <div className="space-y-2.5">
-            <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+            <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block font-mono">
               Respiratory Protective Mask
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -170,8 +170,8 @@ export const ExposureCalculatorModal: React.FC<ExposureCalculatorModalProps> = (
                   onClick={() => setMaskType(mask.id as any)}
                   className={`p-2.5 rounded-xl border text-center text-xs font-bold transition-all ${
                     maskType === mask.id
-                      ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300 shadow-md'
-                      : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200'
+                      ? 'bg-emerald-500/25 border-emerald-400 text-mint-300 shadow-glow-emerald'
+                      : 'bg-forest-950/70 border-emerald-900/40 text-slate-400 hover:text-slate-200'
                   }`}
                 >
                   <div>{mask.name}</div>
@@ -184,14 +184,14 @@ export const ExposureCalculatorModal: React.FC<ExposureCalculatorModalProps> = (
           </div>
 
           {/* Results 3D Impact Card */}
-          <ThreeDCard glowColor={exposureResults.riskLevel === 'Dangerous' ? 'rose' : 'cyan'} tiltStrength={8}>
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 border border-slate-800 shadow-2xl space-y-4">
+          <ThreeDCard glowColor={exposureResults.riskLevel === 'Dangerous' ? 'rose' : 'emerald'} tiltStrength={8}>
+            <div className="p-5 rounded-2xl bg-gradient-to-br from-forest-950 via-forest-900 to-forest-950 border border-emerald-500/25 shadow-glass space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5 font-mono">
                   <Activity className="w-4 h-4 text-rose-400" /> Commute Inhalation Dose
                 </span>
                 <span
-                  className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
+                  className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full font-mono ${
                     exposureResults.riskLevel === 'Dangerous'
                       ? 'bg-rose-950 text-rose-300 border border-rose-800'
                       : exposureResults.riskLevel === 'High Risk'
@@ -203,44 +203,44 @@ export const ExposureCalculatorModal: React.FC<ExposureCalculatorModalProps> = (
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center">
-                <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center font-mono">
+                <div className="p-3 rounded-xl bg-forest-950/80 border border-emerald-900/40">
                   <span className="text-[10px] text-slate-400 block font-semibold">INHALED PM2.5</span>
                   <div className="text-2xl font-black text-white mt-1">
                     {exposureResults.inhaledMicrograms} <span className="text-xs font-normal text-slate-400">µg</span>
                   </div>
-                  <span className="text-[10px] text-slate-500">
+                  <span className="text-[10px] text-slate-400">
                     vs {exposureResults.unmaskedMicrograms} µg unmasked
                   </span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+                <div className="p-3 rounded-xl bg-forest-950/80 border border-emerald-900/40">
                   <span className="text-[10px] text-slate-400 block font-semibold">CIGARETTE EQUIV.</span>
                   <div className="text-2xl font-black text-rose-400 mt-1">
                     {exposureResults.cigaretteEquivalent} <span className="text-xs font-normal text-slate-400">cigs</span>
                   </div>
-                  <span className="text-[10px] text-slate-500">22 µg PM2.5 ≈ 1 cig</span>
+                  <span className="text-[10px] text-slate-400">22 µg PM2.5 ≈ 1 cig</span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 col-span-2 sm:col-span-1">
+                <div className="p-3 rounded-xl bg-forest-950/80 border border-emerald-900/40 col-span-2 sm:col-span-1">
                   <span className="text-[10px] text-slate-400 block font-semibold">AIR VOLUME</span>
-                  <div className="text-2xl font-black text-cyan-300 mt-1">
+                  <div className="text-2xl font-black text-mint-300 mt-1">
                     {exposureResults.totalVolumeM3} <span className="text-xs font-normal text-slate-400">m³</span>
                   </div>
-                  <span className="text-[10px] text-slate-500">Inhaled over {commuteMinutes}m</span>
+                  <span className="text-[10px] text-slate-400">Inhaled over {commuteMinutes}m</span>
                 </div>
               </div>
 
               {/* Actionable Medical Advice */}
-              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-xs text-slate-300 space-y-1">
+              <div className="p-3 rounded-xl bg-forest-950/60 border border-emerald-900/40 text-xs text-slate-300 space-y-1">
                 <div className="font-bold text-white flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
                   Health Protection Recommendation:
                 </div>
-                <p className="text-[11px] text-slate-400 leading-relaxed">
+                <p className="text-[11px] text-slate-300 leading-relaxed font-sans">
                   {exposureResults.riskLevel === 'Dangerous' || exposureResults.riskLevel === 'High Risk'
-                    ? 'Your commute route passes through hazardous particulate concentrations. Switching from open transit/walking to an AC metro or wearing a sealed N95 respirator cuts particulate lung deposition by over 90%.'
-                    : 'Your current route and protective gear keep your inhaled dosage within manageable ranges. Maintain nasal breathing and avoid high-exertion cardio along main arterial roadways.'}
+                    ? 'Your commute route passes through elevated particulate concentrations. Switching to an AC metro or wearing an N95 respirator reduces particulate lung deposition by up to 95%.'
+                    : 'Your current route and protective gear keep your inhaled dosage within manageable ranges. Maintain nasal breathing and avoid heavy cardio along main arterial roadways.'}
                 </p>
               </div>
             </div>
@@ -248,11 +248,11 @@ export const ExposureCalculatorModal: React.FC<ExposureCalculatorModalProps> = (
         </div>
 
         {/* Footer */}
-        <div className="p-4 bg-slate-950/60 flex items-center justify-between text-xs text-slate-500 px-6">
+        <div className="p-4 bg-forest-950/70 flex items-center justify-between text-xs text-slate-400 px-6 font-mono">
           <span>Based on WHO & CPCB Epidemiological Inhalation Models</span>
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold transition-all"
+            className="btn-cinematic-emerald px-5 py-2 rounded-xl font-bold transition-all"
           >
             Done
           </button>

@@ -69,17 +69,18 @@ export const HealthRecommendationsPage: React.FC<HealthRecommendationsPageProps>
   return (
     <div className="space-y-6">
       {/* Banner */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-rose-950/40 border border-slate-800 shadow-xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-500/25 shadow-2xl relative overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-80 h-80 bg-mint-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
-            <div className="flex items-center gap-2 text-rose-400 text-xs font-bold uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-rose-400 text-xs font-bold uppercase tracking-wider mb-1 font-mono">
               <Heart className="w-4 h-4" />
               Public Health Advisory Engine
             </div>
             <h1 className="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
               Health Recommendations & Outdoor Activity Planner
             </h1>
-            <p className="text-sm text-slate-400 mt-1 max-w-2xl">
+            <p className="text-sm text-slate-300 mt-1 max-w-2xl">
               Evidence-based exercise advisories, school protocols, and vulnerable group protections for{' '}
               <strong className="text-white">{selectedCity === 'All' ? 'Current Grid' : selectedCity}</strong> based on CPCB NAQI standards.
             </p>
@@ -91,18 +92,18 @@ export const HealthRecommendationsPage: React.FC<HealthRecommendationsPageProps>
               setActiveAqi(currentAqi);
               fetchGuidance(currentAqi);
             }}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-semibold transition"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-forest-900 hover:bg-forest-800 border border-emerald-900/50 text-slate-200 text-xs font-semibold transition"
           >
-            <RefreshCw className="w-3.5 h-3.5 text-cyan-400" />
+            <RefreshCw className="w-3.5 h-3.5 text-mint-400" />
             Reset to Live City AQI ({currentAqi})
           </button>
         </div>
 
         {/* Interactive AQI Slider Simulator */}
-        <div className="mt-6 pt-5 border-t border-slate-800/80">
+        <div className="mt-6 pt-5 border-t border-emerald-900/40 relative z-10">
           <div className="flex items-center justify-between text-xs mb-2">
-            <span className="text-slate-400 font-medium">Simulate Health Impact at Different AQI Levels:</span>
-            <span className="font-extrabold text-base" style={{ color: getAqiColor(activeAqi) }}>
+            <span className="text-slate-400 font-medium font-mono">Simulate Health Impact at Different AQI Levels:</span>
+            <span className="font-extrabold text-base font-mono" style={{ color: getAqiColor(activeAqi) }}>
               AQI {activeAqi} ({data?.category || 'Analyzing'})
             </span>
           </div>
@@ -114,10 +115,10 @@ export const HealthRecommendationsPage: React.FC<HealthRecommendationsPageProps>
             step={5}
             value={activeAqi}
             onChange={(e) => setActiveAqi(Number(e.target.value))}
-            className="w-full accent-cyan-400 h-2 bg-slate-950 rounded-lg cursor-pointer"
+            className="w-full accent-emerald-400 h-2 bg-forest-950 rounded-lg cursor-pointer"
           />
 
-          <div className="flex justify-between text-[11px] text-slate-500 mt-2 font-medium">
+          <div className="flex justify-between text-[11px] text-slate-400 mt-2 font-mono font-medium">
             <span className="text-emerald-400">Good (0-50)</span>
             <span className="text-lime-400">Satisfactory (51-100)</span>
             <span className="text-amber-400">Moderate (101-200)</span>
@@ -133,11 +134,11 @@ export const HealthRecommendationsPage: React.FC<HealthRecommendationsPageProps>
         {/* Left Column: Core Status Matrix */}
         <div className="lg:col-span-8 space-y-6">
           {/* Executive Advisory Box */}
-          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-            <div className="flex items-start justify-between border-b border-slate-800 pb-4">
+          <div className="p-6 rounded-3xl glass-card bg-forest-950/70 border border-emerald-900/40 space-y-4">
+            <div className="flex items-start justify-between border-b border-emerald-900/40 pb-4">
               <div>
                 <span
-                  className="text-xs font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider inline-block mb-2"
+                  className="text-xs font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider inline-block mb-2 font-mono"
                   style={{
                     backgroundColor: `${getAqiColor(activeAqi)}20`,
                     color: getAqiColor(activeAqi),
@@ -152,8 +153,8 @@ export const HealthRecommendationsPage: React.FC<HealthRecommendationsPageProps>
                 </p>
               </div>
 
-              <div className="text-center p-3 rounded-xl bg-slate-950 border border-slate-800 flex-shrink-0">
-                <span className="text-[10px] text-slate-400 uppercase font-bold block">Mask Status</span>
+              <div className="text-center p-3 rounded-xl bg-forest-900/80 border border-emerald-900/50 flex-shrink-0">
+                <span className="text-[10px] text-slate-400 uppercase font-bold font-mono block">Mask Status</span>
                 {data?.mask_required ? (
                   <span className="text-xs font-extrabold text-rose-400 flex items-center gap-1 justify-center mt-0.5">
                     <ShieldAlert className="w-3.5 h-3.5" /> N95 Advised
@@ -168,35 +169,35 @@ export const HealthRecommendationsPage: React.FC<HealthRecommendationsPageProps>
 
             {/* Quick Guidelines Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
-              <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
-                <span className="text-[11px] font-bold text-cyan-400 uppercase block mb-1">Exercise</span>
+              <div className="p-3.5 rounded-2xl bg-forest-900/70 border border-emerald-900/40">
+                <span className="text-[11px] font-bold text-mint-400 uppercase block mb-1 font-mono">Exercise</span>
                 <p className="text-xs text-slate-300">{data?.exercise_guidance}</p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
-                <span className="text-[11px] font-bold text-amber-400 uppercase block mb-1">Ventilation</span>
+              <div className="p-3.5 rounded-2xl bg-forest-900/70 border border-emerald-900/40">
+                <span className="text-[11px] font-bold text-amber-400 uppercase block mb-1 font-mono">Ventilation</span>
                 <p className="text-xs text-slate-300">{data?.window_guidance}</p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
-                <span className="text-[11px] font-bold text-purple-400 uppercase block mb-1">Schools & Sports</span>
+              <div className="p-3.5 rounded-2xl bg-forest-900/70 border border-emerald-900/40">
+                <span className="text-[11px] font-bold text-pista-400 uppercase block mb-1 font-mono">Schools & Sports</span>
                 <p className="text-xs text-slate-300">{data?.school_sports_guidance}</p>
               </div>
             </div>
           </div>
 
           {/* Outdoor Activity Recommendations */}
-          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+          <div className="p-6 rounded-3xl glass-card bg-forest-950/70 border border-emerald-900/40 space-y-4">
             <h3 className="text-base font-bold text-white flex items-center justify-between">
               <span>Outdoor Activity & Sports Feasibility</span>
-              <span className="text-xs font-normal text-slate-400">Real-time Safety Check</span>
+              <span className="text-xs font-normal text-slate-400 font-mono">Real-time Safety Check</span>
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {data?.activity_recommendations.map((item, idx) => (
                 <div
                   key={idx}
-                  className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 flex items-start justify-between gap-3"
+                  className="p-3.5 rounded-2xl bg-forest-900/60 border border-emerald-900/40 flex items-start justify-between gap-3"
                 >
                   <div className="space-y-1">
                     <span className="text-sm font-bold text-slate-200 block">{item.activity}</span>
@@ -204,7 +205,7 @@ export const HealthRecommendationsPage: React.FC<HealthRecommendationsPageProps>
                   </div>
 
                   <span
-                    className={`text-[11px] font-extrabold px-2.5 py-1 rounded-full whitespace-nowrap flex-shrink-0 ${
+                    className={`text-[11px] font-extrabold px-2.5 py-1 rounded-full whitespace-nowrap flex-shrink-0 font-mono ${
                       item.allowed
                         ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
                         : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'
@@ -220,8 +221,8 @@ export const HealthRecommendationsPage: React.FC<HealthRecommendationsPageProps>
 
         {/* Right Column: Vulnerable Groups & Disclaimer */}
         <div className="lg:col-span-4 space-y-4">
-          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider text-rose-400">
+          <div className="p-5 rounded-3xl glass-card bg-forest-950/70 border border-emerald-900/40 space-y-3">
+            <h3 className="text-sm font-bold text-rose-400 uppercase tracking-wider font-mono">
               Vulnerable Demographic Protocols
             </h3>
             <p className="text-xs text-slate-400">
@@ -230,23 +231,23 @@ export const HealthRecommendationsPage: React.FC<HealthRecommendationsPageProps>
 
             <div className="space-y-3 pt-2">
               {data?.vulnerable_groups.map((group, i) => (
-                <div key={i} className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
+                <div key={i} className="p-3.5 rounded-2xl bg-forest-900/60 border border-emerald-900/40 space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-slate-200">{group.group}</span>
                     <span
-                      className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded ${
+                      className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded font-mono ${
                         group.risk_level === 'Critical' || group.risk_level === 'Immediate Alert'
                           ? 'bg-rose-950 text-rose-400 border border-rose-800'
                           : group.risk_level === 'High'
                           ? 'bg-amber-950 text-amber-400 border border-amber-800'
-                          : 'bg-slate-800 text-slate-400'
+                          : 'bg-forest-950 text-slate-400'
                       }`}
                     >
                       {group.risk_level}
                     </span>
                   </div>
                   <p className="text-xs text-slate-400 leading-relaxed">{group.guidance}</p>
-                  <div className="text-[11px] text-cyan-400/90 font-medium pt-1">
+                  <div className="text-[11px] text-mint-400 font-mono font-medium pt-1">
                     Action: {group.action}
                   </div>
                 </div>
@@ -255,9 +256,9 @@ export const HealthRecommendationsPage: React.FC<HealthRecommendationsPageProps>
           </div>
 
           {/* Statutory Disclaimer */}
-          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 text-xs text-slate-400 space-y-2">
+          <div className="p-4 rounded-2xl bg-forest-950/80 border border-emerald-900/40 text-xs text-slate-400 space-y-2">
             <div className="flex items-center gap-1.5 font-bold text-slate-300">
-              <HelpCircle className="w-4 h-4 text-cyan-400" />
+              <HelpCircle className="w-4 h-4 text-mint-400" />
               Statutory Health Disclaimer
             </div>
             <p className="text-[11px] text-slate-400 leading-relaxed">

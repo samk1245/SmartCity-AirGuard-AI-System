@@ -136,8 +136,8 @@ export const App: React.FC = () => {
 
   return (
     <div
-      className={`min-h-screen text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950 relative overflow-x-hidden ${
-        theme === 'light' ? 'light bg-slate-100 text-slate-900' : 'bg-midnight-950 text-slate-100'
+      className={`min-h-screen text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-forest-950 relative overflow-x-hidden ${
+        theme === 'light' ? 'light bg-slate-100 text-slate-900' : 'bg-forest-950 text-slate-100'
       }`}
     >
       {/* Background Animated Atmospheric Particles */}

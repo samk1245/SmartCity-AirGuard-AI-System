@@ -194,16 +194,16 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
   const cleanest = [...comparisonData].sort((a, b) => a.aqi - b.aqi)[0];
   const mostPolluted = [...comparisonData].sort((a, b) => b.aqi - a.aqi)[0];
 
-  const cityPalette = ['#00D9FF', '#00E6A0', '#FF9F43', '#8B5CF6'];
+  const cityPalette = ['#10B981', '#34D399', '#4ADE80', '#F59E0B'];
 
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl glass-panel border border-cyan-500/30 shadow-2xl relative overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-500/25 shadow-2xl relative overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-80 h-80 bg-mint-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-1">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-semibold uppercase tracking-wider">
-            <ArrowRightLeft className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900/90 border border-emerald-500/40 text-mint-300 text-xs font-semibold uppercase tracking-wider">
+            <ArrowRightLeft className="w-3.5 h-3.5 text-mint-400" />
             <span>Multi-Municipal Comparative Telemetry</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
@@ -219,13 +219,13 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
           {selectedCities.map((city) => (
             <span
               key={city}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-cyan-500/40 text-xs font-bold text-white shadow-sm"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-forest-900 border border-emerald-500/40 text-xs font-bold text-white shadow-sm"
             >
               <span>{city}</span>
               {selectedCities.length > 2 && (
                 <button
                   onClick={() => handleToggleCity(city)}
-                  className="hover:text-rose-400 text-slate-400 p-0.5"
+                  className="hover:text-rose-400 text-slate-400 p-0.5 transition-colors"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -236,7 +236,7 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
       </div>
 
       {/* City Selector Quick Bar */}
-      <div className="p-4 rounded-2xl glass-card border border-slate-800 space-y-2">
+      <div className="p-4 rounded-2xl glass-card bg-forest-950/70 border border-emerald-900/40 space-y-2">
         <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block">
           Select 2 to 4 Cities to Compare:
         </span>
@@ -249,8 +249,8 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
                 onClick={() => handleToggleCity(cityName)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
                   isSelected
-                    ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 shadow-glow-cyan'
-                    : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
+                    ? 'bg-emerald-500/20 border-emerald-400 text-mint-300 shadow-glow-emerald'
+                    : 'bg-forest-900/60 border-emerald-900/40 text-slate-400 hover:text-white hover:border-emerald-700'
                 }`}
               >
                 {isSelected ? '✓ ' : '+ '}
@@ -268,7 +268,7 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
           return (
             <div
               key={c.name}
-              className="p-5 rounded-2xl glass-card glass-card-hover border border-slate-800 relative overflow-hidden flex flex-col justify-between space-y-4"
+              className="p-5 rounded-2xl glass-card glass-card-hover bg-forest-950/70 border border-emerald-900/40 relative overflow-hidden flex flex-col justify-between space-y-4"
             >
               <div
                 className="absolute top-0 left-0 right-0 h-1"
@@ -297,7 +297,7 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
               </div>
 
               {/* Main AQI */}
-              <div className="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800 flex items-baseline justify-between">
+              <div className="p-3.5 rounded-xl bg-forest-900/70 border border-emerald-900/40 flex items-baseline justify-between">
                 <div>
                   <span className="text-[10px] font-mono text-slate-400 block">CURRENT AQI</span>
                   <span className="text-3xl font-black" style={{ color: getAqiColor(c.aqi) }}>
@@ -314,21 +314,21 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
 
               {/* Metric Breakdown Rows */}
               <div className="space-y-2 text-xs">
-                <div className="flex items-center justify-between py-1 border-b border-slate-800/60">
+                <div className="flex items-center justify-between py-1 border-b border-emerald-900/30">
                   <span className="text-slate-400">PM2.5 Concentration</span>
                   <span className="font-mono font-bold text-white">{c.pm25} µg/m³</span>
                 </div>
-                <div className="flex items-center justify-between py-1 border-b border-slate-800/60">
+                <div className="flex items-center justify-between py-1 border-b border-emerald-900/30">
                   <span className="text-slate-400">PM10 Concentration</span>
                   <span className="font-mono font-bold text-white">{c.pm10} µg/m³</span>
                 </div>
-                <div className="flex items-center justify-between py-1 border-b border-slate-800/60">
+                <div className="flex items-center justify-between py-1 border-b border-emerald-900/30">
                   <span className="text-slate-400">Temperature & Humidity</span>
                   <span className="font-mono font-bold text-slate-300">{c.temperature}°C • {c.humidity}%</span>
                 </div>
-                <div className="flex items-center justify-between py-1 border-b border-slate-800/60">
+                <div className="flex items-center justify-between py-1 border-b border-emerald-900/30">
                   <span className="text-slate-400">AI 24h Prediction</span>
-                  <span className="font-mono font-bold text-cyan-400">{c.predictedAqi} AQI</span>
+                  <span className="font-mono font-bold text-mint-400">{c.predictedAqi} AQI</span>
                 </div>
               </div>
 
@@ -338,7 +338,7 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
                   <span className="text-slate-400">Clean Air Index</span>
                   <span className="font-bold text-white">{c.cleanScore}/100</span>
                 </div>
-                <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div className="w-full bg-forest-900 h-1.5 rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all duration-1000"
                     style={{
@@ -355,7 +355,7 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
                     playCyberClick();
                     onSelectCityForDashboard(c.name);
                   }}
-                  className="w-full py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
+                  className="w-full py-2 rounded-xl text-xs font-semibold bg-forest-900 hover:bg-forest-800 border border-emerald-900/50 text-slate-200 transition-colors"
                 >
                   View Full Dashboard
                 </button>
@@ -367,7 +367,7 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
 
       {/* Cleanest vs Most Polluted Insight Strip */}
       {cleanest && mostPolluted && (
-        <div className="p-4 rounded-2xl glass-panel border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="p-4 rounded-2xl glass-panel bg-forest-950/70 border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
               <Trophy className="w-5 h-5" />
@@ -392,10 +392,10 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
       )}
 
       {/* Comparison Visualizations Tabs */}
-      <div className="p-6 rounded-3xl glass-panel border border-slate-800 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div className="p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-900/40 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-emerald-900/40 pb-4">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <BarChart2 className="w-5 h-5 text-cyan-400" />
+            <BarChart2 className="w-5 h-5 text-mint-400" />
             <span>Comparative Environmental Analytics</span>
           </h2>
 
@@ -404,8 +404,8 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
               onClick={() => setActiveChartTab('bar')}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${
                 activeChartTab === 'bar'
-                  ? 'bg-cyan-500 text-slate-950 font-bold'
-                  : 'bg-slate-800 text-slate-400 hover:text-white'
+                  ? 'bg-emerald-500 text-forest-950 font-bold shadow-glow-emerald'
+                  : 'bg-forest-900 text-slate-400 hover:text-white border border-emerald-900/50'
               }`}
             >
               Multi-Pollutant Bars
@@ -414,8 +414,8 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
               onClick={() => setActiveChartTab('trend')}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${
                 activeChartTab === 'trend'
-                  ? 'bg-cyan-500 text-slate-950 font-bold'
-                  : 'bg-slate-800 text-slate-400 hover:text-white'
+                  ? 'bg-emerald-500 text-forest-950 font-bold shadow-glow-emerald'
+                  : 'bg-forest-900 text-slate-400 hover:text-white border border-emerald-900/50'
               }`}
             >
               7-Day Trajectory
@@ -424,8 +424,8 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
               onClick={() => setActiveChartTab('radar')}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${
                 activeChartTab === 'radar'
-                  ? 'bg-cyan-500 text-slate-950 font-bold'
-                  : 'bg-slate-800 text-slate-400 hover:text-white'
+                  ? 'bg-emerald-500 text-forest-950 font-bold shadow-glow-emerald'
+                  : 'bg-forest-900 text-slate-400 hover:text-white border border-emerald-900/50'
               }`}
             >
               Covariate Radar
@@ -438,17 +438,17 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
           {activeChartTab === 'bar' && (
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={barChartData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#0a2417" />
                 <XAxis dataKey="city" stroke="#94a3b8" tick={{ fill: '#94a3b8', fontSize: 12 }} />
                 <YAxis stroke="#94a3b8" tick={{ fill: '#94a3b8', fontSize: 12 }} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#07111F', borderColor: '#3478F6', borderRadius: '12px', color: '#fff' }}
+                  contentStyle={{ backgroundColor: '#04120b', borderColor: '#10B981', borderRadius: '12px', color: '#fff' }}
                 />
                 <Legend />
-                <Bar dataKey="AQI" fill="#00D9FF" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="AQI" fill="#10B981" radius={[6, 6, 0, 0]} />
                 <Bar dataKey="PM2.5" fill="#FF9F43" radius={[6, 6, 0, 0]} />
-                <Bar dataKey="PM10" fill="#8B5CF6" radius={[6, 6, 0, 0]} />
-                <Bar dataKey="Predicted" fill="#00E6A0" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="PM10" fill="#34D399" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="Predicted" fill="#6EE7B7" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -456,11 +456,11 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
           {activeChartTab === 'trend' && (
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={trendLineData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#0a2417" />
                 <XAxis dataKey="day" stroke="#94a3b8" tick={{ fill: '#94a3b8', fontSize: 12 }} />
                 <YAxis stroke="#94a3b8" tick={{ fill: '#94a3b8', fontSize: 12 }} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#07111F', borderColor: '#3478F6', borderRadius: '12px', color: '#fff' }}
+                  contentStyle={{ backgroundColor: '#04120b', borderColor: '#10B981', borderRadius: '12px', color: '#fff' }}
                 />
                 <Legend />
                 {selectedCities.map((cityName, idx) => (
@@ -480,9 +480,9 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
           {activeChartTab === 'radar' && (
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={radarChartData}>
-                <PolarGrid stroke="#334155" />
+                <PolarGrid stroke="#164831" />
                 <PolarAngleAxis dataKey="subject" tick={{ fill: '#94a3b8', fontSize: 11 }} />
-                <PolarRadiusAxis stroke="#475569" />
+                <PolarRadiusAxis stroke="#0a2417" />
                 {selectedCities.map((cityName, idx) => (
                   <Radar
                     key={cityName}
@@ -495,7 +495,7 @@ export const CityComparisonPage: React.FC<CityComparisonPageProps> = ({
                 ))}
                 <Legend />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#07111F', borderColor: '#3478F6', borderRadius: '12px', color: '#fff' }}
+                  contentStyle={{ backgroundColor: '#04120b', borderColor: '#10B981', borderRadius: '12px', color: '#fff' }}
                 />
               </RadarChart>
             </ResponsiveContainer>

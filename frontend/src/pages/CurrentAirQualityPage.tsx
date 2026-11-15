@@ -20,7 +20,7 @@ export const CurrentAirQualityPage: React.FC<CurrentAirQualityPageProps> = ({
   if (loading || !summary) {
     return (
       <div className="p-8 text-center text-slate-400 animate-pulse">
-        <RefreshCw className="w-8 h-8 mx-auto mb-3 animate-spin text-cyan-400" />
+        <RefreshCw className="w-8 h-8 mx-auto mb-3 animate-spin text-mint-400" />
         <p>Loading real-time station parameters...</p>
       </div>
     );
@@ -57,35 +57,35 @@ export const CurrentAirQualityPage: React.FC<CurrentAirQualityPageProps> = ({
               placeholder="Search station or city..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9 pr-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-400 focus:outline-none focus:border-cyan-500 w-56"
+              className="pl-9 pr-4 py-2 bg-forest-900 border border-emerald-900/50 rounded-xl text-xs text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 w-56"
             />
           </div>
 
           {/* Category filter */}
-          <div className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs">
+          <div className="flex items-center gap-2 bg-forest-900 border border-emerald-900/50 rounded-xl px-3 py-2 text-xs">
             <Filter className="w-3.5 h-3.5 text-slate-400" />
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
               className="bg-transparent text-white focus:outline-none cursor-pointer"
             >
-              <option value="All" className="bg-slate-800">All Categories</option>
-              <option value="Good" className="bg-slate-800">Good (0-50)</option>
-              <option value="Satisfactory" className="bg-slate-800">Satisfactory (51-100)</option>
-              <option value="Moderate" className="bg-slate-800">Moderate (101-200)</option>
-              <option value="Poor" className="bg-slate-800">Poor (201-300)</option>
-              <option value="Very Poor" className="bg-slate-800">Very Poor (301-400)</option>
-              <option value="Severe" className="bg-slate-800">Severe (401-500+)</option>
+              <option value="All" className="bg-forest-950">All Categories</option>
+              <option value="Good" className="bg-forest-950">Good (0-50)</option>
+              <option value="Satisfactory" className="bg-forest-950">Satisfactory (51-100)</option>
+              <option value="Moderate" className="bg-forest-950">Moderate (101-200)</option>
+              <option value="Poor" className="bg-forest-950">Poor (201-300)</option>
+              <option value="Very Poor" className="bg-forest-950">Very Poor (301-400)</option>
+              <option value="Severe" className="bg-forest-950">Severe (401-500+)</option>
             </select>
           </div>
         </div>
       </div>
 
       {/* Main Table Card */}
-      <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl shadow-xl overflow-hidden">
+      <div className="glass-panel bg-forest-950/70 border border-emerald-900/40 rounded-2xl shadow-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-900/80 text-slate-400 uppercase tracking-wider font-semibold border-b border-slate-700">
+            <thead className="bg-forest-900/90 text-slate-400 uppercase tracking-wider font-semibold border-b border-emerald-900/50">
               <tr>
                 <th className="px-5 py-3.5">Station & City</th>
                 <th className="px-4 py-3.5">CPCB AQI</th>
@@ -99,9 +99,9 @@ export const CurrentAirQualityPage: React.FC<CurrentAirQualityPageProps> = ({
                 <th className="px-4 py-3.5 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-700/50">
+            <tbody className="divide-y divide-emerald-900/30">
               {filteredReadings.map((r) => (
-                <tr key={r.station_id} className="hover:bg-slate-700/30 transition-colors">
+                <tr key={r.station_id} className="hover:bg-forest-900/40 transition-colors">
                   <td className="px-5 py-4">
                     <div className="font-bold text-white text-sm">{r.station_name}</div>
                     <div className="text-slate-400 text-[11px]">{r.city_name}</div>
@@ -131,19 +131,19 @@ export const CurrentAirQualityPage: React.FC<CurrentAirQualityPageProps> = ({
                     <div className="flex items-center gap-2">
                       {r.temperature && (
                         <span className="flex items-center gap-0.5 text-slate-300">
-                          <Thermometer className="w-3 h-3 text-cyan-400" />
+                          <Thermometer className="w-3 h-3 text-mint-400" />
                           {r.temperature}°
                         </span>
                       )}
                       {r.humidity && (
                         <span className="flex items-center gap-0.5 text-slate-300">
-                          <Droplets className="w-3 h-3 text-cyan-400" />
+                          <Droplets className="w-3 h-3 text-mint-400" />
                           {r.humidity}%
                         </span>
                       )}
                       {r.wind_speed && (
                         <span className="flex items-center gap-0.5 text-slate-300">
-                          <Wind className="w-3 h-3 text-cyan-400" />
+                          <Wind className="w-3 h-3 text-mint-400" />
                           {r.wind_speed}km/h
                         </span>
                       )}
@@ -152,7 +152,7 @@ export const CurrentAirQualityPage: React.FC<CurrentAirQualityPageProps> = ({
                   <td className="px-4 py-4 text-right">
                     <button
                       onClick={() => onSelectStationForForecast(r.station_id)}
-                      className="px-3 py-1.5 rounded-lg bg-cyan-500/15 text-cyan-400 hover:bg-cyan-500/25 border border-cyan-500/30 font-semibold text-xs inline-flex items-center gap-1.5 transition-colors"
+                      className="px-3 py-1.5 rounded-lg bg-emerald-500/15 text-mint-400 hover:bg-emerald-500/25 border border-emerald-500/30 font-semibold text-xs inline-flex items-center gap-1.5 transition-colors"
                     >
                       <Sparkles className="w-3.5 h-3.5" />
                       Forecast

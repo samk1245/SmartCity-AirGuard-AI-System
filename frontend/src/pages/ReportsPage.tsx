@@ -74,11 +74,11 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
   return (
     <div className="space-y-6">
       {/* Top Banner & Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl glass-panel border border-cyan-500/30 shadow-2xl relative overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-500/25 shadow-2xl relative overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-80 h-80 bg-mint-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-1">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-semibold uppercase tracking-wider">
-            <FileSpreadsheet className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900/90 border border-emerald-500/40 text-mint-300 text-xs font-semibold uppercase tracking-wider">
+            <FileSpreadsheet className="w-3.5 h-3.5 text-mint-400" />
             <span>Audit-Ready Environmental Documentation</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
@@ -93,14 +93,14 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
           <button
             onClick={handleDownloadCsv}
             disabled={generating}
-            className="btn-cinematic-cyan px-4 py-2 rounded-xl text-xs flex items-center gap-2 shadow-glow-cyan"
+            className="btn-cinematic-emerald px-4 py-2 rounded-xl text-xs flex items-center gap-2 shadow-glow-emerald"
           >
             <Download className="w-4 h-4" />
             <span>{generating ? 'Exporting...' : 'Export CSV File'}</span>
           </button>
           <button
             onClick={handlePrint}
-            className="btn-cinematic-glass px-4 py-2 rounded-xl text-xs flex items-center gap-2"
+            className="btn-cinematic-glass px-4 py-2 rounded-xl text-xs flex items-center gap-2 hover:text-mint-300"
           >
             <Printer className="w-4 h-4" />
             <span>Print Report View</span>
@@ -109,23 +109,23 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
       </div>
 
       {/* City & Format Selection Controls */}
-      <div className="p-4 rounded-2xl glass-card border border-slate-800 flex flex-wrap items-center justify-between gap-4">
+      <div className="p-4 rounded-2xl glass-card bg-forest-950/70 border border-emerald-900/40 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <span className="text-xs font-mono font-bold text-slate-400 uppercase">Target City:</span>
           <select
             value={activeCity}
             onChange={(e) => setActiveCity(e.target.value)}
-            className="glass-input px-3 py-1.5 rounded-xl text-xs font-semibold text-white focus:outline-none"
+            className="glass-input bg-forest-900/80 border border-emerald-900/60 px-3 py-1.5 rounded-xl text-xs font-semibold text-white focus:outline-none focus:border-emerald-400"
           >
             {cities.map((c) => (
-              <option key={c.id} value={c.name} className="bg-slate-900">
+              <option key={c.id} value={c.name} className="bg-forest-950">
                 {c.name}, {c.state}
               </option>
             ))}
           </select>
         </div>
 
-        <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-xl p-1">
+        <div className="flex items-center gap-1.5 bg-forest-950 border border-emerald-900/50 rounded-xl p-1">
           {[
             { id: 'executive', label: 'Executive Summary' },
             { id: 'daily', label: 'Daily CPCB Logs' },
@@ -139,7 +139,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
               }}
               className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
                 reportType === fmt.id
-                  ? 'bg-cyan-500 text-slate-950 font-bold'
+                  ? 'bg-emerald-500 text-forest-950 font-bold shadow-glow-emerald'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -150,11 +150,11 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
       </div>
 
       {/* Interactive 30-Day Pollution Calendar */}
-      <div className="p-6 rounded-3xl glass-panel border border-slate-800 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+      <div className="p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-900/40 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-emerald-900/40 pb-3">
           <div>
             <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-cyan-400" />
+              <Calendar className="w-5 h-5 text-mint-400" />
               <span>Interactive Monthly Pollution Calendar ({activeCity})</span>
             </h2>
             <p className="text-xs text-slate-400">
@@ -195,10 +195,10 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
       </div>
 
       {/* Executive Report Preview Card */}
-      <div className="p-6 rounded-3xl glass-card border border-slate-800 space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div className="p-6 rounded-3xl glass-card bg-forest-950/80 border border-emerald-900/40 space-y-4">
+        <div className="flex items-center justify-between border-b border-emerald-900/40 pb-3">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
@@ -216,17 +216,17 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-          <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+          <div className="p-3.5 rounded-xl bg-forest-900/70 border border-emerald-900/40">
             <span className="text-slate-400 block text-[10px] uppercase font-mono">24h PM2.5 Ceiling</span>
             <span className="text-base font-bold text-white mt-1 block">60.0 µg/m³</span>
             <span className="text-[10px] text-amber-400 block mt-0.5">Exceeded on 16 of 30 days</span>
           </div>
-          <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+          <div className="p-3.5 rounded-xl bg-forest-900/70 border border-emerald-900/40">
             <span className="text-slate-400 block text-[10px] uppercase font-mono">24h PM10 Ceiling</span>
             <span className="text-base font-bold text-white mt-1 block">100.0 µg/m³</span>
             <span className="text-[10px] text-amber-400 block mt-0.5">Exceeded on 18 of 30 days</span>
           </div>
-          <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+          <div className="p-3.5 rounded-xl bg-forest-900/70 border border-emerald-900/40">
             <span className="text-slate-400 block text-[10px] uppercase font-mono">Clean Air Days</span>
             <span className="text-base font-bold text-emerald-400 mt-1 block">12 Days (40%)</span>
             <span className="text-[10px] text-slate-400 block mt-0.5">Compliance met during active winds</span>

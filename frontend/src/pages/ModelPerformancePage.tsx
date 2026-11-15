@@ -224,16 +224,16 @@ export const ModelPerformancePage: React.FC = () => {
           </div>
 
           {/* Feature Engineering Registry */}
-          <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl">
+          <div className="glass-panel border border-emerald-500/20 rounded-2xl p-6 shadow-glass">
             <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-cyan-400" />
+              <Sliders className="w-4 h-4 text-emerald-400" />
               Engineered Features Input Registry ({modelData.features_used.length} Features)
             </h3>
             <div className="flex flex-wrap gap-2">
               {modelData.features_used.map((feat) => (
                 <span
                   key={feat}
-                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-mono text-cyan-300"
+                  className="px-3 py-1.5 rounded-lg bg-forest-950/80 border border-emerald-500/30 text-xs font-mono text-mint-300"
                 >
                   {feat}
                 </span>

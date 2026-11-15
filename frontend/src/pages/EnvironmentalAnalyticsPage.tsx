@@ -92,10 +92,10 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
 
   // Source attribution
   const sourceAttribution = [
-    { name: 'Vehicular Emissions', value: 38, color: '#00D9FF' },
-    { name: 'Industrial & Power', value: 24, color: '#3478F6' },
+    { name: 'Vehicular Emissions', value: 38, color: '#10B981' },
+    { name: 'Industrial & Power', value: 24, color: '#34D399' },
     { name: 'Construction & Road Dust', value: 18, color: '#FF9F43' },
-    { name: 'Biomass & Residue Stubble', value: 14, color: '#8B5CF6' },
+    { name: 'Biomass & Residue Stubble', value: 14, color: '#6EE7B7' },
     { name: 'Waste Burning & Other', value: 6, color: '#FF4560' },
   ];
 
@@ -135,11 +135,11 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
   return (
     <div className="space-y-6">
       {/* Top Banner & Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl glass-panel border border-cyan-500/30 shadow-2xl relative overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-500/25 shadow-2xl relative overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-80 h-80 bg-mint-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-1">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-semibold uppercase tracking-wider">
-            <FileText className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900/90 border border-emerald-500/40 text-mint-300 text-xs font-semibold uppercase tracking-wider">
+            <FileText className="w-3.5 h-3.5 text-mint-400" />
             <span>Environmental Science & Longitudinal Telemetry</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
@@ -154,14 +154,14 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
         <div className="flex items-center gap-2.5 relative z-10">
           <button
             onClick={handleDownloadCsv}
-            className="btn-cinematic-cyan px-4 py-2 rounded-xl text-xs flex items-center gap-2 shadow-glow-cyan"
+            className="btn-cinematic-emerald px-4 py-2 rounded-xl text-xs flex items-center gap-2 shadow-glow-emerald"
           >
             <Download className="w-4 h-4" />
             <span>Export CSV</span>
           </button>
           <button
             onClick={handlePrint}
-            className="btn-cinematic-glass px-4 py-2 rounded-xl text-xs flex items-center gap-2"
+            className="btn-cinematic-glass px-4 py-2 rounded-xl text-xs flex items-center gap-2 hover:text-mint-300"
           >
             <Printer className="w-4 h-4" />
             <span>Print Report</span>
@@ -172,7 +172,7 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
       {/* KPI Cards Strip */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Clean Air Days */}
-        <div className="p-4 rounded-2xl glass-card border border-slate-800 flex flex-col justify-between">
+        <div className="p-4 rounded-2xl glass-card bg-forest-950/70 border border-emerald-900/30 flex flex-col justify-between">
           <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
             <span>CPCB COMPLIANCE DAYS</span>
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
@@ -189,7 +189,7 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
         </div>
 
         {/* Cumulative PM2.5 Inhaled */}
-        <div className="p-4 rounded-2xl glass-card border border-rose-500/30 flex flex-col justify-between">
+        <div className="p-4 rounded-2xl glass-card bg-forest-950/70 border border-rose-500/30 flex flex-col justify-between">
           <div className="flex items-center justify-between text-xs text-rose-300 font-mono">
             <span>PASSIVE CIGARETTE EQUIVALENT</span>
             <HeartPulse className="w-4 h-4 text-rose-400" />
@@ -206,13 +206,13 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
         </div>
 
         {/* Wind Inversion Factor */}
-        <div className="p-4 rounded-2xl glass-card border border-slate-800 flex flex-col justify-between">
+        <div className="p-4 rounded-2xl glass-card bg-forest-950/70 border border-emerald-900/30 flex flex-col justify-between">
           <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
             <span>VENTILATION COEFFICIENT</span>
-            <Wind className="w-4 h-4 text-cyan-400" />
+            <Wind className="w-4 h-4 text-mint-400" />
           </div>
           <div className="my-2">
-            <span className="text-3xl font-extrabold text-cyan-400">
+            <span className="text-3xl font-extrabold text-mint-400">
               <AnimatedCounter value={2450} />
             </span>
             <span className="text-xs text-slate-400 block mt-0.5">
@@ -223,7 +223,7 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
         </div>
 
         {/* Dominant Urban Source */}
-        <div className="p-4 rounded-2xl glass-card border border-slate-800 flex flex-col justify-between">
+        <div className="p-4 rounded-2xl glass-card bg-forest-950/70 border border-emerald-900/30 flex flex-col justify-between">
           <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
             <span>PRIMARY SOURCE ATTRIBUTION</span>
             <Flame className="w-4 h-4 text-amber-400" />
@@ -241,11 +241,11 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
       </div>
 
       {/* Main Longitudinal Trend Chart */}
-      <div className="p-6 rounded-3xl glass-panel border border-slate-800 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div className="p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-900/40 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-emerald-900/40 pb-4">
           <div className="space-y-1">
             <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Activity className="w-5 h-5 text-cyan-400" />
+              <Activity className="w-5 h-5 text-mint-400" />
               <span>Atmospheric Pollution Trend Explorer ({selectedCity})</span>
             </h2>
             <p className="text-xs text-slate-400">
@@ -255,7 +255,7 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
 
           <div className="flex flex-wrap items-center gap-2">
             {/* Time range buttons */}
-            <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-1">
+            <div className="flex items-center bg-forest-950 border border-emerald-900/50 rounded-xl p-1">
               {(['daily', 'weekly', 'monthly', 'seasonal'] as const).map((r) => (
                 <button
                   key={r}
@@ -265,7 +265,7 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
                   }}
                   className={`px-2.5 py-1 rounded-lg text-xs font-semibold capitalize transition-colors ${
                     timeRange === r
-                      ? 'bg-cyan-500 text-slate-950 font-bold'
+                      ? 'bg-emerald-500 text-forest-950 font-bold shadow-glow-emerald'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -275,7 +275,7 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
             </div>
 
             {/* Pollutant toggle */}
-            <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-1">
+            <div className="flex items-center bg-forest-950 border border-emerald-900/50 rounded-xl p-1">
               {(['aqi', 'pm25', 'pm10'] as const).map((pol) => (
                 <button
                   key={pol}
@@ -285,7 +285,7 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
                   }}
                   className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase transition-colors ${
                     pollutantFilter === pol
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-emerald-600 text-white shadow-sm'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -302,20 +302,20 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
             <AreaChart data={currentDataset} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorPol" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#00D9FF" stopOpacity={0.5} />
-                  <stop offset="95%" stopColor="#3478F6" stopOpacity={0.0} />
+                  <stop offset="5%" stopColor="#10B981" stopOpacity={0.5} />
+                  <stop offset="95%" stopColor="#059669" stopOpacity={0.0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#0a2417" />
               <XAxis dataKey="time" stroke="#94a3b8" tick={{ fill: '#94a3b8', fontSize: 11 }} />
               <YAxis stroke="#94a3b8" tick={{ fill: '#94a3b8', fontSize: 11 }} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#07111F', borderColor: '#3478F6', borderRadius: '12px', color: '#fff' }}
+                contentStyle={{ backgroundColor: '#04120b', borderColor: '#10B981', borderRadius: '12px', color: '#fff' }}
               />
               <Area
                 type="monotone"
                 dataKey={pollutantFilter}
-                stroke="#00D9FF"
+                stroke="#10B981"
                 strokeWidth={3}
                 fillOpacity={1}
                 fill="url(#colorPol)"
@@ -328,10 +328,10 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
       {/* Two Column Grid: Source Attribution + Weather Correlation */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Source Attribution Pie Chart */}
-        <div className="lg:col-span-6 p-6 rounded-3xl glass-card border border-slate-800 space-y-4">
-          <div className="border-b border-slate-800 pb-3">
+        <div className="lg:col-span-6 p-6 rounded-3xl glass-card bg-forest-950/70 border border-emerald-900/40 space-y-4">
+          <div className="border-b border-emerald-900/40 pb-3">
             <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <PieIcon className="w-5 h-5 text-cyan-400" />
+              <PieIcon className="w-5 h-5 text-mint-400" />
               <span>Pollution Source Attribution Breakdown</span>
             </h3>
             <p className="text-xs text-slate-400">
@@ -358,7 +358,7 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
                     ))}
                   </Pie>
                   <Tooltip
-                    contentStyle={{ backgroundColor: '#07111F', borderColor: '#3478F6', borderRadius: '12px', color: '#fff' }}
+                    contentStyle={{ backgroundColor: '#04120b', borderColor: '#10B981', borderRadius: '12px', color: '#fff' }}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -379,8 +379,8 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
         </div>
 
         {/* Weather vs AQI Correlation Scatter */}
-        <div className="lg:col-span-6 p-6 rounded-3xl glass-card border border-slate-800 space-y-4">
-          <div className="border-b border-slate-800 pb-3">
+        <div className="lg:col-span-6 p-6 rounded-3xl glass-card bg-forest-950/70 border border-emerald-900/40 space-y-4">
+          <div className="border-b border-emerald-900/40 pb-3">
             <h3 className="text-base font-bold text-white flex items-center gap-2">
               <Wind className="w-5 h-5 text-emerald-400" />
               <span>Wind Speed (km/h) vs AQI Correlation</span>
@@ -393,7 +393,7 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
           <div className="h-60 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <ScatterChart margin={{ top: 10, right: 20, bottom: 10, left: -10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#0a2417" />
                 <XAxis
                   type="number"
                   dataKey="wind"
@@ -411,9 +411,9 @@ export const EnvironmentalAnalyticsPage: React.FC<EnvironmentalAnalyticsPageProp
                 />
                 <Tooltip
                   cursor={{ strokeDasharray: '3 3' }}
-                  contentStyle={{ backgroundColor: '#07111F', borderColor: '#3478F6', borderRadius: '12px', color: '#fff' }}
+                  contentStyle={{ backgroundColor: '#04120b', borderColor: '#10B981', borderRadius: '12px', color: '#fff' }}
                 />
-                <Scatter name="Telemetry Observations" data={weatherAqiCorrelation} fill="#00E6A0" />
+                <Scatter name="Telemetry Observations" data={weatherAqiCorrelation} fill="#34D399" />
               </ScatterChart>
             </ResponsiveContainer>
           </div>

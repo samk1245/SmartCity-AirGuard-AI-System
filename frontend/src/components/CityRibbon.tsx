@@ -19,10 +19,10 @@ export const CityRibbon: React.FC<CityRibbonProps> = ({
         {/* All Cities Chip */}
         <button
           onClick={() => onSelectCity('All')}
-          className={`btn-liquid flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-bold transition-all border ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all border backdrop-blur-md cursor-pointer ${
             selectedCity === 'All'
-              ? 'btn-liquid-cyan scale-[1.02]'
-              : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 border-slate-800 hover:border-slate-700'
+              ? 'bg-gradient-to-r from-emerald-500 to-mint-400 text-forest-950 border-mint-300 shadow-glow-emerald scale-[1.02]'
+              : 'glass-card text-slate-300 border-emerald-500/20 hover:border-emerald-400/40 hover:text-white'
           }`}
         >
           <Sparkles className="w-3.5 h-3.5" />
@@ -35,16 +35,16 @@ export const CityRibbon: React.FC<CityRibbonProps> = ({
             <button
               key={city.id}
               onClick={() => onSelectCity(city.name)}
-              className={`btn-liquid flex items-center gap-2.5 px-3.5 py-2 rounded-2xl text-xs font-semibold transition-all border ${
+              className={`flex items-center gap-2.5 px-3.5 py-2 rounded-2xl text-xs font-semibold transition-all border backdrop-blur-md cursor-pointer ${
                 isSelected
-                  ? 'btn-liquid-emerald scale-[1.02] font-bold'
-                  : 'bg-slate-900/70 hover:bg-slate-800 text-slate-300 border-slate-800 hover:border-slate-700'
+                  ? 'bg-gradient-to-r from-emerald-500 to-mint-400 text-forest-950 border-mint-300 shadow-glow-emerald scale-[1.02] font-bold'
+                  : 'glass-card text-slate-300 border-emerald-500/20 hover:border-emerald-400/40 hover:text-white'
               }`}
             >
-              <MapPin className={`w-3.5 h-3.5 ${isSelected ? 'text-slate-950' : 'text-cyan-400'}`} />
+              <MapPin className={`w-3.5 h-3.5 ${isSelected ? 'text-forest-950' : 'text-emerald-400'}`} />
               <div className="text-left">
                 <div className="leading-tight">{city.name}</div>
-                <div className={`text-[9px] uppercase tracking-wider ${isSelected ? 'text-slate-800' : 'text-slate-400'}`}>
+                <div className={`text-[9px] uppercase tracking-wider font-mono ${isSelected ? 'text-forest-900' : 'text-slate-400'}`}>
                   {city.state} • {city.stations.length} stns
                 </div>
               </div>

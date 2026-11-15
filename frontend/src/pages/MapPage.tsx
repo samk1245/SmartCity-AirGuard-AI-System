@@ -105,8 +105,8 @@ const createCustomMarker = (aqi: number) => {
 const createPinMarker = () => {
   const html = `
     <div style="
-      background-color: #00D9FF;
-      color: #07111F;
+      background-color: #10B981;
+      color: #020906;
       width: 32px;
       height: 32px;
       border-radius: 50% 50% 50% 0;
@@ -114,10 +114,10 @@ const createPinMarker = () => {
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 16px #00D9FF, 0 2px 8px rgba(0,0,0,0.8);
+      box-shadow: 0 0 16px rgba(16,185,129,0.85), 0 2px 8px rgba(0,0,0,0.8);
       border: 2px solid #ffffff;
     ">
-      <div style="transform: rotate(45deg); font-weight: 900; font-size: 12px;">★</div>
+      <div style="transform: rotate(45deg); font-weight: 900; font-size: 12px; color: #ffffff;">★</div>
     </div>
   `;
 
@@ -366,11 +366,11 @@ export const MapPage: React.FC<MapPageProps> = ({
         </div>
 
         {/* Base Map Switcher */}
-        <div className="flex items-center bg-slate-900 border border-slate-700/80 rounded-xl p-1 text-xs">
+        <div className="flex items-center bg-forest-950/85 border border-emerald-500/25 rounded-xl p-1 text-xs font-mono">
           <button
             onClick={() => setTileLayer('dark')}
             className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
-              tileLayer === 'dark' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+              tileLayer === 'dark' ? 'bg-emerald-500 text-forest-950 font-bold shadow-glow-emerald' : 'text-slate-400 hover:text-white'
             }`}
           >
             Midnight
@@ -378,7 +378,7 @@ export const MapPage: React.FC<MapPageProps> = ({
           <button
             onClick={() => setTileLayer('satellite')}
             className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
-              tileLayer === 'satellite' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+              tileLayer === 'satellite' ? 'bg-emerald-500 text-forest-950 font-bold shadow-glow-emerald' : 'text-slate-400 hover:text-white'
             }`}
           >
             Satellite
@@ -386,7 +386,7 @@ export const MapPage: React.FC<MapPageProps> = ({
           <button
             onClick={() => setTileLayer('streets')}
             className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
-              tileLayer === 'streets' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+              tileLayer === 'streets' ? 'bg-emerald-500 text-forest-950 font-bold shadow-glow-emerald' : 'text-slate-400 hover:text-white'
             }`}
           >
             Streets
@@ -397,10 +397,10 @@ export const MapPage: React.FC<MapPageProps> = ({
       {/* Main Map + Station Detail Drawer */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-[650px]">
         {/* Leaflet Map Viewport */}
-        <div className="lg:col-span-3 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl relative">
+        <div className="lg:col-span-3 rounded-3xl overflow-hidden border border-emerald-500/25 shadow-spatial-glass relative bg-forest-950">
           {loading && (
-            <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm z-20 flex items-center justify-center text-cyan-400 text-xs font-semibold gap-2">
-              <RefreshCw className="w-4 h-4 animate-spin" />
+            <div className="absolute inset-0 bg-forest-950/80 backdrop-blur-sm z-20 flex items-center justify-center text-mint-300 text-xs font-semibold gap-2 font-mono">
+              <RefreshCw className="w-4 h-4 animate-spin text-emerald-400" />
               <span>Calibrating GIS station coordinates...</span>
             </div>
           )}
@@ -541,7 +541,7 @@ export const MapPage: React.FC<MapPageProps> = ({
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+              <div className="p-4 rounded-2xl bg-forest-950/85 border border-emerald-500/25 flex items-center justify-between shadow-glass">
                 <div>
                   <span className="text-xs text-slate-400 block font-mono">Ambient AQI</span>
                   <div className="text-3xl font-black text-white">
@@ -560,27 +560,27 @@ export const MapPage: React.FC<MapPageProps> = ({
                   Sensor Telemetry
                 </span>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                  <div className="bg-forest-950/70 p-2.5 rounded-xl border border-emerald-900/40">
                     <span className="text-slate-400 text-[10px] font-mono">PM2.5</span>
                     <div className="font-bold text-white text-sm">
                       {selectedStation.pm25 ?? '—'} µg/m³
                     </div>
                   </div>
-                  <div className="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                  <div className="bg-forest-950/70 p-2.5 rounded-xl border border-emerald-900/40">
                     <span className="text-slate-400 text-[10px] font-mono">PM10</span>
                     <div className="font-bold text-white text-sm">
                       {selectedStation.pm10 ?? '—'} µg/m³
                     </div>
                   </div>
-                  <div className="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                  <div className="bg-forest-950/70 p-2.5 rounded-xl border border-emerald-900/40">
                     <span className="text-slate-400 text-[10px] font-mono">NO2</span>
                     <div className="font-bold text-white text-sm">
                       {selectedStation.no2 ?? '—'} µg/m³
                     </div>
                   </div>
-                  <div className="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                  <div className="bg-forest-950/70 p-2.5 rounded-xl border border-emerald-900/40">
                     <span className="text-slate-400 text-[10px] font-mono">Dominant</span>
-                    <div className="font-bold text-cyan-400 text-sm uppercase">
+                    <div className="font-bold text-mint-400 text-sm uppercase font-mono">
                       {selectedStation.dominant_pollutant}
                     </div>
                   </div>
@@ -640,7 +640,7 @@ export const MapPage: React.FC<MapPageProps> = ({
                 </div>
               ) : clickedAtmosphere ? (
                 <>
-                  <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+                  <div className="p-4 rounded-2xl bg-forest-950/85 border border-emerald-500/25 flex items-center justify-between shadow-glass">
                     <div>
                       <div className="text-xs text-slate-400 font-mono">Calculated AQI</div>
                       <div className="text-3xl font-black text-white">
@@ -654,14 +654,14 @@ export const MapPage: React.FC<MapPageProps> = ({
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="bg-slate-900/60 p-2 rounded-xl border border-slate-800">
+                  <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                    <div className="bg-forest-950/70 p-2 rounded-xl border border-emerald-900/40">
                       <span className="text-slate-400 text-[10px] font-mono">PM2.5</span>
                       <div className="font-bold text-slate-200">
                         {clickedAtmosphere.air_quality.pm25 ?? '—'} µg/m³
                       </div>
                     </div>
-                    <div className="bg-slate-900/60 p-2 rounded-xl border border-slate-800">
+                    <div className="bg-forest-950/70 p-2 rounded-xl border border-emerald-900/40">
                       <span className="text-slate-400 text-[10px] font-mono">PM10</span>
                       <div className="font-bold text-slate-200">
                         {clickedAtmosphere.air_quality.pm10 ?? '—'} µg/m³

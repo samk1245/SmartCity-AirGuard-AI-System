@@ -75,13 +75,13 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
     if (!scene || !ambientLight || !dirLight1 || !dirLight2) return;
 
     if (lightingMode === 'cyber') {
-      scene.fog = new THREE.FogExp2(0x020817, 0.04);
-      ambientLight.color.setHex(0xffffff);
-      ambientLight.intensity = 0.6;
-      dirLight1.color.setHex(0x38bdf8);
-      dirLight1.intensity = 1.8;
-      dirLight2.color.setHex(0x818cf8);
-      dirLight2.intensity = 1.0;
+      scene.fog = new THREE.FogExp2(0x020906, 0.04);
+      ambientLight.color.setHex(0xd1fae5);
+      ambientLight.intensity = 0.8;
+      dirLight1.color.setHex(0x10b981);
+      dirLight1.intensity = 2.0;
+      dirLight2.color.setHex(0x34d399);
+      dirLight2.intensity = 1.2;
     } else if (lightingMode === 'smog') {
       // Golden Hour Smog Haze
       scene.fog = new THREE.FogExp2(0x291400, 0.05);
@@ -111,7 +111,7 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
 
     // 1. Scene
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x020817, 0.04);
+    scene.fog = new THREE.FogExp2(0x020906, 0.04);
 
     // 2. Camera
     const camera = new THREE.PerspectiveCamera(45, width / heightPx, 0.1, 1000);
@@ -125,14 +125,14 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
     container.replaceChildren(renderer.domElement);
 
     // 4. Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    const ambientLight = new THREE.AmbientLight(0xd1fae5, 0.8);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0x38bdf8, 1.8);
+    const dirLight1 = new THREE.DirectionalLight(0x10b981, 2.0);
     dirLight1.position.set(10, 20, 10);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x818cf8, 1.0);
+    const dirLight2 = new THREE.DirectionalLight(0x34d399, 1.2);
     dirLight2.position.set(-10, -10, -10);
     scene.add(dirLight2);
 
@@ -442,7 +442,7 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
 
   return (
     <div
-      className={`relative rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl select-none ${className}`}
+      className={`relative rounded-3xl overflow-hidden bg-forest-950 border border-emerald-500/25 shadow-spatial-glass select-none ${className}`}
       style={{ height }}
     >
       {/* 3D Canvas */}
@@ -458,10 +458,10 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
 
       {/* Floating HUD Header */}
       <div className="absolute top-4 left-4 z-10 flex flex-wrap items-center gap-2 pointer-events-auto">
-        <div className="px-3.5 py-1.5 rounded-xl bg-slate-900/90 backdrop-blur border border-cyan-500/30 text-xs font-bold text-white shadow-xl flex items-center gap-2">
-          <Building2 className="w-4 h-4 text-cyan-400" />
+        <div className="px-3.5 py-1.5 rounded-xl bg-forest-950/85 backdrop-blur-xl border border-emerald-500/30 text-xs font-bold text-white shadow-xl flex items-center gap-2">
+          <Building2 className="w-4 h-4 text-emerald-400" />
           <span>{cityName} Digital Twin</span>
-          <span className="text-[10px] text-cyan-300 font-mono px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-800">
+          <span className="text-[10px] text-mint-300 font-mono px-1.5 py-0.5 rounded bg-forest-900 border border-emerald-500/30">
             3D Urban Canopy
           </span>
         </div>
@@ -476,23 +476,23 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
           }}
           className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
             smogDomeVisible
-              ? 'bg-purple-500/20 text-purple-300 border-purple-500/40'
-              : 'bg-slate-900/80 text-slate-400 border-slate-700'
+              ? 'bg-emerald-500/20 text-mint-300 border-emerald-500/40'
+              : 'bg-forest-950/80 text-slate-400 border-emerald-900/40'
           }`}
         >
           {smogDomeVisible ? 'Volumetric Smog Dome: ON' : 'Smog Dome: OFF'}
         </button>
 
         {/* Lighting preset selector */}
-        <div className="flex items-center bg-slate-900/90 backdrop-blur border border-slate-800 rounded-xl p-0.5">
+        <div className="flex items-center bg-forest-950/90 backdrop-blur-xl border border-emerald-500/20 rounded-xl p-0.5">
           <button
             onClick={() => setLightingMode('cyber')}
             title="Cyber Neon Mood"
             className={`px-2.5 py-1 rounded-lg text-xs font-medium flex items-center gap-1 transition-all ${
-              lightingMode === 'cyber' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-slate-400 hover:text-white'
+              lightingMode === 'cyber' ? 'bg-emerald-500/25 text-mint-300 border border-emerald-400/40' : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Moon className="w-3 h-3 text-cyan-400" />
+            <Moon className="w-3 h-3 text-emerald-400" />
             <span className="hidden md:inline">Cyber</span>
           </button>
           <button
@@ -521,32 +521,32 @@ export const CityDigitalTwin3D: React.FC<CityDigitalTwin3DProps> = ({
         <button
           onClick={() => setAutoTour(!autoTour)}
           className={`px-2.5 py-1.5 rounded-xl text-xs font-medium border flex items-center gap-1.5 transition-all ${
-            autoTour ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40' : 'bg-slate-900/80 text-slate-400 border-slate-700'
+            autoTour ? 'bg-mint-500/20 text-mint-300 border-mint-500/40 shadow-glow-mint' : 'bg-forest-950/80 text-slate-400 border-emerald-900/40'
           }`}
           title="Toggle Drone Orbit Camera"
         >
-          <Video className="w-3 h-3 text-indigo-400" />
+          <Video className="w-3 h-3 text-mint-400" />
           <span>{autoTour ? 'Drone Tour: ON' : 'Orbit: Manual'}</span>
         </button>
       </div>
 
       {/* Real-time Environmental Metric Card */}
-      <div className="absolute top-4 right-4 z-10 flex items-center gap-3 bg-slate-900/90 backdrop-blur border border-slate-800 p-3 rounded-2xl shadow-2xl pointer-events-none">
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-3 bg-forest-950/85 backdrop-blur-xl border border-emerald-500/25 p-3 rounded-2xl shadow-glass pointer-events-none">
         <div className="text-right">
-          <div className="text-[10px] text-slate-400 font-bold uppercase">CPCB NAQI</div>
+          <div className="text-[10px] text-slate-400 font-bold uppercase font-mono">CPCB NAQI</div>
           <div className="text-2xl font-black text-white">{aqi}</div>
-          <div className="text-[10px] font-bold text-cyan-400">{category}</div>
+          <div className="text-[10px] font-bold text-mint-400 font-mono">{category}</div>
         </div>
-        <div className="border-l border-slate-800 pl-3 space-y-0.5 text-xs">
-          <div className="text-slate-300 font-semibold">PM2.5: <span className="text-white font-mono">{pm25} µg</span></div>
-          <div className="text-slate-300 font-semibold">PM10: <span className="text-white font-mono">{pm10} µg</span></div>
+        <div className="border-l border-emerald-900/50 pl-3 space-y-0.5 text-xs font-mono">
+          <div className="text-slate-300 font-semibold">PM2.5: <span className="text-white">{pm25} µg</span></div>
+          <div className="text-slate-300 font-semibold">PM10: <span className="text-white">{pm10} µg</span></div>
           <div className="text-slate-400 text-[10px]">{windSpeed} km/h • {temperature}°C</div>
         </div>
       </div>
 
       {/* Legend & Controls hint */}
-      <div className="absolute bottom-4 left-4 z-10 px-3.5 py-2 rounded-xl bg-slate-900/90 backdrop-blur border border-slate-800 text-[11px] text-slate-400 font-medium pointer-events-none hidden sm:block">
-        Drag to rotate • Scroll to zoom • Vertical beams denote CPCB CAAQMS masts • Smoke stacks show live industrial dispersion
+      <div className="absolute bottom-4 left-4 z-10 px-3.5 py-2 rounded-xl bg-forest-950/85 backdrop-blur-xl border border-emerald-500/20 text-[11px] text-slate-300 font-medium pointer-events-none hidden sm:block font-mono">
+        Drag to rotate • Scroll to zoom • Vertical masts denote CPCB towers • Smoke stacks show industrial dispersion
       </div>
     </div>
   );

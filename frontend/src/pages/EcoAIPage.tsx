@@ -148,11 +148,11 @@ export const EcoAIPage: React.FC<EcoAIPageProps> = ({
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Header */}
-      <div className="p-6 rounded-3xl glass-panel border border-cyan-500/30 shadow-2xl relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="absolute -top-24 -right-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-500/25 shadow-2xl relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="absolute -top-24 -right-24 w-80 h-80 bg-mint-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-1">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-semibold uppercase tracking-wider">
-            <Brain className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900/90 border border-emerald-500/40 text-mint-300 text-xs font-semibold uppercase tracking-wider">
+            <Brain className="w-3.5 h-3.5 text-mint-400" />
             <span>Context-Aware Environmental Agent</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
@@ -163,14 +163,14 @@ export const EcoAIPage: React.FC<EcoAIPageProps> = ({
           </p>
         </div>
 
-        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-cyan-400 self-start sm:self-auto">
+        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-forest-900 border border-emerald-900/50 text-xs font-mono text-mint-400 self-start sm:self-auto">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
           <span>Active Context: {selectedCity}</span>
         </div>
       </div>
 
       {/* Main Chat Interface */}
-      <div className="rounded-3xl glass-card border border-slate-800 shadow-2xl overflow-hidden flex flex-col h-[640px]">
+      <div className="rounded-3xl glass-card bg-forest-950/80 border border-emerald-900/40 shadow-2xl overflow-hidden flex flex-col h-[640px]">
         {/* Messages viewport */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4 text-xs sm:text-sm">
           {messages.map((m) => (
@@ -179,16 +179,16 @@ export const EcoAIPage: React.FC<EcoAIPageProps> = ({
               className={`flex gap-3 ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {m.sender === 'assistant' && (
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                  <Bot className="w-4 h-4 text-slate-950 stroke-[2.5]" />
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-500 to-mint-400 flex items-center justify-center shrink-0 mt-0.5 shadow-md">
+                  <Bot className="w-4 h-4 text-forest-950 stroke-[2.5]" />
                 </div>
               )}
 
               <div
                 className={`max-w-[85%] rounded-2xl p-4 relative group ${
                   m.sender === 'user'
-                    ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-tr-none'
-                    : 'bg-slate-900/90 border border-slate-800 text-slate-200 rounded-tl-none shadow-md'
+                    ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-tr-none shadow-md'
+                    : 'bg-forest-900/90 border border-emerald-900/60 text-slate-100 rounded-tl-none shadow-md'
                 }`}
               >
                 <p className="whitespace-pre-line leading-relaxed font-sans">
@@ -199,7 +199,7 @@ export const EcoAIPage: React.FC<EcoAIPageProps> = ({
                   {m.sender === 'assistant' && (
                     <button
                       onClick={() => copyText(m.id, m.text)}
-                      className="opacity-0 group-hover:opacity-100 hover:text-cyan-300 p-1 transition-opacity flex items-center gap-1"
+                      className="opacity-0 group-hover:opacity-100 hover:text-mint-300 p-1 transition-opacity flex items-center gap-1"
                     >
                       {copiedId === m.id ? (
                         <>
@@ -218,8 +218,8 @@ export const EcoAIPage: React.FC<EcoAIPageProps> = ({
               </div>
 
               {m.sender === 'user' && (
-                <div className="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0 mt-0.5">
-                  <User className="w-4 h-4 text-slate-300" />
+                <div className="w-8 h-8 rounded-xl bg-forest-800 border border-emerald-800 flex items-center justify-center shrink-0 mt-0.5">
+                  <User className="w-4 h-4 text-mint-300" />
                 </div>
               )}
             </div>
@@ -227,13 +227,13 @@ export const EcoAIPage: React.FC<EcoAIPageProps> = ({
 
           {loading && (
             <div className="flex gap-3 items-center">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center shrink-0">
-                <Bot className="w-4 h-4 text-slate-950 stroke-[2.5]" />
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-500 to-mint-400 flex items-center justify-center shrink-0 shadow-md">
+                <Bot className="w-4 h-4 text-forest-950 stroke-[2.5]" />
               </div>
-              <div className="px-4 py-3 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-bounce" />
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-bounce [animation-delay:0.2s]" />
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-bounce [animation-delay:0.4s]" />
+              <div className="px-4 py-3 rounded-2xl bg-forest-900/90 border border-emerald-900/60 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-bounce" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-bounce [animation-delay:0.2s]" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-bounce [animation-delay:0.4s]" />
                 <span className="text-xs text-slate-400 font-mono pl-2">Synthesizing meteorological inference...</span>
               </div>
             </div>
@@ -241,12 +241,12 @@ export const EcoAIPage: React.FC<EcoAIPageProps> = ({
         </div>
 
         {/* Suggested Prompts */}
-        <div className="p-3 bg-slate-950/70 border-t border-slate-800 overflow-x-auto flex gap-2">
+        <div className="p-3 bg-forest-950/80 border-t border-emerald-900/40 overflow-x-auto flex gap-2">
           {sampleQuestions.map((sq) => (
             <button
               key={sq}
               onClick={() => handleSend(sq)}
-              className="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-500/40 text-xs text-slate-300 whitespace-nowrap hover:text-cyan-300 transition-colors"
+              className="px-3 py-1.5 rounded-xl bg-forest-900/80 border border-emerald-900/50 hover:border-emerald-500/40 text-xs text-slate-300 whitespace-nowrap hover:text-mint-300 transition-colors"
             >
               {sq}
             </button>
@@ -254,19 +254,19 @@ export const EcoAIPage: React.FC<EcoAIPageProps> = ({
         </div>
 
         {/* Input bar */}
-        <div className="p-4 bg-slate-900/95 border-t border-slate-800 flex items-center gap-3">
+        <div className="p-4 bg-forest-900/95 border-t border-emerald-900/50 flex items-center gap-3">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             placeholder={`Ask ECO AI about ${selectedCity} pollution, health advisories, or ML forecasting...`}
-            className="flex-1 bg-slate-950/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+            className="flex-1 bg-forest-950/90 border border-emerald-900/60 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400"
           />
           <button
             onClick={() => handleSend()}
             disabled={!input.trim()}
-            className="btn-cinematic-cyan px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 disabled:opacity-40"
+            className="btn-cinematic-emerald px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 disabled:opacity-40"
           >
             <Send className="w-4 h-4 stroke-[2.5]" />
             <span className="hidden sm:inline">Send</span>
