@@ -58,11 +58,14 @@ export const CinematicHeroSection: React.FC<CinematicHeroSectionProps> = ({
       {/* Subtle top edge specular light ray */}
       <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-mint-300/40 to-transparent pointer-events-none" />
 
+      {/* Cinematic Sci-Fi Environmental Scanning Laser Beam */}
+      <div className="absolute inset-x-0 h-24 bg-gradient-to-b from-transparent via-emerald-400/10 to-transparent pointer-events-none animate-scanner-beam z-0" />
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
         {/* Left Column: Heading, Subtitle, Key Stats & CTAs */}
         <div className="lg:col-span-6 space-y-6">
           {/* Futuristic Environmental Live Badge */}
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-forest-950/90 border border-emerald-500/40 text-mint-300 text-xs font-semibold tracking-wider uppercase shadow-glow-emerald backdrop-blur-md">
+          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-forest-950/90 border border-emerald-500/40 text-mint-300 text-xs font-semibold tracking-wider uppercase shadow-glow-emerald backdrop-blur-md animate-ambient-breathe">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-glow-emerald" />
@@ -76,7 +79,7 @@ export const CinematicHeroSection: React.FC<CinematicHeroSectionProps> = ({
           <div className="space-y-3">
             <h1 className="text-3xl sm:text-4xl xl:text-5xl font-black text-white tracking-tight leading-tight uppercase font-sans">
               <span className="block text-white">INTELLIGENCE FOR A</span>
-              <span className="gradient-text-emerald drop-shadow-sm">CLEANER TOMORROW</span>
+              <span className="animate-holographic-text drop-shadow-[0_0_30px_rgba(52,211,153,0.45)]">CLEANER TOMORROW</span>
             </h1>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl font-normal">
               Predicting pollution. Understanding our cities. Building a healthier future through artificial intelligence.

@@ -271,6 +271,62 @@
   }
 }
 
+@keyframes holographicShine {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes scannerBeamDown {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(400%);
+    opacity: 0;
+  }
+}
+
+@keyframes ambientBreathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+}
+
+.animate-holographic-text {
+  background: linear-gradient(90deg, #FFFFFF 0%, #A7F3D0 20%, #34D399 40%, #6EE7B7 60%, #10B981 80%, #FFFFFF 100%);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: holographicShine 7s ease infinite;
+}
+
+.animate-scanner-beam {
+  animation: scannerBeamDown 4.5s ease-in-out infinite;
+}
+
+.animate-ambient-breathe {
+  animation: ambientBreathe 4s ease-in-out infinite;
+}
+
 .animate-float-3d {
   animation: float3d 5.5s ease-in-out infinite;
 }
