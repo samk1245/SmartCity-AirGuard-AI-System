@@ -54,6 +54,9 @@ export const AtmosphericCanvas: React.FC<AtmosphericCanvasProps> = ({
     };
     window.addEventListener('resize', handleResize);
 
+    // Check prefers-reduced-motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     // Mouse coordinates for gentle wind breeze interaction
     const mouse = { x: -1000, y: -1000, active: false };
     const handleMouseMove = (e: MouseEvent) => {
@@ -66,6 +69,13 @@ export const AtmosphericCanvas: React.FC<AtmosphericCanvasProps> = ({
     };
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseleave', handleMouseLeave);
+
+    // Parallax scroll position tracking
+    let scrollY = window.scrollY || 0;
+    const handleScroll = () => {
+      scrollY = window.scrollY || 0;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     // Environmental Palette based on AQI:
     // Good/Satisfactory: Deep Forest, Emerald, Mint, Pista
@@ -155,8 +165,8 @@ export const AtmosphericCanvas: React.FC<AtmosphericCanvasProps> = ({
 
       // 2. Subtle Animated Light Rays / Volumetric Luminance Stream
       ctx.save();
-      const rayAngle = Math.PI * 0.35 + Math.sin(t * 0.2) * 0.04;
-      const rayGrad = ctx.createLinearGradient(0, 0, width * 0.8, height);
+      const parallaxShift = (scrollY * 0.08) % height;
+      const rayGrad = ctx.createLinearGradient(0, -parallaxShift, width * 0.8, height - parallaxShift);
       rayGrad.addColorStop(0, 'rgba(167, 243, 208, 0.025)');
       rayGrad.addColorStop(0.4, 'rgba(52, 211, 153, 0.018)');
       rayGrad.addColorStop(0.8, 'transparent');
@@ -211,9 +221,9 @@ export const AtmosphericCanvas: React.FC<AtmosphericCanvasProps> = ({
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
-        // Smooth aerodynamic drift
+        // Smooth aerodynamic drift with depth-scaled scroll parallax
         p.x += p.vx + Math.sin(t * 0.8 + p.y * 0.004) * 0.22 * p.depth;
-        p.y += p.vy + Math.cos(t * 0.8 + p.x * 0.004) * 0.18 * p.depth;
+        p.y += p.vy + Math.cos(t * 0.8 + p.x * 0.004) * 0.18 * p.depth - (scrollY * 0.0003 * p.depth);
 
         // Subtle mouse displacement
         if (mouse.active) {
@@ -263,16 +273,19 @@ export const AtmosphericCanvas: React.FC<AtmosphericCanvasProps> = ({
       }
 
       ctx.globalAlpha = 1.0;
-      animId = requestAnimationFrame(render);
+      if (!prefersReducedMotion) {
+        animId = requestAnimationFrame(render);
+      }
     };
 
     render();
 
     return () => {
-      cancelAnimationFrame(animId);
+      if (animId) cancelAnimationFrame(animId);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [aqi, particleCount, opacity]);
 

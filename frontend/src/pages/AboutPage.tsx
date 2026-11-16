@@ -3,21 +3,27 @@ import { Info, ShieldCheck, Cpu, BookOpen, ExternalLink, Code } from 'lucide-rea
 
 export const AboutPage: React.FC = () => {
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
-      <div>
-        <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-          <Info className="w-6 h-6 text-cyan-400" />
-          About SmartCity AirGuard AI — System Architecture & Methodology
-        </h1>
-        <p className="text-xs text-slate-400 mt-1">
-          Technical specifications, environmental standards, machine learning validation, and portfolio attribution
-        </p>
+    <div className="space-y-6 max-w-4xl mx-auto animate-page-entrance">
+      <div className="p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-500/25 shadow-spatial-glass relative overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-80 h-80 bg-mint-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900/90 border border-emerald-500/40 text-mint-300 text-xs font-semibold uppercase tracking-wider mb-2">
+            <Info className="w-3.5 h-3.5 text-mint-400" />
+            <span>Specifications & CPCB NAQI Standards</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2.5">
+            Architecture & Methodology
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl font-normal">
+            Technical specifications, environmental standards, machine learning validation, and portfolio attribution
+          </p>
+        </div>
       </div>
 
       {/* Overview Card */}
-      <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl space-y-3">
+      <div className="glass-panel border border-emerald-500/25 rounded-3xl p-6 lg:p-8 shadow-spatial-glass space-y-3">
         <h2 className="text-base font-bold text-white flex items-center gap-2">
-          <BookOpen className="w-5 h-5 text-cyan-400" />
+          <BookOpen className="w-5 h-5 text-mint-400" />
           Project Objective & Environmental Intelligence
         </h2>
         <p className="text-sm text-slate-300 leading-relaxed">

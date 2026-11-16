@@ -5,17 +5,11 @@ import {
   Plane,
   Train,
   Car,
-  ShieldAlert,
-  ShieldCheck,
-  CheckCircle2,
   Clock,
-  Luggage,
-  Sparkles,
-  RefreshCw,
   AlertTriangle,
+  Luggage,
   Info
 } from 'lucide-react';
-import { api } from '../services/api';
 import { City } from '../types';
 
 interface TravelAirCheckPageProps {
@@ -159,10 +153,16 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
           <div className="lg:col-span-8 space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Origin City Card */}
-              <div className="p-5 rounded-2xl bg-forest-950/80 border border-emerald-900/40 hover:border-emerald-500/30 transition shadow-lg space-y-3">
-                <div className="flex items-center justify-between text-xs text-forest-300">
-                  <span className="uppercase font-bold tracking-wider text-emerald-400">Departure Point</span>
-                  <span>{analysisData.origin.state}</span>
+              <div
+                onClick={() => onSelectCity?.(analysisData.origin.city)}
+                className={`p-5 rounded-2xl glass-card bg-forest-950/80 border border-emerald-500/25 hover:border-emerald-400/50 transition shadow-glass space-y-3 ${
+                  onSelectCity ? 'cursor-pointer hover:scale-[1.02]' : ''
+                }`}
+                title={onSelectCity ? `Switch Dashboard to ${analysisData.origin.city}` : undefined}
+              >
+                <div className="flex items-center justify-between text-xs text-slate-300">
+                  <span className="uppercase font-mono font-bold tracking-wider text-emerald-400">Departure Point</span>
+                  <span className="font-mono">{analysisData.origin.state}</span>
                 </div>
                 <h3 className="text-xl font-black text-white">{analysisData.origin.city}</h3>
 
@@ -173,28 +173,34 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
                   >
                     AQI {analysisData.origin.aqi}
                   </span>
-                  <span className="text-xs font-semibold text-forest-300">
+                  <span className="text-xs font-semibold text-slate-300">
                     ({analysisData.origin.category})
                   </span>
                 </div>
 
-                <div className="pt-2 border-t border-emerald-900/40 grid grid-cols-2 gap-2 text-xs">
+                <div className="pt-2 border-t border-emerald-500/20 grid grid-cols-2 gap-2 text-xs">
                   <div>
-                    <span className="text-forest-400 block text-[10px] uppercase font-bold">PM2.5</span>
-                    <span className="text-emerald-100 font-bold">{analysisData.origin.pm25} µg/m³</span>
+                    <span className="text-slate-400 block text-[10px] uppercase font-mono font-bold">PM2.5</span>
+                    <span className="text-mint-300 font-bold font-mono">{analysisData.origin.pm25} µg/m³</span>
                   </div>
                   <div>
-                    <span className="text-forest-400 block text-[10px] uppercase font-bold">PM10</span>
-                    <span className="text-emerald-100 font-bold">{analysisData.origin.pm10} µg/m³</span>
+                    <span className="text-slate-400 block text-[10px] uppercase font-mono font-bold">PM10</span>
+                    <span className="text-mint-300 font-bold font-mono">{analysisData.origin.pm10} µg/m³</span>
                   </div>
                 </div>
               </div>
 
               {/* Destination City Card */}
-              <div className="p-5 rounded-2xl bg-forest-950/80 border border-emerald-900/40 hover:border-emerald-500/30 transition shadow-lg space-y-3">
-                <div className="flex items-center justify-between text-xs text-forest-300">
-                  <span className="uppercase font-bold tracking-wider text-mint-400">Arrival Destination</span>
-                  <span>{analysisData.destination.state}</span>
+              <div
+                onClick={() => onSelectCity?.(analysisData.destination.city)}
+                className={`p-5 rounded-2xl glass-card bg-forest-950/80 border border-emerald-500/25 hover:border-emerald-400/50 transition shadow-glass space-y-3 ${
+                  onSelectCity ? 'cursor-pointer hover:scale-[1.02]' : ''
+                }`}
+                title={onSelectCity ? `Switch Dashboard to ${analysisData.destination.city}` : undefined}
+              >
+                <div className="flex items-center justify-between text-xs text-slate-300">
+                  <span className="uppercase font-mono font-bold tracking-wider text-mint-400">Arrival Destination</span>
+                  <span className="font-mono">{analysisData.destination.state}</span>
                 </div>
                 <h3 className="text-xl font-black text-white">{analysisData.destination.city}</h3>
 
@@ -205,19 +211,19 @@ export const TravelAirCheckPage: React.FC<TravelAirCheckPageProps> = ({ cities =
                   >
                     AQI {analysisData.destination.aqi}
                   </span>
-                  <span className="text-xs font-semibold text-forest-300">
+                  <span className="text-xs font-semibold text-slate-300">
                     ({analysisData.destination.category})
                   </span>
                 </div>
 
-                <div className="pt-2 border-t border-emerald-900/40 grid grid-cols-2 gap-2 text-xs">
+                <div className="pt-2 border-t border-emerald-500/20 grid grid-cols-2 gap-2 text-xs">
                   <div>
-                    <span className="text-forest-400 block text-[10px] uppercase font-bold">PM2.5</span>
-                    <span className="text-emerald-100 font-bold">{analysisData.destination.pm25} µg/m³</span>
+                    <span className="text-slate-400 block text-[10px] uppercase font-mono font-bold">PM2.5</span>
+                    <span className="text-mint-300 font-bold font-mono">{analysisData.destination.pm25} µg/m³</span>
                   </div>
                   <div>
-                    <span className="text-forest-400 block text-[10px] uppercase font-bold">PM10</span>
-                    <span className="text-emerald-100 font-bold">{analysisData.destination.pm10} µg/m³</span>
+                    <span className="text-slate-400 block text-[10px] uppercase font-mono font-bold">PM10</span>
+                    <span className="text-mint-300 font-bold font-mono">{analysisData.destination.pm10} µg/m³</span>
                   </div>
                 </div>
               </div>

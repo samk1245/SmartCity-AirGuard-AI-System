@@ -67,34 +67,38 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-page-entrance">
       {/* Header and Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-            <LineChartIcon className="w-6 h-6 text-cyan-400" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl glass-panel bg-forest-950/70 border border-emerald-500/25 shadow-spatial-glass relative overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-80 h-80 bg-mint-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900/90 border border-emerald-500/40 text-mint-300 text-xs font-semibold uppercase tracking-wider mb-2">
+            <LineChartIcon className="w-3.5 h-3.5 text-mint-400" />
+            <span>Time-Series Analytics Engine</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2.5">
             Historical Air Quality Analytics
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl font-normal">
             Pandas-driven time-series aggregation, Pearson pollutant correlations, and seasonal high-risk episodes
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 relative z-10">
           {/* Station selector */}
-          <div className="bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white">
+          <div className="bg-forest-950/90 border border-emerald-500/30 rounded-xl px-3 py-1.5 text-xs text-white backdrop-blur-md">
             <select
               value={selectedStationId || ''}
               onChange={(e) =>
                 setSelectedStationId(e.target.value ? Number(e.target.value) : undefined)
               }
-              className="bg-transparent text-white focus:outline-none cursor-pointer"
+              className="bg-transparent text-white focus:outline-none cursor-pointer font-medium"
             >
-              <option value="" className="bg-slate-800">
+              <option value="" className="bg-forest-950 text-white">
                 All Stations ({selectedCity})
               </option>
               {availableStations.map((st) => (
-                <option key={st.id} value={st.id} className="bg-slate-800">
+                <option key={st.id} value={st.id} className="bg-forest-950 text-white">
                   {st.name}
                 </option>
               ))}
@@ -102,14 +106,14 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
           </div>
 
           {/* Aggregation interval */}
-          <div className="flex bg-slate-800 border border-slate-700 rounded-xl p-1 text-xs">
+          <div className="flex bg-forest-950/90 border border-emerald-500/30 rounded-xl p-1 text-xs backdrop-blur-md">
             {['hourly', 'daily', 'weekly', 'monthly'].map((freq) => (
               <button
                 key={freq}
                 onClick={() => setAggregation(freq)}
-                className={`px-3 py-1 rounded-lg capitalize font-medium transition-colors ${
+                className={`px-3 py-1 rounded-lg capitalize font-medium transition-all ${
                   aggregation === freq
-                    ? 'bg-cyan-500 text-slate-950 font-bold'
+                    ? 'bg-emerald-500 text-forest-950 font-bold shadow-glow-emerald'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -122,7 +126,7 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
           <a
             href={exportUrl}
             download="airguard_historical_export.csv"
-            className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-cyan-400 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+            className="px-3.5 py-1.5 rounded-xl bg-forest-900/90 hover:bg-forest-800 border border-emerald-500/30 text-mint-300 text-xs font-semibold flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95 shadow-glass"
           >
             <Download className="w-3.5 h-3.5" /> Export CSV
           </a>
@@ -134,17 +138,18 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
       ) : (
         <>
           {/* Main Trend Chart */}
-          <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl">
-            <div className="flex items-center justify-between mb-4">
+          <div className="glass-panel border border-emerald-500/20 rounded-3xl p-6 lg:p-8 shadow-spatial-glass relative overflow-hidden">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 border-b border-emerald-500/20 pb-4">
               <div>
-                <h2 className="text-base font-bold text-white">
+                <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                   Multi-Pollutant Trajectory ({aggregation.toUpperCase()})
                 </h2>
                 <p className="text-xs text-slate-400">
                   CPCB AQI, PM2.5, and PM10 concentrations over time
                 </p>
               </div>
-              <div className="text-xs text-slate-400 font-medium">
+              <div className="text-xs text-mint-300/80 font-mono font-medium px-3 py-1 rounded-full bg-forest-950/80 border border-emerald-500/30">
                 {analytics.total_records.toLocaleString()} total sample observations
               </div>
             </div>
@@ -154,24 +159,25 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
                 <AreaChart data={analytics.trend_data}>
                   <defs>
                     <linearGradient id="aqiGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#06b6d4" stopOpacity={0.0} />
+                      <stop offset="5%" stopColor="#10B981" stopOpacity={0.4} />
+                      <stop offset="95%" stopColor="#10B981" stopOpacity={0.0} />
                     </linearGradient>
                     <linearGradient id="pm25Grad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#f43f5e" stopOpacity={0.0} />
+                      <stop offset="5%" stopColor="#34D399" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#34D399" stopOpacity={0.0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#0a2417" />
                   <XAxis dataKey="period" stroke="#94a3b8" fontSize={11} />
                   <YAxis stroke="#94a3b8" fontSize={11} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: '#0f172a',
-                      borderColor: '#334155',
-                      borderRadius: '0.75rem',
+                      backgroundColor: '#04120b',
+                      borderColor: '#10B981',
+                      borderRadius: '1rem',
                       color: '#f8fafc',
-                      fontSize: '12px'
+                      fontSize: '12px',
+                      boxShadow: '0 16px 40px rgba(0,0,0,0.8), 0 0 20px rgba(16,185,129,0.25)',
                     }}
                   />
                   <Legend />
@@ -179,8 +185,8 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
                     type="monotone"
                     dataKey="avg_aqi"
                     name="Avg AQI"
-                    stroke="#06b6d4"
-                    strokeWidth={2}
+                    stroke="#10B981"
+                    strokeWidth={2.5}
                     fillOpacity={1}
                     fill="url(#aqiGrad)"
                   />
@@ -188,8 +194,8 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
                     type="monotone"
                     dataKey="avg_pm25"
                     name="Avg PM2.5 (µg/m³)"
-                    stroke="#f43f5e"
-                    strokeWidth={1.5}
+                    stroke="#34D399"
+                    strokeWidth={1.8}
                     fillOpacity={1}
                     fill="url(#pm25Grad)"
                   />
@@ -197,7 +203,7 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
                     type="monotone"
                     dataKey="avg_pm10"
                     name="Avg PM10 (µg/m³)"
-                    stroke="#eab308"
+                    stroke="#A7F3D0"
                     strokeWidth={1.5}
                     fill="none"
                   />
@@ -209,7 +215,7 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
           {/* Statistical Breakdown & Correlations */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Summary Statistics Table */}
-            <div className="glass-panel border border-emerald-500/20 rounded-2xl p-6 shadow-glass">
+            <div className="glass-panel border border-emerald-500/20 rounded-3xl p-6 shadow-spatial-glass">
               <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
                 <Layers className="w-4 h-4 text-emerald-400" />
                 Descriptive Statistical Distribution
@@ -243,9 +249,9 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
             </div>
 
             {/* Pollutant Correlation Heatmap */}
-            <div className="glass-panel border border-emerald-500/20 rounded-2xl p-6 shadow-glass">
+            <div className="glass-panel border border-emerald-500/20 rounded-3xl p-6 shadow-spatial-glass">
               <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
-                <Flame className="w-4 h-4 text-rose-400" />
+                <Flame className="w-4 h-4 text-emerald-400" />
                 Pollutant & Meteorological Correlation Matrix
               </h3>
               {analytics.correlations && (
@@ -273,15 +279,15 @@ export const HistoricalAnalyticsPage: React.FC<HistoricalAnalyticsPageProps> = (
                             const intensity = Math.abs(val);
                             const bg =
                               val === 1
-                                ? 'bg-cyan-500/20 text-cyan-300 font-bold'
+                                ? 'bg-emerald-500/20 text-mint-300 font-bold'
                                 : isPositive
-                                ? `rgba(6, 182, 212, ${intensity * 0.4})`
+                                ? `rgba(16, 185, 129, ${intensity * 0.45})`
                                 : `rgba(244, 63, 94, ${intensity * 0.4})`;
 
                             return (
                               <td
                                 key={colP}
-                                className="p-1.5 font-mono text-[10px] rounded border border-slate-800"
+                                className="p-1.5 font-mono text-[10px] rounded border border-emerald-950/60"
                                 style={{ backgroundColor: val === 1 ? undefined : bg }}
                               >
                                 {val.toFixed(2)}

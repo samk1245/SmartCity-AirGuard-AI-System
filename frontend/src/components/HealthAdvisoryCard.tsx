@@ -147,14 +147,14 @@ export const HealthAdvisoryCard: React.FC<HealthAdvisoryCardProps> = ({
   };
 
   return (
-    <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl space-y-4">
-      <div className="flex items-center justify-between">
+    <div className="glass-panel border border-emerald-500/25 rounded-3xl p-6 lg:p-8 shadow-spatial-glass space-y-5 relative overflow-hidden backdrop-blur-2xl">
+      <div className="flex items-center justify-between border-b border-emerald-500/20 pb-4">
         <div>
-          <h3 className="text-base font-bold text-white flex items-center gap-2">
+          <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2.5">
             <ThreeDIcon name="lungs" size="sm" />
             Citizen Health & Daily Living Advisories
           </h3>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-300 mt-0.5">
             Actionable protective measures tailored for current air quality ({category})
           </p>
         </div>
@@ -162,57 +162,57 @@ export const HealthAdvisoryCard: React.FC<HealthAdvisoryCardProps> = ({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* 1. Mask */}
-        <div className={`p-4 rounded-xl border flex flex-col justify-between ${getBorderColor(adv.mask.status)}`}>
+        <div className={`p-5 rounded-2xl border flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] shadow-glass ${getBorderColor(adv.mask.status)}`}>
           <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
+            <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-slate-300">
               Respiratory Protection
             </span>
             <ThreeDIcon name="mask" size="sm" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-white mb-1">{adv.mask.title}</h4>
+            <h4 className="text-sm font-bold text-white mb-1.5">{adv.mask.title}</h4>
             <p className="text-xs text-slate-300 leading-relaxed">{adv.mask.desc}</p>
           </div>
         </div>
 
         {/* 2. Fitness */}
-        <div className={`p-4 rounded-xl border flex flex-col justify-between ${getBorderColor(adv.exercise.status)}`}>
+        <div className={`p-5 rounded-2xl border flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] shadow-glass ${getBorderColor(adv.exercise.status)}`}>
           <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
+            <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-slate-300">
               Outdoor Exercise
             </span>
             <ThreeDIcon name="runner" size="sm" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-white mb-1">{adv.exercise.title}</h4>
+            <h4 className="text-sm font-bold text-white mb-1.5">{adv.exercise.title}</h4>
             <p className="text-xs text-slate-300 leading-relaxed">{adv.exercise.desc}</p>
           </div>
         </div>
 
         {/* 3. Home */}
-        <div className={`p-4 rounded-xl border flex flex-col justify-between ${getBorderColor(adv.home.status)}`}>
+        <div className={`p-5 rounded-2xl border flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] shadow-glass ${getBorderColor(adv.home.status)}`}>
           <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
+            <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-slate-300">
               Home & Indoors
             </span>
             <ThreeDIcon name="home" size="sm" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-white mb-1">{adv.home.title}</h4>
+            <h4 className="text-sm font-bold text-white mb-1.5">{adv.home.title}</h4>
             <p className="text-xs text-slate-300 leading-relaxed">{adv.home.desc}</p>
           </div>
         </div>
 
         {/* 4. Sensitive */}
-        <div className={`p-4 rounded-xl border flex flex-col justify-between ${getBorderColor(adv.sensitive.status)}`}>
+        <div className={`p-5 rounded-2xl border flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] shadow-glass ${getBorderColor(adv.sensitive.status)}`}>
           <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
+            <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-slate-300">
               Sensitive Groups
             </span>
             <ThreeDIcon name="lungs" size="sm" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-white mb-1">{adv.sensitive.title}</h4>
+            <h4 className="text-sm font-bold text-white mb-1.5">{adv.sensitive.title}</h4>
             <p className="text-xs text-slate-300 leading-relaxed">{adv.sensitive.desc}</p>
           </div>
         </div>

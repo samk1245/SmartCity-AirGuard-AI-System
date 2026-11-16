@@ -320,47 +320,47 @@ export const MapPage: React.FC<MapPageProps> = ({
       </div>
 
       {/* Layer Toggles Strip */}
-      <div className="p-3 rounded-2xl glass-card border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div className="p-3.5 rounded-2xl glass-card border border-emerald-500/25 flex flex-wrap items-center justify-between gap-3 text-xs shadow-glass">
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Map Layers:</span>
 
           <button
             onClick={() => setLayerHeatmap(!layerHeatmap)}
-            className={`px-2.5 py-1 rounded-lg font-semibold flex items-center gap-1.5 transition-colors ${
-              layerHeatmap ? 'bg-orange-500/20 text-orange-300 border border-orange-500/40' : 'bg-slate-800 text-slate-500'
+            className={`px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95 ${
+              layerHeatmap ? 'bg-orange-500/20 text-orange-300 border border-orange-500/40 shadow-glow-orange' : 'bg-forest-950/80 border border-emerald-500/20 text-slate-400 hover:text-white'
             }`}
           >
-            <Flame className="w-3 h-3" />
+            <Flame className="w-3.5 h-3.5" />
             <span>Pollution Heatmap</span>
           </button>
 
           <button
             onClick={() => setLayerTraffic(!layerTraffic)}
-            className={`px-2.5 py-1 rounded-lg font-semibold flex items-center gap-1.5 transition-colors ${
-              layerTraffic ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'bg-slate-800 text-slate-500'
+            className={`px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95 ${
+              layerTraffic ? 'bg-emerald-500/20 text-mint-300 border border-emerald-500/40 shadow-glow-emerald' : 'bg-forest-950/80 border border-emerald-500/20 text-slate-400 hover:text-white'
             }`}
           >
-            <Car className="w-3 h-3" />
+            <Car className="w-3.5 h-3.5" />
             <span>Traffic Corridors</span>
           </button>
 
           <button
             onClick={() => setLayerIndustrial(!layerIndustrial)}
-            className={`px-2.5 py-1 rounded-lg font-semibold flex items-center gap-1.5 transition-colors ${
-              layerIndustrial ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' : 'bg-slate-800 text-slate-500'
+            className={`px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95 ${
+              layerIndustrial ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-glow-red' : 'bg-forest-950/80 border border-emerald-500/20 text-slate-400 hover:text-white'
             }`}
           >
-            <Factory className="w-3 h-3" />
+            <Factory className="w-3.5 h-3.5" />
             <span>Industrial Zones</span>
           </button>
 
           <button
             onClick={() => setLayerGreen(!layerGreen)}
-            className={`px-2.5 py-1 rounded-lg font-semibold flex items-center gap-1.5 transition-colors ${
-              layerGreen ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-slate-500'
+            className={`px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95 ${
+              layerGreen ? 'bg-emerald-500/25 text-pista-300 border border-emerald-400/50 shadow-glow-emerald' : 'bg-forest-950/80 border border-emerald-500/20 text-slate-400 hover:text-white'
             }`}
           >
-            <TreePine className="w-3 h-3" />
+            <TreePine className="w-3.5 h-3.5" />
             <span>Green Sanctuaries</span>
           </button>
         </div>

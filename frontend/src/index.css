@@ -349,8 +349,73 @@
 }
 
 .animate-page-entrance {
-  animation: cinematicFadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: cinematicFadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform, opacity, filter;
+}
+
+.stagger-1 { animation-delay: 80ms; }
+.stagger-2 { animation-delay: 160ms; }
+.stagger-3 { animation-delay: 240ms; }
+.stagger-4 { animation-delay: 320ms; }
+.stagger-5 { animation-delay: 400ms; }
+.stagger-6 { animation-delay: 480ms; }
+.stagger-7 { animation-delay: 560ms; }
+.stagger-8 { animation-delay: 640ms; }
+
+/* ═══════════════════════════════════════════════
+   ANIMATED GLOWING & SPECULAR BORDERS
+   ═══════════════════════════════════════════════ */
+@keyframes borderRotate {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.glowing-border-animated {
+  position: relative;
+}
+
+.glowing-border-animated::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.6), rgba(16, 185, 129, 0.1), rgba(110, 231, 183, 0.5));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════
+   RECHARTS CINEMATIC GLASS TOOLTIPS
+   ═══════════════════════════════════════════════ */
+.recharts-default-tooltip,
+.custom-recharts-tooltip {
+  background: linear-gradient(135deg, rgba(4, 18, 11, 0.94) 0%, rgba(2, 9, 6, 0.98) 100%) !important;
+  border: 1px solid rgba(52, 211, 153, 0.35) !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(16, 185, 129, 0.25) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  color: #f8fafc !important;
+  padding: 10px 14px !important;
+}
+
+/* ═══════════════════════════════════════════════
+   MAGNETIC INTERACTION HELPERS
+   ═══════════════════════════════════════════════ */
+.btn-magnetic {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.btn-magnetic:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-magnetic:active {
+  transform: translateY(0px) scale(0.98);
 }
 
 @keyframes specularScan {
