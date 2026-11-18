@@ -32,6 +32,7 @@ import {
 import { playCyberClick } from '../utils/audioSystem';
 
 export type NavTab =
+  | 'showcase'
   | 'dashboard'
   | 'live'
   | 'forecast'
@@ -83,6 +84,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   // Group 1: Core Intelligence Platform
   const corePlatformItems: SidebarMenuItem[] = [
+    { id: 'showcase', label: 'Launchpad SaaS ✨', icon: Sparkles, badge: 'HYPER', badgeColor: 'bg-fuchsia-500/25 text-fuchsia-300 border border-fuchsia-400/40' },
     { id: 'dashboard', label: 'Overview Dashboard', icon: LayoutDashboard },
     { id: 'live', label: 'Live Station Quality', icon: Activity, badge: 'LIVE', badgeColor: 'bg-emerald-500/25 text-mint-300 border border-emerald-400/40' },
     { id: 'forecast', label: 'AI Predictions', icon: Sparkles, badge: 'ML', badgeColor: 'bg-mint-500/20 text-pista-300 border border-mint-400/40' },

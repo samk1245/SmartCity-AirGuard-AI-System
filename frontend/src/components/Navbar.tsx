@@ -9,6 +9,7 @@ import {
   User,
   Volume2,
   VolumeX,
+  Sparkles,
 } from 'lucide-react';
 import { City } from '../types';
 import { isSoundEnabled, setSoundEnabled, playCyberClick } from '../utils/audioSystem';
@@ -23,6 +24,7 @@ interface NavbarProps {
   onRefresh: () => void;
   isRefreshing: boolean;
   onOpenGlobalSearch: () => void;
+  onNavigateToShowcase?: () => void;
   onNavigateToEarth3D?: () => void;
   onNavigateToStreetView?: () => void;
   theme?: 'dark' | 'light';
@@ -38,6 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onRefresh,
   isRefreshing,
   onOpenGlobalSearch,
+  onNavigateToShowcase,
   theme = 'dark',
   onToggleTheme,
 }) => {
@@ -178,6 +181,21 @@ export const Navbar: React.FC<NavbarProps> = ({
               title={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
             >
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+          )}
+
+          {/* Launchpad Showcase Shortcut */}
+          {onNavigateToShowcase && (
+            <button
+              onClick={() => {
+                playCyberClick();
+                onNavigateToShowcase();
+              }}
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-black text-xs shadow-[0_5px_15px_rgba(168,85,247,0.35)] hover:shadow-[0_8px_20px_rgba(217,70,239,0.5)] hover:scale-105 active:scale-95 transition-all"
+              title="Open SaaS Launchpad Showcase"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-spin" style={{ animationDuration: '4s' }} />
+              <span>Launchpad ✨</span>
             </button>
           )}
 

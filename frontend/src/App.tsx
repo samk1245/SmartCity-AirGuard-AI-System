@@ -27,6 +27,7 @@ import { ScoreboardPage } from './pages/ScoreboardPage';
 import { TravelAirCheckPage } from './pages/TravelAirCheckPage';
 import { PlumeSimulatorPage } from './pages/PlumeSimulatorPage';
 import { EcoShieldPage } from './pages/EcoShieldPage';
+import { LandingShowcasePage } from './pages/LandingShowcasePage';
 
 // New Premium Pages
 import { PollutionHotspotsPage } from './pages/PollutionHotspotsPage';
@@ -177,6 +178,7 @@ export const App: React.FC = () => {
         onRefresh={handleRefresh}
         isRefreshing={isRefreshing}
         onOpenGlobalSearch={() => setIsSearchOpen(true)}
+        onNavigateToShowcase={() => setCurrentTab('showcase')}
         onNavigateToEarth3D={() => setCurrentTab('earth3d')}
         onNavigateToStreetView={handleNavigateToCurrentLocationStreetView}
         theme={theme}
@@ -194,6 +196,18 @@ export const App: React.FC = () => {
         {/* Main Content Area */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
           {/* Core Platform Views */}
+          {currentTab === 'showcase' && (
+            <LandingShowcasePage
+              onNavigateToApp={(tab) => {
+                if (tab === 'streetview') {
+                  handleNavigateToCurrentLocationStreetView();
+                } else {
+                  setCurrentTab(tab as NavTab);
+                }
+              }}
+            />
+          )}
+
           {currentTab === 'dashboard' && (
             <DashboardPage
               summary={summary}
